@@ -1,0 +1,42 @@
+.medication-recommendation {
+  margin: 20px;
+  font-family: Arial, sans-serif;
+  color: #333;
+}
+
+.medication-recommendation h3 {
+  color: #2c3e50;
+  margin-bottom: 15px;
+}
+
+.medication-recommendation table {
+  width: 100%;
+  border-collapse: collapse;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.medication-recommendation th, 
+.medication-recommendation td {
+  border: 1px solid #ddd;
+  padding: 20px 25px; /* increased padding for more gap */
+  text-align: left;
+}
+
+.medication-recommendation th {
+  background-color: #2980b9;
+  color: white;
+  font-weight: 600;
+}
+
+.medication-recommendation tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.medication-recommendation tr:hover {
+  background-color: #f1f1f1;
+}
+
+.medication-recommendation .error {
+  color: red;
+  font-weight: bold;
+}

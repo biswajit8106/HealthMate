@@ -1,0 +1,186 @@
+Disease                               , Medicine Name                                  , Dosage       , Timing
+Fungal infection                      , Candid Multi-Benefit Skin Cream                , To be decided, Apply twice daily
+Fungal infection                      , Fluconazole tablet usp                         , To be decided, Once daily
+Fungal infection                      , Terbinafine                                    , To be decided, To be decided
+Fungal infection                      , Topical Clotrimazole                           , To be decided, To be decided
+Fungal infection                      , Ketoconazole                                   , To be decided, To be decided
+Allergy                               , Allergy Relief Antihistamines Tablet           , To be decided, At bedtime
+Allergy                               , Sudafed PE or Afrin                            , To be decided, Morning and afternoon
+Allergy                               , Epinephrine injection                          , To be decided, Emergency only
+Allergy                               , Corticosteroids                                , To be decided, To be decided
+Allergy                               , Immunotherapy                                  , To be decided, To be decided
+GERD                                  , Prilosec                                       , To be decided, Morning before food
+GERD                                  , Omeprazole capsules                            , To be decided, Morning before food
+GERD                                  , "Mylanta, Rolaids"                             , To be decided, After meals and at bedtime
+GERD                                  , Domperidone                                    , To be decided, To be decided
+GERD                                  , Pantoprazole                                   , To be decided, To be decided
+Chronic cholestasis                   , Udiliv Tablet                                  , To be decided, After meals
+Chronic cholestasis                   , Cholstran                                      , To be decided, Before meals
+Chronic cholestasis                   , Ursodeoxycholic acid.                          , To be decided, With food
+Chronic cholestasis                   , Corticosteroids                                , To be decided, To be decided
+Chronic cholestasis                   , Liver transplant                               , To be decided, To be decided
+Drug Reaction                         , Fexofenadine                                   , To be decided, Morning
+Drug Reaction                         , Epinephrine injection                          , To be decided, Emergency only
+Drug Reaction                         , Prednisone                                     , To be decided, Morning with food
+Drug Reaction                         , Diphenhydramine                                , To be decided, To be decided
+Drug Reaction                         , Antifungal Cream                               , To be decided, To be decided
+Peptic ulcer disease                  , Amoxicillin                                    , To be decided, To be decided
+Peptic ulcer disease                  , Omeprazole                                     , To be decided, Morning before food
+Peptic ulcer disease                  , Cimetidine                                     , To be decided, To be decided
+Peptic ulcer disease                  , "Maalox, Mylanta"                              , To be decided, After meals and at bedtime
+Peptic ulcer disease                  , Sucralfate                                     , To be decided, To be decided
+AIDS                                  , Emtricitabine                                  , To be decided, To be decided
+AIDS                                  , Atazanavir                                     , To be decided, To be decided
+AIDS                                  , Raltegravir                                    , To be decided, To be decided
+AIDS                                  , Maraviroc                                      , To be decided, To be decided
+AIDS                                  , Enfuvirtide                                    , To be decided, To be decided
+Diabetes                              , Lyumjev                                        , To be decided, To be decided
+Diabetes                              , Glumetza                                       , To be decided, To be decided
+Diabetes                              , Glipizide                                      , To be decided, To be decided
+Diabetes                              , Sitagliptin                                    , To be decided, To be decided
+Diabetes                              , Dulaglutide                                    , To be decided, To be decided
+Bronchial Asthma                      , Salmeterol                                     , To be decided, To be decided
+Bronchial Asthma                      , Fluticasone                                    , To be decided, To be decided
+Bronchial Asthma                      , Montelukast                                    , To be decided, To be decided
+Bronchial Asthma                      , Cromolyn and Nedocromi                         , To be decided, To be decided
+Bronchial Asthma                      , Ipratropium bromide                            , To be decided, To be decided
+Hypertension                          , Aldomet Tablets                                , To be decided, To be decided
+Hypertension                          , Hydrochlorothiazide                            , To be decided, To be decided
+Hypertension                          , Atenolol                                       , To be decided, To be decided
+Hypertension                          , Benazepril (Lotensin)                          , To be decided, To be decided
+Hypertension                          , Amlodipine (Norvasc)                           , To be decided, To be decided
+Migraine                              , Acetaminophen                                  , To be decided, To be decided
+Migraine                              , zolmitriptan                                   , To be decided, To be decided
+Migraine                              , Dihydroergotamine                              , To be decided, To be decided
+Migraine                              , Preventive medications                         , To be decided, To be decided
+Migraine                              , Biofeedback                                    , To be decided, To be decided
+Cervical spondylosis                  , Naproxen                                       , To be decided, To be decided
+Cervical spondylosis                  , Spasdilite EP                                  , To be decided, To be decided
+Cervical spondylosis                  , Physical therapy                               , To be decided, To be decided
+Cervical spondylosis                  , Neck braces                                    , To be decided, To be decided
+Cervical spondylosis                  , Prednisone or Methylprednisolone               , To be decided, Morning with food
+Paralysis (brain hemorrhage)          , Warfarin                                       , To be decided, To be decided
+Paralysis (brain hemorrhage)          , Alteplase (Activase) or Tenecteplase (TNKase)  , To be decided, To be decided
+Paralysis (brain hemorrhage)          , Levetiracetam and Phenytoin                    , To be decided, To be decided
+Paralysis (brain hemorrhage)          , Physical therapy                               , To be decided, To be decided
+Paralysis (brain hemorrhage)          , Occupational therapy                           , To be decided, To be decided
+Jaundice                              , IV fluids                                      , To be decided, To be decided
+Jaundice                              , Blood transfusions                             , To be decided, To be decided
+Jaundice                              , Liver transplant                               , To be decided, To be decided
+Jaundice                              , Cholestyramine                                 , To be decided, To be decided
+Jaundice                              , Entecavir (Baraclude)                          , To be decided, To be decided
+Malaria                               , Artemether-lumefantrine (Coartem)              , To be decided, To be decided
+Malaria                               , Paracetamol (acetaminophen)                    , To be decided, To be decided
+Malaria                               , Artesunate-Mefloquine                          , To be decided, To be decided
+Malaria                               , IV fluids                                      , To be decided, To be decided
+Malaria                               , Blood transfusions                             , To be decided, To be decided
+Chicken pox                           , "Acyclovir (Zovirax, Sitavig)"                 , To be decided, To be decided
+Chicken pox                           , Acetaminophen (like Tylenol)                   , To be decided, To be decided
+Chicken pox                           , IV fluids                                      , To be decided, To be decided
+Chicken pox                           , Blood transfusions                             , To be decided, To be decided
+Chicken pox                           , Platelet transfusions                          , To be decided, To be decided
+Dengue                                , Acetaminophen (Tylenol)                        , To be decided, To be decided
+Dengue                                , Antipyretics                                   , To be decided, To be decided
+Dengue                                , Analgesics                                     , To be decided, To be decided
+Dengue                                , IV fluids                                      , To be decided, To be decided
+Dengue                                , Methylprednisolone or Prednisolone             , To be decided, To be decided
+hepatitis A                           , Vaccination                                    , To be decided, To be decided
+hepatitis A                           , Antiviral drugs                                , To be decided, To be decided
+hepatitis A                           , IV fluids                                      , To be decided, To be decided
+hepatitis A                           , Blood transfusions                             , To be decided, To be decided
+hepatitis A                           , Liver transplant                               , To be decided, To be decided
+Hepatitis B                           , Antiviral drugs                                , To be decided, To be decided
+Hepatitis B                           , IV fluids                                      , To be decided, To be decided
+Hepatitis B                           , Blood transfusions                             , To be decided, To be decided
+Hepatitis B                           , Platelet transfusions                          , To be decided, To be decided
+Hepatitis B                           , Liver transplant                               , To be decided, To be decided
+Hepatitis C                           , Antiviral drugs                                , To be decided, To be decided
+Hepatitis C                           , IV fluids                                      , To be decided, To be decided
+Hepatitis C                           , Blood transfusions                             , To be decided, To be decided
+Hepatitis C                           , Platelet transfusions                          , To be decided, To be decided
+Hepatitis C                           , Liver transplant                               , To be decided, To be decided
+Hepatitis D                           , Antiviral drugs                                , To be decided, To be decided
+Hepatitis D                           , IV fluids                                      , To be decided, To be decided
+Hepatitis D                           , Blood transfusions                             , To be decided, To be decided
+Hepatitis D                           , Platelet transfusions                          , To be decided, To be decided
+Hepatitis D                           , Liver transplant                               , To be decided, To be decided
+Hepatitis E                           , Alcohol cessation                              , To be decided, To be decided
+Hepatitis E                           , Corticosteroids                                , To be decided, To be decided
+Hepatitis E                           , IV fluids                                      , To be decided, To be decided
+Hepatitis E                           , Liver transplant                               , To be decided, To be decided
+Hepatitis E                           , Nutritional support                            , To be decided, To be decided
+Alcoholic hepatitis                   , Metronidazole (Flagyl)                         , To be decided, To be decided
+Alcoholic hepatitis                   , Nydrazid                                       , To be decided, To be decided
+Alcoholic hepatitis                   , Rifampin                                       , To be decided, To be decided
+Alcoholic hepatitis                   , Myambutol                                      , To be decided, To be decided
+Alcoholic hepatitis                   , Pyrazinamide                                   , To be decided, To be decided
+Common Cold                           , Azithromycin                                   , To be decided, To be decided
+Common Cold                           , Tamiflu                                        , To be decided, To be decided
+Common Cold                           , Ketoconazole Tablet                            , To be decided, To be decided
+Common Cold                           , IV fluids                                      , To be decided, To be decided
+Common Cold                           , Oxygen therapy                                 , To be decided, To be decided
+Pneumonia                             , Laxatives                                      , To be decided, To be decided
+Pneumonia                             , Acetaminophen (Tylenol)                        , To be decided, To be decided
+Pneumonia                             , Warm baths                                     , To be decided, To be decided
+Pneumonia                             , Cold compresses                                , To be decided, To be decided
+Pneumonia                             , High-fiber diet                                , To be decided, To be decided
+Dimorphic hemmorhoids(piles)          , Rectiv (glyceryl trinitrate)                   , To be decided, To be decided
+Dimorphic hemmorhoids(piles)          , Aspirin                                        , To be decided, To be decided
+Dimorphic hemmorhoids(piles)          , Daflon 500mg                                   , To be decided, To be decided
+Dimorphic hemmorhoids(piles)          , Nifedipine and Diltiazem                       , To be decided, To be decided
+Dimorphic hemmorhoids(piles)          , Pylno                                          , To be decided, To be decided
+Heart attack                          , Compression stockings                          , To be decided, To be decided
+Heart attack                          , Exercise                                       , To be decided, To be decided
+Heart attack                          , Elevating the legs                             , To be decided, To be decided
+Heart attack                          , Sclerotherapy                                  , To be decided, To be decided
+Heart attack                          , Laser treatments                               , To be decided, To be decided
+Varicose veins                        , Levothyroxine                                  , To be decided, To be decided
+Varicose veins                        , Propylthiouracil and Methimazole               , To be decided, To be decided
+Varicose veins                        , "Propranolol (Inderal, Innopran XL)"           , To be decided, To be decided
+Varicose veins                        , Radioactive iodine                             , To be decided, To be decided
+Varicose veins                        , Thyroid surgery                                , To be decided, To be decided
+Hypothyroidism                        , Levothyroxine                                  , To be decided, To be decided
+Hypothyroidism                        , Radioactive iodine                             , To be decided, To be decided
+Hypothyroidism                        , Thyroid surgery                                , To be decided, To be decided
+Hypothyroidism                        , Beta-blockers                                  , To be decided, To be decided
+Hypothyroidism                        , "Levothyroxine (Ermeza, Euthyrox, L Thyroxine)", To be decided, To be decided
+Hyperthyroidism                       , Glucose tablets                                , To be decided, To be decided
+Hyperthyroidism                       , Candy or juice                                 , To be decided, To be decided
+Hyperthyroidism                       , Glucagon injection                             , To be decided, To be decided
+Hyperthyroidism                       , IV dextrose                                    , To be decided, To be decided
+Hyperthyroidism                       , Diazoxide                                      , To be decided, To be decided
+Hypoglycemia                          , Tramadol                                       , To be decided, To be decided
+Hypoglycemia                          , Exercise                                       , To be decided, To be decided
+Hypoglycemia                          , Hot and cold packs                             , To be decided, To be decided
+Hypoglycemia                          , Joint protection                               , To be decided, To be decided
+Hypoglycemia                          , Physical therapy                               , To be decided, To be decided
+Arthritis                             , Vestibular rehabilitation                      , To be decided, To be decided
+Arthritis                             , Ibuprofen and Naproxen                         , To be decided, To be decided
+Arthritis                             , Zofran (ondansetron)                           , To be decided, To be decided
+Arthritis                             , Surgery                                        , To be decided, To be decided
+Arthritis                             , Home exercises                                 , To be decided, To be decided
+(vertigo) Paroymsal Positional Vertigo, Dimenhydrinate (Dramamine)                     , To be decided, To be decided
+(vertigo) Paroymsal Positional Vertigo, Epley maneuver                                 , To be decided, To be decided
+(vertigo) Paroymsal Positional Vertigo, Betahistinw HCL Tablet                         , To be decided, To be decided
+(vertigo) Paroymsal Positional Vertigo, Clonazepam                                     , To be decided, To be decided
+(vertigo) Paroymsal Positional Vertigo, Isotretinoin                                   , To be decided, To be decided
+Acne                                  , "Doxycycline, Minocycline"                     , To be decided, To be decided
+Acne                                  , Paracetamol or Aspirin                         , To be decided, To be decided
+Acne                                  , Loratadine                                     , To be decided, To be decided
+Acne                                  , Prednisone or Prednisolone                     , To be decided, Morning with food
+Acne                                  , Benzoyl Peroxide                               , To be decided, To be decided
+Urinary tract infection               , UTI-ROZ                                        , To be decided, To be decided
+Urinary tract infection               , Uristat Ultra                                  , To be decided, To be decided
+Urinary tract infection               , Phenazopyridine                                , To be decided, To be decided
+Urinary tract infection               , "Flavoxate, Oxybutynin"                        , To be decided, To be decided
+Urinary tract infection               , Lactobacillus rhamnosus GR-1                   , To be decided, To be decided
+Psoriasis                             , Triamcinolone                                  , To be decided, To be decided
+Psoriasis                             , Phototherapy                                   , To be decided, To be decided
+Psoriasis                             , Apremilast (Otezla)                            , To be decided, To be decided
+Psoriasis                             , Guselkumab (Tremfya)                           , To be decided, To be decided
+Psoriasis                             , "Alphosyl, Exorex"                             , To be decided, To be decided
+Impetigo                              , Mupirocin                                      , To be decided, To be decided
+Impetigo                              , Cephalexin                                     , To be decided, To be decided
+Impetigo                              , Mupirocin (Bactroban)                          , To be decided, To be decided
+Impetigo                              , Retapamulin                                    , To be decided, To be decided
+Impetigo                              , Warm compresses                                , To be decided, To be decided

@@ -1,0 +1,60 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #89c7fa;
+}
+
+.app-header {
+  background-color: #89c7fa;
+  color: #c5c9cc;
+  padding: 2rem;
+  text-align: center;
+}
+
+.app-header h1 {
+  margin: 0;
+  font-size: 2.5rem;
+}
+
+.app-header p {
+  margin: 0.5rem 0 0;
+  font-size: 1.2rem;
+}
+
+.main-content {
+  min-height: calc(100vh - 200px);
+  padding: 2rem 1rem;
+}
+
+.symptom-checker-container {
+  max-width: 900px;
+  /* margin: 0; */
+  background: rgb(227, 229, 230);
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.app-footer {
+  background-color: #012f4c;
+  color: rgb(0, 54, 86);
+  text-align: center;
+  padding: 1rem;
+  margin-top: 2rem;
+}
+
+.app-footer p {
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.result-page {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}

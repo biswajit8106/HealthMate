@@ -1,0 +1,29 @@
+.result-page {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: white;
+  border-radius: 8px;
+}
+
+.result-header {
+  color: #2196f3;
+  margin-bottom: 1.5rem;
+}
+
+.result-content {
+  margin: 1rem 0;
+}
+
+.result-item {
+  padding: 1rem;
+  border-bottom: 1px solid #eee;
+}
+
+.result-item h4 {
+  margin: 0 0 0.5rem;
+}
+
+.result-item p {
+  margin: 0;
+}

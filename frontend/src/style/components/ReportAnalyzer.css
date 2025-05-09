@@ -1,0 +1,110 @@
+/* Reset & body styling */
+body, html {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f0f4f8;
+  height: 100%;
+}
+
+/* Page wrapper to center everything */
+.page-wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Container for the analyzer box */
+.report-analyzer-container {
+  background-color: #ffffff;
+  margin-top: 2rem;
+  padding: 2rem;
+  max-width: 900px;
+  width: 90%;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+/* Title */
+.title {
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  color: #333;
+}
+
+/* File input and form */
+.upload-form {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.file-label {
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+}
+
+.file-input {
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.selected-file {
+  margin-bottom: 1rem;
+  font-size: 0.95rem;
+  color: #333;
+}
+
+/* Button */
+.analyze-btn {
+  background-color: #0066cc;
+  color: #fff;
+  border: none;
+  padding: 0.7rem 1.5rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.analyze-btn:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.analyze-btn:hover:not(:disabled) {
+  background-color: #004c99;
+}
+
+/* Error message */
+.error-msg {
+  color: red;
+  margin-top: 1rem;
+  font-weight: 500;
+}
+
+/* Result sections */
+.result-section {
+  margin-top: 2rem;
+}
+
+.result-textarea {
+  width: 100%;
+  padding: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  resize: vertical;
+  font-family: monospace;
+  font-size: 0.95rem;
+  background-color: #f9f9f9;
+}
+
+.explanation-text {
+  background-color: #f5f9ff;
+  padding: 1rem;
+  border-left: 4px solid #007acc;
+  border-radius: 8px;
+  white-space: pre-wrap;
+}

@@ -1,0 +1,14 @@
+Functions Used in AI Doctor Project
+
+1. Application Initialization:
+   - create_app(): Initializes the Flask application, configures logging, sets up CORS, and registers blueprints.
+
+2. Symptom Checking:
+   - predict(): Handles requests to predict diseases based on symptoms.
+   - get_predicted_disease(patient_symptoms): Predicts the disease based on the provided symptoms.
+
+3. User Registration:
+   - Description of the registration endpoint and its expected input.
+
+4. User Login:
+   - Description of the login endpoint and its expected input.

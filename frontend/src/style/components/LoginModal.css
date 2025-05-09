@@ -1,0 +1,152 @@
+/* 🔹 Login Modal - Fullscreen Overlay */
+.login-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.6); /* Dark transparent overlay */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  padding: 20px; /* Added spacing on smaller screens */
+}
+
+/* ✅ Show modal when active */
+.login-modal.show {
+  opacity: 2;
+  visibility: visible;
+}
+
+/* 🔹 Modal Content */
+.login-modal-content {
+  position: relative;
+  background: #173e65; /* Dark mode background */
+  padding: 10rem; /* Increased padding */
+  border-radius: 12px;
+  width: 90%;
+  max-width: 600px;
+  box-shadow: 0 6px 20px rgba(6, 6, 6, 0.39);
+  transform: translateY(-30px);
+  opacity: 0;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.login-modal-content h2{
+  color: #e5e8eb;
+  font-size: 2rem;
+}
+
+/* ✅ Show modal animation */
+.login-modal.show .login-modal-content {
+  transform: translateY(0);
+  opacity: 2;
+}
+
+/* 🔹 Title */
+.login-modal-title {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #f7fafc;
+  margin-bottom: 2rem; /* More spacing */
+  text-align: center;
+}
+
+/* 🔹 Form */
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 5rem; /* Adjusted spacing */
+  width: 95%;
+
+}
+
+/* 🔹 Labels */
+.form-label {
+  display: block;
+  font-size: 1rem;
+  color: #cbd5e0;
+  margin-bottom: 0.7rem; /* More space under labels */
+  font-weight: 500;
+}
+
+/* 🔹 Input Fields */
+.login-input {
+  width: 95%;
+  padding: 1.2rem; /* Bigger padding */
+  border: 1px solid #4a5568;
+  border-radius: 12px;
+  gap: 1rem;
+  font-size: 1rem;
+  font-weight: 400;
+  color: #101011;
+  background: #d8e5fb;
+  transition: all 0.2s ease;
+}
+
+.login-input:focus {
+  outline: none;
+  border-color: #63b3ed;
+  box-shadow: 0 0 0 4px rgba(99, 179, 237, 0.3);
+}
+
+/* 🔹 Submit Button */
+.login-submit-btn {
+  width: 100%;
+  padding: 1rem; /* Bigger padding */
+  background: #4299e1;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.1s ease;
+  margin-top: 1rem;
+}
+
+.login-submit-btn:hover {
+  background: #3182ce;
+  transform: scale(1.02); /* Slight scale effect */
+}
+
+/* 🔹 Alternate Action */
+.login-alternate-action {
+  text-align: center;
+  margin-top: 1.5rem; /* More spacing */
+  font-size: 1rem;
+  color: #cbd5e0;
+}
+
+.login-alternate-action a {
+  color: #63b3ed;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.login-alternate-action a:hover {
+  text-decoration: underline;
+}
+
+/* 🔹 Close Button */
+.login-close-btn {
+  background: #f7fafc;
+  color: #2d3748;
+  border: none;
+  padding: 0.6rem 1rem;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  display: block;
+  margin: 1.5rem auto 0; /* Centered */
+}
+
+.login-close-btn:hover {
+  background: #e2e8f0;
+}

@@ -1,0 +1,55 @@
+.symptom-checker-page {
+  display: flex;
+  flex-direction: column; 
+  min-height: 100vh;
+  background-color: #e3effc;
+}
+
+.navbar{
+  position: fixed;
+}
+
+.symptom-checker-container {
+  flex: 1;
+  /* display: flex; */
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding: 5rem;
+  margin-top: 2rem;
+  max-width:none;
+  background: #e3effc;
+  /* min-height: 100vh; */
+}
+
+.symptom-checker {
+  width: 100%;
+  max-width: 1000px;
+  padding: 4rem;
+  background-color: white;
+  border-radius: 15px;
+  box-shadow: 0 6px 20px rgba(6, 6, 6, 0.448);
+  align-items: center;
+  margin-top: 4rem;
+}
+
+/* Responsive styles */
+@media (max-width: 900px) {
+  .symptom-checker-container {
+    padding: auto;
+  }
+
+  .symptom-checker {
+    padding: 4rem;
+  }
+}
+
+/* @media (max-width: 600px) {
+  .symptom-checker-container {
+    padding: 0.5rem;
+  }
+
+  .symptom-checker {
+    padding: 1rem;
+  }
+} */

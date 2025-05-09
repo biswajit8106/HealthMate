@@ -1,0 +1,71 @@
+
+.symptom-checker {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 37.5px; 
+  border: 1px solid #ccc;
+  border-radius: 15px;
+  background-color: #f9f9f9;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s;
+}
+
+
+.symptom-checker:hover {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.symptom-checker h1 {
+  text-align: center;
+  color: #333;
+}
+
+.symptom-checker form {
+  display: flex;
+  flex-direction: column;
+  max-width: 500rem;
+}
+
+.symptom-checker input {
+  margin: 12px 0; 
+  padding: 10px;
+  border: 2px solid #959292;
+  border-radius: 4px;
+  font-size: 18px; /* Increased font size */
+  transition: border-color 0.3s;
+}
+
+.symptom-checker input:focus {
+  border-color: #04376e;
+  outline: none;
+}
+
+.symptom-checker button {
+  padding: 12px; 
+  margin: 10px 0; 
+  border: none;
+  border-radius: 4px;
+  background-color: #09519e;
+  color: white;
+  font-size: 18px; /* Increased font size */
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.symptom-checker button:hover {
+  background-color: #023074;
+  transform: scale(1.05);
+}
+
+.symptom-checker .error {
+  color: red;
+  text-align: center;
+}
+
+.symptom-checker .result {
+  margin-top: 20px;
+  padding: 10px;
+  border: 1px solid #094687;
+  border-radius: 4px;
+  background-color: #e7f3ff;
+}

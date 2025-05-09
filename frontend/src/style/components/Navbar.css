@@ -1,0 +1,101 @@
+/* Navbar Styles */
+.navbar {
+  background-color: #012347; /* Dark blue-gray */
+  padding: 0.8rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  /* max-width: 1350px;  Fixed max width */
+  margin: 0 auto;  /* Center the navbar */
+  max-width: auto;
+  box-sizing: border-box;
+  font-family: 'Inter', sans-serif;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+
+}
+
+/* Ensure consistency on all pages */
+.navbar-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+/* Logo */
+.navbar-logo {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.navbar-logo-img {
+  height: 40px;
+  width: auto;
+  margin-right: 10px;
+}
+
+.navbar-logo-text {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #ffffff;
+  font-family: cursive 'Brush Script';
+}
+
+/* Navbar Links */
+.navbar-links {
+  display: flex;
+  gap: 15px;
+  flex-grow: 1;
+  justify-content: center;
+}
+
+/* Navigation Buttons (Home, Dashboard, Symptom Checker) */
+.navbar-links a, 
+.navbar-links button {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #d0d3d6; /* Light gray */
+  text-decoration: none;
+  padding: 0.5rem 1.2rem;
+  border-radius: 8px;
+  background: #012347; /* Gray-blue */
+  transition: background 0.3s ease, color 0.3s ease;
+  display: inline-block;
+  border: none;
+  cursor: pointer;
+}
+
+/* Hover Effect */
+.navbar-links a:hover,
+.navbar-links button:hover {
+  background: #63b3ed; /* Light blue */
+  color: #ffffff;
+}
+
+/* Logout & Auth Buttons */
+.navbar-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.navbar-button {
+  padding: 0.6rem 1.4rem;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #fcfcfc;
+  background-color: #03539a; /* Blue */
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.navbar-button:hover {
+  background-color: #2b6cb0; /* Darker blue */
+}
+
+/* Adjust Logout Button Position */
+.navbar-buttons .navbar-button:last-child {
+  margin-left: 20px; /* Move Logout button slightly right */
+}
