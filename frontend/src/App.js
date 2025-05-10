@@ -15,6 +15,7 @@ import './style/styles.css';
 import { AuthContext } from './context/AuthContext';
 import MedicationReminder from './components/MedicationReminder';
 import { requestNotificationPermissionAndSendToken, listenForForegroundMessages } from './utils/notificationService';
+// import './i18n';
 
 function MedicationReminderWrapper() {
   const navigate = useNavigate();
