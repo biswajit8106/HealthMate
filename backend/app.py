@@ -1,5 +1,7 @@
 from datetime import timedelta
 from flask import Flask, request, jsonify
+from routes.medication_reminder_routes import medication_reminder_bp
+
 from flask_cors import CORS
 import logging
 from config import Config
@@ -7,11 +9,14 @@ from database.db import engine
 from models.user_model import User
 from models.disease_model import Disease
 from models.diagnosis_model import Diagnosis
-from routes.medicinereminder import medicinereminder_bp
-from services.reminder_scheduler import start_scheduler
+
+
+import threading
+from services.notification_scheduler import start_scheduler
 
 def create_app():
     app = Flask(__name__)
+
     app.config.from_object(Config)
 
     # Add secret key for session management
@@ -82,6 +87,7 @@ def create_app():
     from routes.admin_feedback import admin_feedback_bp
     from routes.admin_settings import admin_settings_bp
 
+    app.register_blueprint(medication_reminder_bp)
     app.register_blueprint(symptom_checker_bp)
     app.register_blueprint(user_bp)
     app.register_blueprint(medicine_bp, url_prefix='/api/medicine')
@@ -102,10 +108,8 @@ def create_app():
     app.register_blueprint(admin_feedback_bp, url_prefix='/admin/feedback')
     app.register_blueprint(admin_settings_bp, url_prefix='/admin/settings')
 
-    app.register_blueprint(medicinereminder_bp, url_prefix='/api/medicinereminder')
-
-    # Start the reminder scheduler
-    start_scheduler()
+    # Start notification scheduler in background thread
+    threading.Thread(target=start_scheduler, daemon=True).start()
 
     return app
 

@@ -34,6 +34,15 @@ const Home = () => {
     }
   };
 
+  // Handle "Medication Reminder" Click
+  const handleMedicationReminderClick = () => {
+    if (isAuthenticated()) {
+      navigate('/medication-reminder');
+    } else {
+      setShowLoginModal(true); // Open login modal if not logged in
+    }
+  };
+
   return (
     <div className="home-page">
       <Navbar />
@@ -83,9 +92,9 @@ const Home = () => {
             <div className="feature-icon">3</div>
             <h3>Medication Reminder</h3>
             <p>Never miss a dose with our smart reminder system</p>
-            <Link to="/medication-reminder" className="feature-link">
-            Assecible Soon →
-            </Link>
+            <button className="feature-link" onClick={handleMedicationReminderClick}>
+              Go For It →
+            </button>
           </div>
         </div>
       </section>

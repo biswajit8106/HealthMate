@@ -9,6 +9,7 @@ import HealthInsights from '../components/HealthInsights';
 import PrivacyControls from '../components/PrivacyControls';
 import MedicationRecommendation from '../components/MedicationRecommendation';
 import DashboardCharts from '../components/DashboardCharts';
+// import MedicationReminderHistory from '../components/MedicationReminderHistory';
 
 const Dashboard = () => {
   const [activeTab, setActiveTab] = useState('profile');
@@ -25,6 +26,8 @@ const Dashboard = () => {
         return <HealthInsights />;
       case 'charts':
         return <DashboardCharts />;
+      // case 'medicationReminderHistory':
+      //   return <MedicationReminderHistory />;
       case 'settings':
         return <ProfileSettings />;
       case 'privacy':
@@ -73,6 +76,13 @@ const Dashboard = () => {
         >
           Charts
         </button>
+        {/* <button
+          className={activeTab === 'medicationReminderHistory' ? 'active' : ''}
+          onClick={() => setActiveTab('medicationReminderHistory')}
+          aria-label="View Medication Reminder History"
+        >
+          Medication Reminder History
+        </button> */}
         <button
           className={activeTab === 'settings' ? 'active' : ''}
           onClick={() => setActiveTab('settings')}
