@@ -32,7 +32,7 @@ python run.py
 ### User Authentication
 - POST `/register` - Register a new user
 
-### Symptom Checker
+### Symptom Diagnosis
 - POST `/check` - Check symptoms and get diagnosis
 
 ### Medicine Recommendation

@@ -18,11 +18,11 @@ body, html {
 /* Container for the analyzer box */
 .report-analyzer-container {
   background-color: #ffffff;
-  margin-top: 2rem;
+  margin-top: 7rem;
   padding: 2rem;
   max-width: 900px;
   width: 90%;
-  border-radius: 12px;
+  border-radius: 40px;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
 }
 

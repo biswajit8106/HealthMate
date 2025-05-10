@@ -47,6 +47,28 @@ const Navbar = () => {
       navigate('/symptom-checker');
     }
   };
+  const handleReportAnalyzerClick = () => {
+    if (!isLoggedIn) {  
+      toggleLoginModal();
+    } else {
+      navigate('/reportanalyzer');
+    } 
+  };
+  
+  const handleMedicationReminderClick = () => {
+    if (!isLoggedIn) {
+      toggleLoginModal();
+    } else {
+      navigate('/medication-reminder');
+    }
+  };
+  const handleDashboardClick = () => {
+    if (!isLoggedIn) {
+      toggleLoginModal();
+    } else {
+      navigate('/dashboard');
+    }
+  }
 
   return (
     <nav className="navbar">
@@ -61,11 +83,14 @@ const Navbar = () => {
             <>
              <button><Link to="/">Home</Link></button>
               <button className="symptom-button" onClick={handleSymptomCheckerClick}>
-               Symptom Checker
+               Symptom Diagnosis
                </button>
-               <button><Link to="/reportanalyzer">Report Analyzer</Link></button>
-              <button><Link to="/dashboard">Dashboard</Link></button>
-               {/* <Link to="/chat">AI Doctor Chat</Link> */}
+               <button className="reportanalyzer-button" onClick={handleReportAnalyzerClick}>
+               Report Analyzer</button>
+                <button className="medication-button" onClick={handleMedicationReminderClick}>
+                Medication Reminder</button>
+                <button className="dashboard-button" onClick={handleDashboardClick}>
+                Dashboard</button>  
             </>
           )}
         </div>

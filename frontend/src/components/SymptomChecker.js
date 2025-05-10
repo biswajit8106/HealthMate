@@ -146,7 +146,7 @@ await axios.post('http://localhost:5000/report/save', fullResult, { withCredenti
 
     return (
         <div className="symptom-checker">
-            <h2>Symptom Checker</h2>
+            <h2>Symptom Diagnosis</h2>
             <form onSubmit={handleSubmit}>
                 <input
                     type="text"

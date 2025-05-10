@@ -8,7 +8,7 @@ data = {
     "symptoms": ["itching", "skin_rash"]
 }
 
-# Send POST request to the symptom checker endpoint
+# Send POST request to the Symptom Diagnosis endpoint
 response = requests.post('http://localhost:5000/predict', json=data)
 
 # Print the response

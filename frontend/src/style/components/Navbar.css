@@ -50,7 +50,7 @@
   justify-content: center;
 }
 
-/* Navigation Buttons (Home, Dashboard, Symptom Checker) */
+/* Navigation Buttons (Home, Dashboard, Symptom Diagnosis) */
 .navbar-links a, 
 .navbar-links button {
   font-size: 1rem;

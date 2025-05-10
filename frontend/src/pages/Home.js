@@ -10,6 +10,7 @@ import img4 from '../assets/img4.jpg';
 const Home = () => {
   const navigate = useNavigate();
   const [showLoginModal, setShowLoginModal] = useState(false);
+  const [intendedPath, setIntendedPath] = useState(null);
 
   // Check if user is authenticated
   const isAuthenticated = () => {
@@ -21,6 +22,7 @@ const Home = () => {
     if (isAuthenticated()) {
       navigate('/symptom-checker');
     } else {
+      setIntendedPath('/symptom-checker');
       setShowLoginModal(true); // Open login modal if not logged in
     }
   };
@@ -30,6 +32,7 @@ const Home = () => {
     if (isAuthenticated()) {
       navigate('/reportanalyzer');
     } else {
+      setIntendedPath('/reportanalyzer');
       setShowLoginModal(true); // Open login modal if not logged in
     }
   };
@@ -39,6 +42,7 @@ const Home = () => {
     if (isAuthenticated()) {
       navigate('/medication-reminder');
     } else {
+      setIntendedPath('/medication-reminder');
       setShowLoginModal(true); // Open login modal if not logged in
     }
   };
@@ -134,7 +138,12 @@ const Home = () => {
           onSwitchToSignup={() => console.log("Switch to Signup")}
           onLoginSuccess={() => {
             setShowLoginModal(false);
-            navigate('/symptom-checker');
+            if (intendedPath) {
+              navigate(intendedPath);
+              setIntendedPath(null);
+            } else {
+              navigate('/symptom-checker');
+            }
           }}
         />
       )}

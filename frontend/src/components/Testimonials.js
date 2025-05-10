@@ -11,7 +11,7 @@ const testimonialsData = [
   {
     name: 'Sarvesh.',
     location: 'San Francisco',
-    text: 'The symptom checker is incredibly accurate. It saved me a trip to the ER!',
+    text: 'The Symptom Diagnosis is incredibly accurate. It saved me a trip to the ER!',
     rating: 5
   },
   {
