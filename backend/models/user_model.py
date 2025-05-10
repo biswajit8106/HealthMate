@@ -1,7 +1,6 @@
 from sqlalchemy import Column, Integer, String, Boolean, DateTime
 from sqlalchemy.orm import Session, relationship
 from database.db import Base, engine
-from .medicine_reminder_model import MedicineReminder
 import datetime
 
 class User(Base):
@@ -18,9 +17,9 @@ class User(Base):
     is_deleted = Column(Boolean, default=False)
     created_at = Column(DateTime, default=datetime.datetime.utcnow)
 
-    medication_reminders = relationship("MedicineReminder", back_populates="user")
+   
     # Use string-based lazy relationship to avoid circular import issues
-    push_subscriptions = relationship("PushSubscription", back_populates="user", lazy='dynamic')
+
 
     def __init__(self, name, email, age, gender, password, is_admin=False, is_active=True, is_deleted=False):
         self.name = name
