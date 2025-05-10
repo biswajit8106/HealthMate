@@ -1,9 +1,16 @@
 // Basic service worker for push notifications
 
 self.addEventListener('push', function(event) {
+  console.log('[Service Worker] Push Received.');
   let data = {};
   if (event.data) {
-    data = event.data.json();
+    try {
+      data = event.data.json();
+    } catch (e) {
+      console.warn('Push event data is not JSON, using text instead');
+      data = { title: 'Medication Reminder', body: event.data.text() };
+    }
+    console.log('[Service Worker] Push data:', data);
   }
   const title = data.title || 'Medication Reminder';
   const options = {
@@ -15,6 +22,7 @@ self.addEventListener('push', function(event) {
 });
 
 self.addEventListener('notificationclick', function(event) {
+  console.log('[Service Worker] Notification click Received.');
   event.notification.close();
   event.waitUntil(
     clients.matchAll({ type: 'window' }).then(function(clientList) {
