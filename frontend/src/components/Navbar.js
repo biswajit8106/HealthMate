@@ -1,15 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+// import { useTranslation } from 'react-i18next';
 import LoginModal from './LoginModal';
 import SignupModal from './SignupModal';
 import logo from '../assets/logo.png';
 import '../style/components/Navbar.css';
 
 const Navbar = () => {
+  // const { t, i18n } = useTranslation();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate();
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [showSignupModal, setShowSignupModal] = useState(false);
+
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -68,7 +71,12 @@ const Navbar = () => {
     } else {
       navigate('/dashboard');
     }
-  }
+  };
+
+  // const changeLanguage = (lng) => {
+  //   i18n.changeLanguage(lng);
+  //   setLanguage(lng);
+  // };
 
   return (
     <nav className="navbar">
@@ -94,6 +102,13 @@ const Navbar = () => {
             </>
           )}
         </div>
+
+        {/* <div className="language-selector">
+          <select value={language} onChange={(e) => changeLanguage(e.target.value)}>
+            <option value="en">English</option>
+            <option value="hi">हिन्दी</option>
+          </select>
+        </div> */}
 
         <div className="navbar-buttons">
           {isLoggedIn ? (

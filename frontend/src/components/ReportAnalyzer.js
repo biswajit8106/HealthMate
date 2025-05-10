@@ -38,13 +38,18 @@ const ReportAnalyzer = () => {
       });
 
       if (response.data.error) {
+        console.error("Error response from backend:", response.data.error);
         setError(response.data.error);
       } else {
         setExtractedText(response.data.extracted_text);
         setExplanation(response.data.explanation);
       }
     } catch (err) {
-      setError('An error occurred while analyzing the report.');
+      if (err.response && err.response.data && err.response.data.error) {
+        setError(err.response.data.error);
+      } else {
+        setError('An error occurred while analyzing the report.');
+      }
     } finally {
       setLoading(false);
     }
