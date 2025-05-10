@@ -33,7 +33,7 @@ const ReportAnalyzer = () => {
     setExplanation('');
 
     try {
-      const response = await axios.post('/api/reportanalyzer/analyze', formData, {
+      const response = await axios.post('http://localhost:5000/api/reportanalyzer/analyze', formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
 
