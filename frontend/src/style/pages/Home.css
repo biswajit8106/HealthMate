@@ -116,9 +116,18 @@
   transition: all 0.3s ease;
 }
 
-.primary-cta {
-  background: rgb(236, 237, 237);
+.primary-cta:hover {
+  background: #3d8bd9;
   color: #2e2f2f;
+  border: none;
+  box-shadow: 0 2px 4px rgba(77, 77, 77, 0.1);
+}
+
+.primary-cta {
+  background: #626071;
+  color: white;
+  border: none;
+  box-shadow: 0 2px 4px rgba(77, 77, 77, 0.1);
 }
 
 .secondary-cta {

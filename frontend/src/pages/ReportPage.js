@@ -80,7 +80,7 @@ const ReportPage = () => {
                 </div>
                 <div className="navbar-links">
                     <a onClick={() => navigate('/')}>Home</a>
-                    <a onClick={() => navigate('/symptom-checker')}>Symptom Checker</a>
+                    <a onClick={() => navigate('/symptom-checker')}>Symptom Diagnosis</a>
                     <a onClick={() => navigate('/dashboard')}>Dashboard</a>
                 </div>
                 <div>

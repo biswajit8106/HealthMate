@@ -110,7 +110,7 @@ const MedicationReminder = ({ onClose }) => {
   return (
     <div className="page-wrapper">
       <Navbar />
-    <div className="medication-reminder-modal">
+    <div className="medication-reminder-modal medication-reminder">
       <div className="medication-reminder-content">
         <h2>Add Medication Reminder</h2>
         <form onSubmit={handleSubmit}>
@@ -182,6 +182,10 @@ const MedicationReminder = ({ onClose }) => {
             <button type="button" onClick={onClose}>Cancel</button>
           </div>
         </form>
+        <span className="notification-permission">
+          <p>Enable notifications to receive reminders:</p> 
+          <p>Click the button below to subscribe to notifications.</p>
+        </span>
         <div className="subscription-controls">
           {isSubscribed ? (
             <button onClick={handleUnsubscribe}>Unsubscribe from Notifications</button>
@@ -202,8 +206,8 @@ const MedicationReminder = ({ onClose }) => {
               ))}
             </ul>
           )}
-        </div>
       </div>
+    </div>
     </div>
     </div>
   );
