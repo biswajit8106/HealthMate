@@ -6,6 +6,12 @@ from database.db import SessionLocal
 from models.medication_reminder_model import MedicationReminder
 from sqlalchemy import text
 import os
+from database.db import SessionLocal
+from models.medication_reminder_model_extension import delete_expired_reminders as delete_expired_reminders_func
+import logging
+
+
+
 
 # Initialize Firebase Admin SDK
 # Use raw string or forward slashes for Windows path to avoid escape sequence issues
@@ -23,9 +29,11 @@ def send_push_notification(token, title, body):
     )
     response = messaging.send(message)
     print(f'Successfully sent message: {response}')
+    
+
 
 def check_and_send_notifications():
-    import logging
+   
     db = SessionLocal()
     try:
         now = datetime.datetime.now()
@@ -64,10 +72,25 @@ def check_and_send_notifications():
                 logging.info(f"No time match for reminder {reminder.id}")
     finally:
         db.close()
+# Schedule the deletion of expired reminders
+def delete_expired_reminders():
+    db = SessionLocal()
+    try:
+        deleted_count = delete_expired_reminders_func(db)
+        logging.info(f"Deleted {deleted_count} expired medication reminders.")
+    except Exception as e:
+        logging.error(f"Error deleting expired medication reminders: {e}")
+    finally:
+        db.close()
+
+# In the start_scheduler() function, add this line to schedule the deletion job:
+
+    
 
 def start_scheduler():
     scheduler = BackgroundScheduler()
     scheduler.add_job(check_and_send_notifications, 'interval', minutes=1)
+    scheduler.add_job(delete_expired_reminders, 'interval', hours=24)
     scheduler.start()
     print("Notification scheduler started.")
 
