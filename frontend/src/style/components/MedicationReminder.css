@@ -12,21 +12,16 @@
 }
 
 /* Existing styles below remain unchanged */
-/* .medication-reminder-modal {
-  position: fixed;
-  top: 150px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: #fff;
-  padding: 2rem;
-  border-radius: 10px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-  width: 800px;
-  max-width: 90%;
-  max-height: 80vh;
-  overflow-y: auto;
-  z-index: 1000;
-} */
+.medication-reminder-modal {
+    width: 100%;
+    max-width: 1000px;
+    padding: 4rem;
+    background-color: white;
+    border-radius: 15px;
+    box-shadow: 0 6px 20px rgba(6, 6, 6, 0.448);
+    align-items: center;
+    margin-top: 4rem;
+}
 
 .medication-reminder-content h2 {
   margin-bottom: 1rem;

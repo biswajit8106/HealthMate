@@ -47,6 +47,14 @@ def activate_user(user_id):
 @admin_user_bp.route('/deactivate/<int:user_id>', methods=['POST'])
 @admin_login_required
 def deactivate_user(user_id):
+    # Accept requests with no content or unsupported media type gracefully
+    if request.content_length == 0:
+        # Ignore Content-Type if no content
+        pass
+    elif request.content_length is not None and request.content_length > 0:
+        # If there is content, but unsupported media type, handle accordingly
+        if not request.is_json and not request.form:
+            return jsonify({'error': 'Unsupported Media Type'}), 415
     try:
         db: Session = SessionLocal()
         user = db.query(User).filter(User.user_id == user_id).first()

@@ -1,6 +1,9 @@
 import React, { useContext, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate } from 'react-router-dom';
 import Home from './pages/Home';
+import PrivacyPolicy from './pages/PrivacyPolicy';
+import TermsAndConditions from './pages/TermsAndConditions';
+import ContactUs from './pages/ContactUs';
 // import Diagnosis from './pages/Diagnosis';
 import SymptomCheckerPage from './pages/SymptomCheckerPage';
 import ReportAnalyzer from './components/ReportAnalyzer';
@@ -54,6 +57,9 @@ function AppRoutes() {
       <Route path="/report" element={<ReportPage />} /> 
       <Route path="/reportanalyzer" element={<ReportAnalyzer />} />
       <Route path="/medication-reminder" element={<MedicationReminderWrapper />} />
+      <Route path="/privacy" element={<PrivacyPolicy />} />
+      <Route path="/terms" element={<TermsAndConditions />} />
+      <Route path="/contact" element={<ContactUs />} />
       <Route path="/admin" element={<AdminPanel />} />
       <Route path="/admin/login" element={<AdminLogin />} /> 
       <Route path="/admin/dashboard" element={<AdminDashboard />} /> 

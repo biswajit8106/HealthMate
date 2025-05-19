@@ -1,0 +1,64 @@
+
+
+/* Heading */
+h2 {
+  font-size: 28px;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+/* Input container */
+div > div {
+  margin-bottom: 20px;
+}
+
+/* Input fields */
+/* input[type="text"] {
+  padding: 8px 12px;
+  margin-right: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 200px;
+  font-size: 16px;
+} */
+
+/* Button */
+button {
+  padding: 8px 16px;
+  background-color: #007bff;
+  border: none;
+  border-radius: 4px;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+/* Table */
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  border: 1px solid #ddd;
+  padding: 12px 15px;
+  text-align: left;
+}
+
+th {
+  background-color: #f4f4f4;
+  font-weight: bold;
+  color: #555;
+}
+
+/* Error message */
+.error {
+  color: red;
+  font-weight: bold;
+  margin: 20px 0;
+}

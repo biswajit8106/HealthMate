@@ -58,8 +58,16 @@ def create_app():
             # Allow multipart/form-data for reportanalyzer analyze endpoint
             if request.path.startswith('/api/reportanalyzer/analyze') and 'multipart/form-data' in content_type:
                 pass
+            # Skip Content-Type check for deactivate, activate, and delete user endpoints to avoid 415 error
+            elif request.path.startswith('/admin/users/deactivate') or request.path.startswith('/admin/users/activate') or request.path.startswith('/admin/users/delete'):
+                pass
             elif 'application/json' not in content_type:
                 return jsonify({'error': 'Content-Type must be application/json'}), 415
+
+    # --- Handle 415 Unsupported Media Type errors globally ---
+    @app.errorhandler(415)
+    def handle_unsupported_media_type(error):
+        return jsonify({'error': 'Unsupported Media Type'}), 415
 
     # --- Table Creation ---
     User.create_table()

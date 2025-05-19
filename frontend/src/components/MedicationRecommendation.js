@@ -47,8 +47,8 @@ const MedicationRecommendationClean = () => {
                 recentMedications.map((med, index) => (
                   <tr key={index}>
                     <td>{med.name || med}</td>
-                    <td>{med.dosage || 'To be decided'}</td>
-                    <td>{med.timing || 'To be decided'}</td>
+                    <td>{med.dosage || 'To  be prescribed'}</td>
+                    <td>{med.timing || 'To  be prescribed'}</td>
                   </tr>
                 ))
               ) : (
@@ -62,6 +62,7 @@ const MedicationRecommendationClean = () => {
       ) : (
         <p>No recent medicine data found.</p>
       )}
+      <p>This health-related ML model provides insights but is not a substitute for professional medical advice—consult a healthcare expert before making decisions.</p>
     </div>
   );
 };

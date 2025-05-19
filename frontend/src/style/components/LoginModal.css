@@ -25,11 +25,11 @@
 /* 🔹 Modal Content */
 .login-modal-content {
   position: relative;
-  background: #173e65; /* Dark mode background */
-  padding: 10rem; /* Increased padding */
+  background: #24415e; /* Dark mode background */
+  padding: 5rem; /* Increased padding */
   border-radius: 12px;
   width: 90%;
-  max-width: 600px;
+  max-width: 400px;
   box-shadow: 0 6px 20px rgba(6, 6, 6, 0.39);
   transform: translateY(-30px);
   opacity: 0;
@@ -76,14 +76,14 @@
 
 /* 🔹 Input Fields */
 .login-input {
-  width: 95%;
+  width: 90%;
   padding: 1.2rem; /* Bigger padding */
   border: 1px solid #4a5568;
   border-radius: 12px;
-  gap: 1rem;
+  gap: 5rem;
   font-size: 1rem;
   font-weight: 400;
-  color: #101011;
+  color: #c8c8cc;
   background: #d8e5fb;
   transition: all 0.2s ease;
 }
@@ -149,4 +149,10 @@
 
 .login-close-btn:hover {
   background: #e2e8f0;
+}
+
+
+.error-message{
+  color: #cbd5e0;
+  row-gap: 5%;
 }

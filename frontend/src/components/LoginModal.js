@@ -31,7 +31,12 @@ const LoginModal = ({ show, onClose, onSwitchToSignup, onLoginSuccess }) => {
   return (
     <div className={`login-modal ${show ? 'show' : ''}`}>
       <div className="login-modal-content">
-        <span className="close" onClick={onClose}>&times;</span>
+        <button 
+          className="close-modal" 
+          onClick={onClose}
+        >
+          Close
+        </button>
         <h2>Login</h2>
         <form onSubmit={handleSubmit}>
           <input

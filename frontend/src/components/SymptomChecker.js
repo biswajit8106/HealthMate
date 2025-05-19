@@ -209,6 +209,7 @@ await axios.post('http://localhost:5000/report/save', fullResult, { withCredenti
                         <option key={index} value={symptom} />
                     ))}
                 </datalist>
+                <p>Please enter at least two symptoms for better prediction.</p>
 
                 <button type="button" onClick={handleAddSymptomInput}>Add Symptom</button>
                 <button type="submit">Check Symptoms</button>

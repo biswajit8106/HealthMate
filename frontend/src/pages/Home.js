@@ -5,7 +5,7 @@ import Navbar from '../components/Navbar';
 import LoginModal from '../components/LoginModal';
 import '../style/pages/Home.css';
 import doc1img from '../assets/Doc1.jpeg';
-import img4 from '../assets/img4.jpg';
+import bothImg  from '../assets/both.jpeg';
 
 const Home = () => {
   const navigate = useNavigate();
@@ -110,7 +110,7 @@ const Home = () => {
       <footer className="app-footer">
         <div className="footer-content">
           <div className="footer-image">
-            <img src={img4} alt="Footer logo" />
+            <img src={bothImg} alt="Footer logo" />
           </div>
           <div className="footer-info">
             <div className="footer-social">
