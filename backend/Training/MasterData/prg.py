@@ -28,7 +28,7 @@ def get_dosage(med):
         key_lower = key.lower()
         if key_lower in med_lower or med_lower in key_lower:
             return dosage_guide[key]
-    return "To be decided"
+    return "To  be prescribed"
 
 df["Dosage"] = df["Medicine Name"].apply(get_dosage)
 

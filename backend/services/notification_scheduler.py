@@ -9,13 +9,15 @@ import os
 from database.db import SessionLocal
 from models.medication_reminder_model_extension import delete_expired_reminders as delete_expired_reminders_func
 import logging
+from models.user_model import User
+from utils.email_utils import send_email
 
 
 
 
 # Initialize Firebase Admin SDK
 # Use raw string or forward slashes for Windows path to avoid escape sequence issues
-cred_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'healthmate-413a7-firebase-adminsdk-fbsvc-c836b22bd7.json')
+cred_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'healthmate-4ef24-firebase-adminsdk-fbsvc-049b74aa26.json')
 cred = credentials.Certificate(cred_path)
 initialize_app(cred)
 
@@ -60,14 +62,21 @@ def check_and_send_notifications():
                     text("SELECT token FROM fcm_tokens WHERE user_id = :user_id"),
                     {'user_id': reminder.user_id}
                 ).fetchone()
+                # Get user's email
+                user = User.get_user_by_id(db, reminder.user_id)
+                title = 'Medicine Reminder'
+                body = f"Hey {user.name} take your medicine {reminder.medicine_name} {reminder.dosage} this is the time to take your medicine don't forget take your medicine now"
                 if token_row:
                     token = token_row[0]
-                    title = 'Medicine Reminder'
-                    body = f"Time to take your medicine: {reminder.medicine_name} - {reminder.dosage}"
                     try:
                         send_push_notification(token, title, body)
                     except Exception as e:
                         logging.error(f"Failed to send notification for reminder {reminder.id}: {e}")
+                if user and user.email:
+                    try:
+                        send_email(user.email, title, body)
+                    except Exception as e:
+                        logging.error(f"Failed to send email for reminder {reminder.id} to {user.email}: {e}")
             else:
                 logging.info(f"No time match for reminder {reminder.id}")
     finally:

@@ -1,0 +1,53 @@
+
+/* Main heading */
+h2 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  color: #333;
+  border-bottom: 2px solid #007bff;
+  padding-bottom: 8px;
+}
+
+/* Subheadings */
+h3 {
+  font-size: 1.5rem;
+  margin-top: 30px;
+  margin-bottom: 15px;
+  color: #555;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 6px;
+}
+
+/* Unordered lists */
+ul {
+  list-style-type: none;
+  padding-left: 0;
+  margin-bottom: 20px;
+}
+
+/* List items */
+li {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  padding: 12px 15px;
+  margin-bottom: 10px;
+  border-radius: 4px;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.9rem;
+  color: #222;
+  word-break: break-word;
+}
+
+/* Error message */
+.error {
+  color: #d9534f;
+  font-weight: bold;
+  margin: 20px 0;
+}
+
+/* Loading text */
+p {
+  font-style: italic;
+  color: #666;
+  font-size: 1rem;
+}

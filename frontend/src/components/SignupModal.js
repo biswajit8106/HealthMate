@@ -14,6 +14,13 @@ const SignupModal = ({ show, onClose, onSwitchToLogin }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
+  // Password validation function
+  const validatePassword = (password) => {
+    // Password must be at least 8 characters, contain uppercase, lowercase, digit, and special character
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/;
+    return passwordRegex.test(password);
+  };
+
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -23,8 +30,22 @@ const SignupModal = ({ show, onClose, onSwitchToLogin }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
     setError(null);
+
+    // Validate age before submitting
+    const ageNum = Number(formData.age);
+    if (!Number.isInteger(ageNum) || ageNum <= 1 || ageNum > 100) {
+      setError('Please enter a valid age between 1 and 100.');
+      return;
+    }
+
+    // Validate password before submitting
+    if (!validatePassword(formData.password)) {
+      setError('Password must be at least 8 characters long and include uppercase, lowercase, digit, and special character.');
+      return;
+    }
+
+    setLoading(true);
 
     try {
       const response = await axios.post('http://localhost:5000/register', formData);
@@ -83,13 +104,15 @@ const SignupModal = ({ show, onClose, onSwitchToLogin }) => {
            
           <div className="form-group">
             <input
-              type="integer"
+              type="number"
               name="age"
               placeholder="Age"
               value={formData.age}
               onChange={handleChange}
               required
               className="signup-input"
+              min="1"
+              max="120"
             />
           </div>
 

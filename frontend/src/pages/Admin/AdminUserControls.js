@@ -11,7 +11,7 @@ const AdminUserControls = () => {
 
   const fetchAdmins = async () => {
     try {
-      const res = await axios.get('/admin/user_controls/admins');
+      const res = await axios.get('http://localhost:5000/admin/user_controls/admins');
       setAdmins(res.data);
     } catch (err) {
       setError('Failed to fetch admins');
@@ -27,7 +27,7 @@ const AdminUserControls = () => {
 
   const addAdmin = async () => {
     try {
-      await axios.post('/admin/user_controls/admins', newAdmin);
+      await axios.post('http://localhost:5000/admin/user_controls/admins', newAdmin);
       setNewAdmin({ name: '', email: '', password: '', role: 'Moderator' });
       fetchAdmins();
     } catch (err) {
@@ -38,7 +38,7 @@ const AdminUserControls = () => {
 
   const removeAdmin = async (userId) => {
     try {
-      await axios.delete(`/admin/user_controls/admins/${userId}`);
+      await axios.delete(`http://localhost:5000/admin/user_controls/admins/${userId}`);
       fetchAdmins();
     } catch (err) {
       setError('Failed to remove admin');
@@ -48,7 +48,7 @@ const AdminUserControls = () => {
 
   const changeRole = async (userId, role) => {
     try {
-      await axios.put(`/admin/user_controls/admins/${userId}/role`, { role });
+      await axios.put(`http://localhost:5000/admin/user_controls/admins/${userId}/role`, { role });
       fetchAdmins();
     } catch (err) {
       setError('Failed to change role');
@@ -58,7 +58,7 @@ const AdminUserControls = () => {
 
   const changePassword = async (userId, password) => {
     try {
-      await axios.put(`/admin/user_controls/admins/${userId}/password`, { password });
+      await axios.put(`http://localhost:5000/admin/user_controls/admins/${userId}/password`, { password });
       fetchAdmins();
     } catch (err) {
       setError('Failed to change password');

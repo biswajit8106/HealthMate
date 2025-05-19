@@ -107,6 +107,8 @@ const ReportPage = () => {
                 <p><strong>Diets:</strong> {formatArray(diets)}</p>
                 <p><strong>Workouts:</strong> {formatArray(workouts)}</p>
 
+                <p><strong>Disclaimer: This health-related ML model provides insights but is not a substitute for professional medical advice—consult a healthcare expert before making decisions.</strong></p>
+
                 <button onClick={handleDownloadPDF} disabled={downloading}>
                     {downloading ? 'Generating PDF...' : '📄 Download Report (PDF with Logo & Stamp)'}
                 </button>
@@ -117,3 +119,4 @@ const ReportPage = () => {
 };
 
 export default ReportPage;
+ 
