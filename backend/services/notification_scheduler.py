@@ -16,12 +16,26 @@ from utils.email_utils import send_email
 
 
 # Initialize Firebase Admin SDK
-# Use raw string or forward slashes for Windows path to avoid escape sequence issues
+# Using raw string or forward slashes for Windows path to avoid escape sequence issues
 cred_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'healthmate-4ef24-firebase-adminsdk-fbsvc-049b74aa26.json')
-cred = credentials.Certificate(cred_path)
-initialize_app(cred)
+
+firebase_initialized = False
+if os.path.exists(cred_path):
+    try:
+        cred = credentials.Certificate(cred_path)
+        initialize_app(cred)
+        firebase_initialized = True
+        logging.info("Firebase Admin SDK initialized successfully.")
+    except Exception as e:
+        logging.error(f"Failed to initialize Firebase Admin SDK: {e}")
+else:
+    logging.warning(f"Firebase credentials file not found at {cred_path}. Push notifications will be disabled.")
 
 def send_push_notification(token, title, body):
+    if not firebase_initialized:
+        logging.warning("Firebase not initialized. Skipping push notification.")
+        return
+
     message = messaging.Message(
         notification=messaging.Notification(
             title=title,
