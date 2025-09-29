@@ -1,5 +1,4 @@
 from flask import Blueprint, request, jsonify
-import fitz  # PyMuPDF
 from PIL import Image
 import io
 import requests
@@ -7,6 +6,7 @@ import easyocr
 import logging
 import time
 import hashlib
+import pdfplumber
 from config import Config
 
 reportanalyzer_bp = Blueprint('reportanalyzer_bp', __name__)
@@ -18,24 +18,24 @@ def extract_text_from_pdf(file_stream, reader):
     start_time = time.time()
     text = ""
     file_stream.seek(0)
-    pdf = fitz.open(stream=file_stream.read(), filetype="pdf")
-    for page in pdf:
-        page_text = page.get_text()
-        text += page_text
+    with pdfplumber.open(file_stream) as pdf:
+        for page in pdf.pages:
+            page_text = page.extract_text() or ""
+            text += page_text
     if not text.strip():
         # No text extracted, try OCR on each page image
         text = ""
-        for page_num in range(len(pdf)):
-            page = pdf.load_page(page_num)
-            pix = page.get_pixmap()
-            img = Image.frombytes("RGB", [pix.width, pix.height], pix.samples)
-            try:
-                result = reader.readtext(img)
-                page_text = " ".join([res[1] for res in result])
-                text += page_text + "\n"
-            except Exception as e:
-                logging.error(f"Error during OCR processing of PDF page {page_num}: {str(e)}")
-                raise
+        file_stream.seek(0)
+        with pdfplumber.open(file_stream) as pdf:
+            for page_num, page in enumerate(pdf.pages):
+                try:
+                    pil_image = page.to_image(resolution=300).original
+                    result = reader.readtext(pil_image)
+                    page_text = " ".join([res[1] for res in result])
+                    text += page_text + "\n"
+                except Exception as e:
+                    logging.error(f"Error during OCR processing of PDF page {page_num}: {str(e)}")
+                    raise
     elapsed = time.time() - start_time
     logging.info(f"extract_text_from_pdf took {elapsed:.2f} seconds")
     return text

@@ -1,4 +1,4 @@
-- [x] Update frontend/src/components/LoginModal.js: change URL to /api/user/login and remove token localStorage
-- [x] Update frontend/src/components/SignupModal.js: change URL to /api/user/register
-- [x] Update frontend/src/components/SessionCheck.js: change URL to /api/user/session
-- [ ] Test login functionality
+# TODO: Fix PyMuPDF Deployment Error
+
+- [x] Update backend/requirements.txt: Remove 'fitz' and 'pymupdf', add 'pdfplumber'
+- [x] Modify backend/routes/reportanalyzer.py: Replace fitz with pdfplumber for PDF text extraction and page rendering
