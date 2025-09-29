@@ -117,12 +117,5 @@ def start_scheduler():
     scheduler.start()
     print("Notification scheduler started.")
 
-    try:
-        import time
-        while True:
-            time.sleep(60)
-    except (KeyboardInterrupt, SystemExit):
-        scheduler.shutdown()
-
 if __name__ == '__main__':
     start_scheduler()
