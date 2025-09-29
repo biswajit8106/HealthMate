@@ -20,5 +20,4 @@ python-dateutil
 Pillow
 fuzzywuzzy
 python-Levenshtein
-fitz
-pymupdf
+pdfplumber
