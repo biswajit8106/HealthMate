@@ -2,6 +2,7 @@ Flask
 Flask-Cors
 Flask-Migrate
 PyMySQL
+fitz
 SQLAlchemy
 python-dotenv
 requests
@@ -13,3 +14,7 @@ numpy
 opencv-python
 pywebpush
 apscheduler
+jsonify
+flask
+fuzzywuzzy
+firebase_admin
