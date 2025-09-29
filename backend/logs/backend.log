@@ -43,3 +43,6 @@ TypeError: The view function for 'user_bp.session_info' did not return a valid r
 2025-09-29 23:52:09,487 INFO: Backend startup [in H:\Healtmate_new_with_Eda\HealthMate\backend\app.py:52]
 2025-09-29 23:53:22,959 INFO: Backend startup [in H:\Healtmate_new_with_Eda\HealthMate\backend\app.py:52]
 2025-09-29 23:53:42,861 INFO: Backend startup [in H:\Healtmate_new_with_Eda\HealthMate\backend\app.py:52]
+2025-09-30 00:06:40,639 INFO: Backend startup [in H:\Healtmate_new_with_Eda\HealthMate\backend\app.py:52]
+2025-09-30 00:06:58,038 INFO: Incoming request: OPTIONS /api/user/register [in H:\Healtmate_new_with_Eda\HealthMate\backend\app.py:70]
+2025-09-30 00:06:58,376 INFO: Incoming request: POST /api/user/register [in H:\Healtmate_new_with_Eda\HealthMate\backend\app.py:70]
