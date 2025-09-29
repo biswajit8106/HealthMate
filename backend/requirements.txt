@@ -14,3 +14,11 @@ pywebpush
 apscheduler
 firebase_admin
 reportlab
+werkzeug
+joblib
+python-dateutil
+Pillow
+fuzzywuzzy
+python-Levenshtein
+fitz
+pymupdf
