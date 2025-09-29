@@ -267,14 +267,10 @@ const SymptomChecker = () => {
                 setResult(fullResult);
                 setError(null);
 
-                if (fullResult.confidence >= 0.2) {
-                    //  Save report to backend
+                //  Save report to backend
 await axios.post('http://localhost:5000/report/save', fullResult, { withCredentials: true });
-                    //  Navigate to Report page
-                    navigate('/report', { state: fullResult });
-                } else {
-                    setError('Insufficient confidence in prediction. Please provide more symptoms.');
-                }
+                //  Navigate to Report page
+                navigate('/report', { state: fullResult });
             } else {
                 setError(response.data.error || 'Something went wrong!');
                 setResult(null);
@@ -360,7 +356,7 @@ await axios.post('http://localhost:5000/report/save', fullResult, { withCredenti
             {loading && <p style={{ color: 'blue' }}>Checking symptoms, please wait...</p>}
             {error && <p className="error" style={{ color: 'red' }}>{error}</p>}
 
-            {result && result.confidence < 0.2 && (
+            {result && result.confidence < 0.09 && (
                 <div style={{
                     backgroundColor: '#fff3cd',
                     color: '#856404',
@@ -370,7 +366,7 @@ await axios.post('http://localhost:5000/report/save', fullResult, { withCredenti
                     fontWeight: 'bold',
                     marginTop: '10px'
                 }}>
-                    ⚠️ Insufficient confidence in prediction. Please provide more symptoms.
+                    Low confidence prediction ({(result.confidence * 100).toFixed(2)}%). Consider providing more symptoms for better accuracy.
                 </div>
             )}
         </div>

@@ -7,21 +7,12 @@ import easyocr
 import logging
 import time
 import hashlib
+from config import Config
 
 reportanalyzer_bp = Blueprint('reportanalyzer_bp', __name__)
 
-# Gemini API key
-GEMINI_API_KEY = "AIzaSyBxBG3r8vYoLWcKP63Z9RniJeTNHyMbdE8"
-
-# Enable GPU for easyocr if available
-def create_easyocr_reader(languages):
-    try:
-        reader = easyocr.Reader(languages, gpu=True)
-        logging.info(f"easyocr initialized with GPU support for languages: {languages}")
-    except Exception as e:
-        logging.warning(f"easyocr GPU initialization failed, falling back to CPU. Error: {str(e)}")
-        reader = easyocr.Reader(languages, gpu=False)
-    return reader
+# Global OCR reader
+reader = easyocr.Reader(['en'], gpu=False)  # Use CPU for stability
 
 def extract_text_from_pdf(file_stream, reader):
     start_time = time.time()
@@ -74,7 +65,7 @@ def is_medical_report(text):
     return any(keyword in text_lower for keyword in medical_keywords)
 
 def analyze_report(text):
-    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key={GEMINI_API_KEY}"
+    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key={Config.GEMINI_API_KEY}"
     headers = {
         "Content-Type": "application/json"
     }
@@ -93,7 +84,7 @@ def analyze_report(text):
     }
 
     try:
-        response = requests.post(url, headers=headers, json=payload)
+        response = requests.post(url, headers=headers, json=payload, timeout=10)
         if response.status_code == 200:
             response_json = response.json()
             if "candidates" in response_json and len(response_json["candidates"]) > 0:
@@ -132,14 +123,15 @@ def analyze():
         file_hash = hashlib.sha256(file_bytes).hexdigest()
         file.seek(0)
 
-        # Check cache
+        # Check cache with TTL (1 hour)
+        current_time = time.time()
         if file_hash in analyze.cache:
-            logging.info(f"Cache hit for file hash {file_hash}")
-            cached_result = analyze.cache[file_hash]
-            return jsonify(cached_result)
-
-        # Initialize easyocr reader with English only
-        reader = create_easyocr_reader(['en'])
+            cached_time, cached_result = analyze.cache[file_hash]
+            if current_time - cached_time < 3600:  # 1 hour TTL
+                logging.info(f"Cache hit for file hash {file_hash}")
+                return jsonify(cached_result)
+            else:
+                del analyze.cache[file_hash]  # Expire old cache
 
         if file.content_type == "application/pdf":
             text = extract_text_from_pdf(file, reader)
@@ -164,8 +156,8 @@ def analyze():
             "explanation": explanation
         }
 
-        # Cache the result
-        analyze.cache[file_hash] = result
+        # Cache the result with timestamp
+        analyze.cache[file_hash] = (current_time, result)
 
         return jsonify(result)
 
