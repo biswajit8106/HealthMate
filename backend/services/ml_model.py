@@ -2,11 +2,7 @@ import joblib
 import numpy as np
 import pandas as pd
 from sklearn.preprocessing import StandardScaler, LabelEncoder
-from fuzzywuzzy import process
-from sklearn.model_selection import train_test_split
-from sklearn.metrics import classification_report, confusion_matrix
 import os
-import json
 import logging
 from datetime import datetime
 import hashlib
@@ -16,7 +12,15 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 class MLModel:
-    def __init__(self, model_path=None):
+    _instance = None
+
+    def __new__(cls, model_path=None):
+        if cls._instance is None:
+            cls._instance = super(MLModel, cls).__new__(cls)
+            cls._instance._initialize(model_path)
+        return cls._instance
+
+    def _initialize(self, model_path=None):
         self.model = None
         self.scaler = StandardScaler()
         self.label_encoder = LabelEncoder()
@@ -25,12 +29,9 @@ class MLModel:
         self.model_hash = None
 
         # Load training data to determine feature count
-        data_path = os.path.join(os.path.dirname(__file__), '../../Training/Data/Training.csv')
+        data_path = os.path.join(os.path.dirname(__file__), '../../Training/Data/dataset1.csv')
         try:
             data = pd.read_csv(data_path)
-            # Validate feature count
-            if data.shape[1] - 1 != 132:
-                logger.warning(f"Training data has {data.shape[1] - 1} features, expected 132")
             self.num_features = data.shape[1] - 1  # Last column is target
 
             # Fit encoder on all possible symptom values from training data
@@ -75,25 +76,15 @@ class MLModel:
             logger.info(f"Received symptoms for diagnosis: {symptoms}")
 
             # Convert symptoms to numerical values using the encoder
-            encoded_data = []
-            for symptom in symptoms:
+            encoded_data = np.full(self.num_features, self.unknown_symptom_value)
+            for i, symptom in enumerate(symptoms[:self.num_features]):
                 try:
-                    encoded_data.append(self.label_encoder.transform([symptom])[0])
+                    encoded_data[i] = self.label_encoder.transform([symptom])[0]
                 except ValueError:
-                    logger.warning(f"Unknown symptom detected: {symptom}. Please ensure the symptom is part of the training data.")
-                    encoded_data.append(self.unknown_symptom_value)  # Special value for unknown symptoms
-
-            # Ensure input has exactly 132 features, padding with zeros if necessary
-            if len(encoded_data) > self.num_features:
-                encoded_data = encoded_data[:self.num_features]
-            elif len(encoded_data) < self.num_features:
-                # Pad with zeros if fewer than 132 features
-                padded_data = np.zeros(self.num_features)  # Pad with zeros
-                padded_data[:len(encoded_data)] = encoded_data
-                encoded_data = padded_data
+                    logger.warning(f"Unknown symptom detected: {symptom}. Using default value.")
 
             # Scale the data
-            scaled_data = self.scaler.transform(np.array(encoded_data).reshape(1, -1))
+            scaled_data = self.scaler.transform(encoded_data.reshape(1, -1))
 
             # Make prediction
             predicted_disease_index = self.model.predict(scaled_data)[0]

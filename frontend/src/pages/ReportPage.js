@@ -4,7 +4,6 @@ import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import '../style/pages/ReportPage.css';
 import logo from '../assets/logo.png';
-import SessionCheck from '../components/SessionCheck';
 
 const ReportPage = () => {
     const { state } = useLocation();
@@ -113,7 +112,6 @@ const ReportPage = () => {
                     {downloading ? 'Generating PDF...' : '📄 Download Report (PDF with Logo & Stamp)'}
                 </button>
             </div>
-            <SessionCheck />
         </div>
     );
 };

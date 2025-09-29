@@ -4,6 +4,8 @@ from routes.medication_reminder_routes import medication_reminder_bp
 
 from flask_cors import CORS
 import logging
+import os
+from logging.handlers import RotatingFileHandler
 from config import Config
 from database.db import engine
 from models.user_model import User
@@ -20,7 +22,7 @@ def create_app():
     app.config.from_object(Config)
 
     # Add secret key for session management
-    app.secret_key = '466f37c4ffe5bd6ff846003771beb82d'  # Replace with a secure key in production
+    app.secret_key = Config.SECRET_KEY
 
     # Configure session cookie for cross-origin requests in local dev
     app.config.update(
@@ -30,16 +32,31 @@ def create_app():
     )
 
     # --- Logging ---
+    log_level = getattr(logging, Config.LOG_LEVEL)
     logging.basicConfig(
-        level=logging.DEBUG,
+        level=log_level,
         format='%(asctime)s - %(levelname)s - %(message)s'
     )
-    app.config['DEBUG'] = True
+
+    # Add file handler for production logging
+    if not app.debug:
+        if not os.path.exists('logs'):
+            os.mkdir('logs')
+        file_handler = RotatingFileHandler('logs/backend.log', maxBytes=10240, backupCount=10)
+        file_handler.setFormatter(logging.Formatter(
+            '%(asctime)s %(levelname)s: %(message)s [in %(pathname)s:%(lineno)d]'
+        ))
+        file_handler.setLevel(log_level)
+        app.logger.addHandler(file_handler)
+        app.logger.setLevel(log_level)
+        app.logger.info('Backend startup')
+
+    app.config['DEBUG'] = os.getenv('FLASK_DEBUG', False)
 
     # --- CORS ---
     CORS(app, resources={
         r"/*": {
-            "origins": "http://localhost:3000",
+            "origins": Config.CORS_ORIGINS,
             "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
             "allow_headers": ["Content-Type", "Authorization", "Accept"],
             "supports_credentials": True,
@@ -50,9 +67,7 @@ def create_app():
     # --- Log all incoming requests ---
     @app.before_request
     def log_request_info():
-        logging.debug(f"Incoming request: {request.method} {request.path}")
-        logging.debug(f"Headers: {dict(request.headers)}")
-        logging.debug(f"Body: {request.get_data()}")
+        app.logger.info(f"Incoming request: {request.method} {request.path}")
         if request.method in ['POST', 'PUT']:
             content_type = request.headers.get('Content-Type', '')
             # Allow multipart/form-data for reportanalyzer analyze endpoint
@@ -68,6 +83,12 @@ def create_app():
     @app.errorhandler(415)
     def handle_unsupported_media_type(error):
         return jsonify({'error': 'Unsupported Media Type'}), 415
+
+    # --- Handle 500 Internal Server Error ---
+    @app.errorhandler(500)
+    def handle_internal_error(error):
+        app.logger.error(f"Internal error: {str(error)}")
+        return jsonify({'error': 'Internal server error'}), 500
 
     # --- Table Creation ---
     User.create_table()
@@ -100,8 +121,8 @@ def create_app():
     app.register_blueprint(user_bp)
     app.register_blueprint(medicine_bp, url_prefix='/api/medicine')
     app.register_blueprint(report_bp, url_prefix='/report')  # Full: /report/save
-    app.register_blueprint(profile_bp,url_prefix='/api/user/profile')
-    app.register_blueprint(medical_history_bp,urlprefix='/api/user/medical_history')
+    app.register_blueprint(profile_bp, url_prefix='/api/user/profile')
+    app.register_blueprint(medical_history_bp, url_prefix='/api/user/medical_history')
     app.register_blueprint(privacycontrol_bp)
     app.register_blueprint(dashboard_charts_bp)
     app.register_blueprint(reportanalyzer_bp, url_prefix='/api/reportanalyzer')
@@ -116,8 +137,9 @@ def create_app():
     app.register_blueprint(admin_feedback_bp, url_prefix='/admin/feedback')
     app.register_blueprint(admin_settings_bp, url_prefix='/admin/settings')
 
-    # Start notification scheduler in background thread
-    threading.Thread(target=start_scheduler, daemon=True).start()
+    # Start notification scheduler in background thread (conditionally)
+    if not app.config.get('TESTING'):
+        threading.Thread(target=start_scheduler, daemon=True).start()
 
     return app
 
