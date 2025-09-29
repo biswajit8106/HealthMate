@@ -7,7 +7,7 @@ const SessionCheck = () => {
 
   const checkSession = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/session', { withCredentials: true });
+      const response = await axios.get('http://localhost:5000/api/user/session', { withCredentials: true });
       setSessionInfo(response.data);
     } catch (err) {
       setError(err.message || 'Error checking session');

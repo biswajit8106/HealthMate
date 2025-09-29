@@ -12,8 +12,7 @@ const LoginModal = ({ show, onClose, onSwitchToSignup, onLoginSuccess }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:5000/login', { email, password });
-      localStorage.setItem('token', response.data.token);
+      const response = await axios.post('http://localhost:5000/api/user/login', { email, password });
       localStorage.setItem('user', JSON.stringify(response.data.user));
       // Redirect to home page after successful login
       // navigate('/dashboard');

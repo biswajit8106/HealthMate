@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import '../style/components/SymptomChecker.css';
@@ -12,7 +12,25 @@ const SymptomChecker = () => {
     const [result, setResult] = useState(null);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
+    const [readOnlyFields, setReadOnlyFields] = useState(true); // New state for read-only toggle
     const navigate = useNavigate();
+
+    useEffect(() => {
+        // Fetch user info from backend session API
+        axios.get('http://localhost:5000/api/user/session', { withCredentials: true })
+            .then(response => {
+                if (response.data.logged_in) {
+                    const user = response.data.user;
+                    setName(user.name || '');
+                    setGender(user.gender || '');
+                    setAge(user.age || '');
+                    setReadOnlyFields(true); // Set fields to read-only based on user preference
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching user session:', error);
+            });
+    }, []);
 
     const symptomList = [
         'Body_Pain',
@@ -292,6 +310,7 @@ await axios.post('http://localhost:5000/report/save', fullResult, { withCredenti
                     onChange={(e) => setName(e.target.value)}
                     placeholder="Enter your name"
                     required
+                    readOnly={readOnlyFields}
                 />
 
                 <div>
@@ -301,6 +320,7 @@ await axios.post('http://localhost:5000/report/save', fullResult, { withCredenti
                             value="Male"
                             checked={gender === 'Male'}
                             onChange={(e) => setGender(e.target.value)}
+                            disabled={readOnlyFields}
                         /> Male
                     </label>
                     <label>
@@ -309,6 +329,7 @@ await axios.post('http://localhost:5000/report/save', fullResult, { withCredenti
                             value="Female"
                             checked={gender === 'Female'}
                             onChange={(e) => setGender(e.target.value)}
+                            disabled={readOnlyFields}
                         /> Female
                     </label>
                     <label>
@@ -317,6 +338,7 @@ await axios.post('http://localhost:5000/report/save', fullResult, { withCredenti
                             value="Other"
                             checked={gender === 'Other'}
                             onChange={(e) => setGender(e.target.value)}
+                            disabled={readOnlyFields}
                         /> Other
                     </label>
                 </div>
@@ -329,6 +351,7 @@ await axios.post('http://localhost:5000/report/save', fullResult, { withCredenti
                     min="0"
                     max="120"
                     required
+                    readOnly={readOnlyFields}
                 />
 
                 {symptomInputs.map((symptom, index) => (

@@ -118,7 +118,7 @@ def create_app():
 
     app.register_blueprint(medication_reminder_bp)
     app.register_blueprint(symptom_checker_bp)
-    app.register_blueprint(user_bp)
+    app.register_blueprint(user_bp, url_prefix='/api/user')
     app.register_blueprint(medicine_bp, url_prefix='/api/medicine')
     app.register_blueprint(report_bp, url_prefix='/report')  # Full: /report/save
     app.register_blueprint(profile_bp, url_prefix='/api/user/profile')

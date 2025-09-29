@@ -1,7 +1,4 @@
-# TODO: Fix Symptom Checker Confidence Issue
-
-## Tasks
-- [x] Fix ml_model.py to use dataset1.csv instead of Training.csv
-- [x] Remove confidence check in backend/routes/symptom_checker.py to allow predictions with low confidence, matching notebook behavior
-- [x] Remove confidence check in frontend/src/components/SymptomChecker.js to allow navigation to report page regardless of confidence
-- [ ] Test the symptom checker endpoint to ensure predictions are returned
+- [x] Update frontend/src/components/LoginModal.js: change URL to /api/user/login and remove token localStorage
+- [x] Update frontend/src/components/SignupModal.js: change URL to /api/user/register
+- [x] Update frontend/src/components/SessionCheck.js: change URL to /api/user/session
+- [ ] Test login functionality
