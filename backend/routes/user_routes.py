@@ -86,4 +86,3 @@ def session_info():
                 "gender": user.gender
             }
             return jsonify({"logged_in": True, "user": user_data})
-    return jsonify({"logged_in": False, "message": "No active session"}), 401

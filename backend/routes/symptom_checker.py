@@ -1,8 +1,12 @@
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify, session
 import numpy as np
 import pandas as pd
 import joblib
 import os
+from models.user_model import User
+from database.db import get_db
+from utils.auth import login_required
+from sqlalchemy.orm import Session
 
 symptom_checker_bp = Blueprint('symptom_checker', __name__)
 
@@ -65,10 +69,15 @@ def helper(dis):
         return "No description available.", ["No precautions available."], ["No medications recommended."], ["No diet recommendations."], ["No workout recommendations."]
 
 # Prediction route
+@login_required
 @symptom_checker_bp.route("/predict", methods=["POST"])
 def predict():
     data = request.get_json()
     symptoms = data.get("symptoms", [])
+
+    # Retrieve user data from login session
+    db: Session = next(get_db())
+    user = User.get_user_by_id(db, session['user_id'])
 
     if len(symptoms) < 2:
         response = {
@@ -103,6 +112,9 @@ def predict():
         "precautions": pre,
         "medications": med,
         "diets": die,
-        "workouts": wrkout
+        "workouts": wrkout,
+        "user_name": user.name,
+        "user_gender": user.gender,
+        "user_age": user.age
     }
     return jsonify(response)

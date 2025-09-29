@@ -15,8 +15,19 @@ const Navbar = () => {
 
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    setIsLoggedIn(!!token);
+    // Check session from backend instead of localStorage token
+    const checkSession = async () => {
+      try {
+        const response = await fetch('http://localhost:5000/api/user/session', {
+          credentials: 'include',
+        });
+        const data = await response.json();
+        setIsLoggedIn(data.logged_in === true);
+      } catch (error) {
+        setIsLoggedIn(false);
+      }
+    };
+    checkSession();
   }, []);
 
   const handleLoginSuccess = () => {
@@ -114,9 +125,15 @@ const Navbar = () => {
           {isLoggedIn ? (
             <button 
               className="navbar-button"
-              onClick={() => {
-                localStorage.removeItem('token');
-                localStorage.removeItem('user');
+              onClick={async () => {
+                try {
+                  await fetch('http://localhost:5000/api/user/logout', {
+                    method: 'POST',
+                    credentials: 'include',
+                  });
+                } catch (error) {
+                  console.error('Logout failed', error);
+                }
                 setIsLoggedIn(false);
                 navigate('/');
               }}
