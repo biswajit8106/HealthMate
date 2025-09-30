@@ -90,6 +90,11 @@ def create_app():
         app.logger.error(f"Internal error: {str(error)}")
         return jsonify({'error': 'Internal server error'}), 500
 
+    # --- Root Route ---
+    @app.route('/')
+    def index():
+        return jsonify({"message": "HealthMate backend is live"})
+
     # --- Table Creation ---
     User.create_table()
     Disease.create_table()
