@@ -1,18 +1,26 @@
-from flask import Blueprint, request, jsonify
+from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
-from database.db import SessionLocal
+from database.db import get_db
 from models.user_model import User
-from utils.auth import admin_login_required
+from utils.auth import get_current_admin
+from pydantic import BaseModel
+from typing import List
 
-admin_user_bp = Blueprint('admin_user_bp', __name__, url_prefix='/admin/users')
+router = APIRouter()
 
-@admin_user_bp.route('/', methods=['GET'])
-@admin_login_required
-def list_users():
+class UserResponse(BaseModel):
+    user_id: int
+    name: str
+    email: str
+    age: int
+    gender: str
+    is_active: bool
+    is_admin: bool
+
+@router.get('/', response_model=List[UserResponse])
+def list_users(admin_id: int = Depends(get_current_admin), db: Session = Depends(get_db)):
     try:
-        db: Session = SessionLocal()
         users = db.query(User).all()
-        db.close()
         users_data = []
         for user in users:
             users_data.append({
@@ -24,64 +32,45 @@ def list_users():
                 'is_active': user.is_active,
                 'is_admin': user.is_admin
             })
-        return jsonify(users_data), 200
+        return users_data
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        raise HTTPException(status_code=500, detail=str(e))
 
-@admin_user_bp.route('/activate/<int:user_id>', methods=['POST'])
-@admin_login_required
-def activate_user(user_id):
+@router.post('/activate/{user_id}', response_model=dict)
+def activate_user(user_id: int, admin_id: int = Depends(get_current_admin), db: Session = Depends(get_db)):
     try:
-        db: Session = SessionLocal()
         user = db.query(User).filter(User.user_id == user_id).first()
         if not user:
-            db.close()
-            return jsonify({'error': 'User not found'}), 404
+            raise HTTPException(status_code=404, detail='User not found')
         user.is_active = True
         db.commit()
-        db.close()
-        return jsonify({'message': 'User activated successfully'}), 200
+        return {'message': 'User activated successfully'}
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        raise HTTPException(status_code=500, detail=str(e))
 
-@admin_user_bp.route('/deactivate/<int:user_id>', methods=['POST'])
-@admin_login_required
-def deactivate_user(user_id):
-    # Accept requests with no content or unsupported media type gracefully
-    if request.content_length == 0:
-        # Ignore Content-Type if no content
-        pass
-    elif request.content_length is not None and request.content_length > 0:
-        # If there is content, but unsupported media type, handle accordingly
-        if not request.is_json and not request.form:
-            return jsonify({'error': 'Unsupported Media Type'}), 415
+@router.post('/deactivate/{user_id}', response_model=dict)
+def deactivate_user(user_id: int, admin_id: int = Depends(get_current_admin), db: Session = Depends(get_db)):
     try:
-        db: Session = SessionLocal()
         user = db.query(User).filter(User.user_id == user_id).first()
         if not user:
-            db.close()
-            return jsonify({'error': 'User not found'}), 404
+            raise HTTPException(status_code=404, detail='User not found')
         user.is_active = False
         db.commit()
-        db.close()
-        return jsonify({'message': 'User deactivated successfully'}), 200
+        return {'message': 'User deactivated successfully'}
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        raise HTTPException(status_code=500, detail=str(e))
 
-@admin_user_bp.route('/delete/<int:user_id>', methods=['DELETE'])
-@admin_login_required
-def delete_user(user_id):
+@router.delete('/delete/{user_id}', response_model=dict)
+def delete_user(user_id: int, admin_id: int = Depends(get_current_admin), db: Session = Depends(get_db)):
     try:
-        db: Session = SessionLocal()
         user = db.query(User).filter(User.user_id == user_id).first()
         if not user:
-            db.close()
-            return jsonify({'error': 'User not found'}), 404
+            raise HTTPException(status_code=404, detail='User not found')
         # Soft delete: set is_active to False and mark deleted flag if exists
         user.is_active = False
-        user.is_deleted = True if hasattr(user, 'is_deleted') else False
+        if hasattr(user, 'is_deleted'):
+            user.is_deleted = True
         db.commit()
-        db.close()
-        return jsonify({'message': 'User deleted (soft) successfully'}), 200
+        return {'message': 'User deleted (soft) successfully'}
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        raise HTTPException(status_code=500, detail=str(e))

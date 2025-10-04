@@ -1,28 +1,28 @@
-from flask import Blueprint, request, jsonify, session
+from fastapi import APIRouter, Depends, HTTPException
+from sqlalchemy.orm import Session
 from database.db import get_db
 from models.user_model import User
-from sqlalchemy.orm import Session
-from utils.auth import login_required
+from utils.auth import get_current_user
+from pydantic import BaseModel
+from typing import Optional
 
+router = APIRouter()
 
-# Initialize Blueprint
-profile_bp = Blueprint('profile_bp', __name__, url_prefix='/api/user/profile')
+class UpdateProfileRequest(BaseModel):
+    name: Optional[str] = None
+    email: Optional[str] = None
+    age: Optional[int] = None
+    gender: Optional[str] = None
+    password: Optional[str] = None
 
 # GET: Fetch user profile
-@profile_bp.route('', methods=['GET'], strict_slashes=False)
-@profile_bp.route('/', methods=['GET'], strict_slashes=False)
-@login_required
-def get_profile():
-    user_id = session.get('user_id')
-
-    if not user_id:
-        return jsonify({'error': 'Authentication required'}), 401
-
-    db: Session = next(get_db())
+@router.get('')
+@router.get('/')
+def get_profile(user_id: int = Depends(get_current_user), db: Session = Depends(get_db)):
     user = User.get_user_by_id(db, user_id)
 
     if not user:
-        return jsonify({'error': 'User not found'}), 404
+        raise HTTPException(status_code=404, detail='User not found')
 
     user_data = {
         'user_id': user.user_id,
@@ -32,40 +32,36 @@ def get_profile():
         'gender': user.gender
     }
 
-    return jsonify(user_data), 200
+    return user_data
 
 
 # PUT: Update user profile
-@profile_bp.route('', methods=['PUT'], strict_slashes=False)
-@profile_bp.route('/', methods=['PUT'], strict_slashes=False)
-@login_required
-def update_profile():
-    data = request.get_json()
-    user_id = session.get('user_id')
-
-    if not user_id:
-        return jsonify({'error': 'Authentication required'}), 401
-
-    db: Session = next(get_db())
+@router.put('')
+@router.put('/')
+def update_profile(request_data: UpdateProfileRequest, user_id: int = Depends(get_current_user), db: Session = Depends(get_db)):
     user = User.get_user_by_id(db, user_id)
 
     if not user:
-        return jsonify({'error': 'User not found'}), 404
+        raise HTTPException(status_code=404, detail='User not found')
 
     # Update fields if provided
-    user.name = data.get('name', user.name)
-    user.email = data.get('email', user.email)
-    user.age = data.get('age', user.age)
-    user.gender = data.get('gender', user.gender)
+    if request_data.name is not None:
+        user.name = request_data.name
+    if request_data.email is not None:
+        user.email = request_data.email
+    if request_data.age is not None:
+        user.age = request_data.age
+    if request_data.gender is not None:
+        user.gender = request_data.gender
 
     # Optionally update password (should hash it!)
-    if 'password' in data:
+    if request_data.password:
         from werkzeug.security import generate_password_hash
-        user.password = generate_password_hash(data['password'])
+        user.password = generate_password_hash(request_data.password)
 
     try:
         db.commit()
-        return jsonify({'message': 'Profile updated successfully'}), 200
+        return {'message': 'Profile updated successfully'}
     except Exception as e:
         db.rollback()
-        return jsonify({'error': str(e)}), 500
+        raise HTTPException(status_code=500, detail=str(e))

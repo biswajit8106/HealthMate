@@ -1,8 +1,7 @@
-from datetime import timedelta
-from flask import Flask, request, jsonify
-from routes.medication_reminder_routes import medication_reminder_bp
-
-from flask_cors import CORS
+from contextlib import asynccontextmanager
+from fastapi import FastAPI, Request, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
 import logging
 import os
 from logging.handlers import RotatingFileHandler
@@ -11,24 +10,53 @@ from database.db import engine
 from models.user_model import User
 from models.disease_model import Disease
 from models.diagnosis_model import Diagnosis
-
-
 import threading
 from services.notification_scheduler import start_scheduler
 
+# Import routers
+from routes.medication_reminder_routes import router as medication_reminder_router
+from routes.symptom_checker import router as symptom_checker_router
+from routes.user_routes import router as user_router
+from routes.medicine_routes import router as medicine_router
+from routes.health_report import router as report_router
+from routes.profile import router as profile_router
+from routes.medical_history_routes import router as medical_history_router
+from routes.privacycontrol import router as privacycontrol_router
+from routes.dashboard_charts import router as dashboard_charts_router
+from routes.reportanalyzer import router as reportanalyzer_router
+from routes.admin_user_management import router as admin_user_router
+from routes.admin_health_reports import router as admin_health_reports_router
+from routes.admin_analyzer_reports import router as admin_analyzer_reports_router
+from routes.admin_auth import router as admin_auth_router
+from routes.admin_dashboard import router as admin_dashboard_router
+from routes.admin_disease_info import router as admin_disease_info_router
+from routes.admin_user_controls import router as admin_user_controls_router
+from routes.admin_system_logs import router as admin_system_logs_router
+from routes.admin_feedback import router as admin_feedback_router
+from routes.admin_settings import router as admin_settings_router
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Startup
+    # Table Creation
+    User.create_table()
+    Disease.create_table()
+    Diagnosis.create_table()
+
+    # Start notification scheduler in background thread
+    if not os.getenv('TESTING'):
+        threading.Thread(target=start_scheduler, daemon=True).start()
+
+    yield
+    # Shutdown
+    # Add any cleanup here if needed
+
 def create_app():
-    app = Flask(__name__)
-
-    app.config.from_object(Config)
-
-    # Add secret key for session management
-    app.secret_key = Config.SECRET_KEY
-
-    # Configure session cookie for cross-origin requests in local dev
-    app.config.update(
-        SESSION_COOKIE_SAMESITE='Lax',
-        SESSION_COOKIE_SECURE=False,  # Set True if using HTTPS
-        PERMANENT_SESSION_LIFETIME=timedelta(minutes=30)  # Session timeout of 30 minutes
+    app = FastAPI(
+        title="HealthMate API",
+        description="A comprehensive health management API",
+        version="1.0.0",
+        lifespan=lifespan
     )
 
     # --- Logging ---
@@ -39,7 +67,7 @@ def create_app():
     )
 
     # Add file handler for production logging
-    if not app.debug:
+    if not os.getenv('FLASK_DEBUG', False):
         if not os.path.exists('logs'):
             os.mkdir('logs')
         file_handler = RotatingFileHandler('logs/backend.log', maxBytes=10240, backupCount=10)
@@ -47,104 +75,68 @@ def create_app():
             '%(asctime)s %(levelname)s: %(message)s [in %(pathname)s:%(lineno)d]'
         ))
         file_handler.setLevel(log_level)
-        app.logger.addHandler(file_handler)
-        app.logger.setLevel(log_level)
-        app.logger.info('Backend startup')
-
-    app.config['DEBUG'] = os.getenv('FLASK_DEBUG', False)
+        logging.getLogger().addHandler(file_handler)
 
     # --- CORS ---
-    CORS(app, resources={
-        r"/*": {
-            "origins": Config.CORS_ORIGINS,
-            "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-            "allow_headers": ["Content-Type", "Authorization", "Accept"],
-            "supports_credentials": True,
-            "expose_headers": ["Content-Type", "Authorization"]
-        }
-    })
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=Config.CORS_ORIGINS,
+        allow_credentials=True,
+        allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+        allow_headers=["Content-Type", "Authorization", "Accept"],
+    )
 
-    # --- Log all incoming requests ---
-    @app.before_request
-    def log_request_info():
-        app.logger.info(f"Incoming request: {request.method} {request.path}")
-        if request.method in ['POST', 'PUT']:
-            content_type = request.headers.get('Content-Type', '')
-            # Allow multipart/form-data for reportanalyzer analyze endpoint
-            if request.path.startswith('/api/reportanalyzer/analyze') and 'multipart/form-data' in content_type:
-                pass
-            # Skip Content-Type check for deactivate, activate, and delete user endpoints to avoid 415 error
-            elif request.path.startswith('/admin/users/deactivate') or request.path.startswith('/admin/users/activate') or request.path.startswith('/admin/users/delete'):
-                pass
-            elif 'application/json' not in content_type:
-                return jsonify({'error': 'Content-Type must be application/json'}), 415
+    # --- Middleware for normalizing path ---
+    @app.middleware("http")
+    async def normalize_path(request: Request, call_next):
+        path = request.scope['path']
+        if path.startswith('//'):
+            request.scope['path'] = '/' + path.lstrip('/')
+        response = await call_next(request)
+        return response
 
-    # --- Handle 415 Unsupported Media Type errors globally ---
-    @app.errorhandler(415)
-    def handle_unsupported_media_type(error):
-        return jsonify({'error': 'Unsupported Media Type'}), 415
+    # --- Middleware for logging requests ---
+    @app.middleware("http")
+    async def log_requests(request: Request, call_next):
+        logging.info(f"Incoming request: {request.method} {request.url.path}")
+        response = await call_next(request)
+        return response
 
-    # --- Handle 500 Internal Server Error ---
-    @app.errorhandler(500)
-    def handle_internal_error(error):
-        app.logger.error(f"Internal error: {str(error)}")
-        return jsonify({'error': 'Internal server error'}), 500
+    # --- Exception Handlers ---
+    @app.exception_handler(500)
+    async def internal_error_handler(request: Request, exc: Exception):
+        logging.error(f"Internal error: {str(exc)}")
+        return JSONResponse(
+            status_code=500,
+            content={"error": "Internal server error"}
+        )
 
     # --- Root Route ---
-    @app.route('/')
-    def index():
-        return jsonify({"message": "HealthMate backend is live"})
+    @app.get("/")
+    async def index():
+        return {"message": "HealthMate backend is live"}
 
-    # --- Table Creation ---
-    User.create_table()
-    Disease.create_table()
-    Diagnosis.create_table()
-
-    # --- Route Blueprints ---
-    from routes.symptom_checker import symptom_checker_bp
-    from routes.user_routes import user_bp
-    from routes.medicine_routes import medicine_bp
-    from routes.health_report import report_bp
-    from routes.profile import profile_bp
-    from routes.medical_history_routes import medical_history_bp
-    from routes.privacycontrol import privacycontrol_bp
-    from routes.dashboard_charts import dashboard_charts_bp
-    from routes.reportanalyzer import reportanalyzer_bp
-    from routes.admin_user_management import admin_user_bp
-    from routes.admin_health_reports import admin_health_reports_bp
-    from routes.admin_analyzer_reports import admin_analyzer_reports_bp
-    from routes.admin_auth import admin_auth_bp
-    from routes.admin_dashboard import admin_dashboard_bp
-    from routes.admin_disease_info import admin_disease_info_bp
-    from routes.admin_user_controls import admin_user_controls_bp
-    from routes.admin_system_logs import admin_system_logs_bp
-    from routes.admin_feedback import admin_feedback_bp
-    from routes.admin_settings import admin_settings_bp
-
-    app.register_blueprint(medication_reminder_bp)
-    app.register_blueprint(symptom_checker_bp)
-    app.register_blueprint(user_bp, url_prefix='/api/user')
-    app.register_blueprint(medicine_bp, url_prefix='/api/medicine')
-    app.register_blueprint(report_bp, url_prefix='/report')  # Full: /report/save
-    app.register_blueprint(profile_bp, url_prefix='/api/user/profile')
-    app.register_blueprint(medical_history_bp, url_prefix='/api/user/medical_history')
-    app.register_blueprint(privacycontrol_bp)
-    app.register_blueprint(dashboard_charts_bp)
-    app.register_blueprint(reportanalyzer_bp, url_prefix='/api/reportanalyzer')
-    app.register_blueprint(admin_user_bp, url_prefix='/admin/users')
-    app.register_blueprint(admin_health_reports_bp, url_prefix='/admin/health_reports')
-    app.register_blueprint(admin_analyzer_reports_bp, url_prefix='/admin/analyzer_reports')
-    app.register_blueprint(admin_auth_bp, url_prefix='/admin/auth')
-    app.register_blueprint(admin_dashboard_bp, url_prefix='/admin/dashboard')
-    app.register_blueprint(admin_disease_info_bp, url_prefix='/admin/disease_info')
-    app.register_blueprint(admin_user_controls_bp, url_prefix='/admin/user_controls')
-    app.register_blueprint(admin_system_logs_bp, url_prefix='/admin/system_logs')
-    app.register_blueprint(admin_feedback_bp, url_prefix='/admin/feedback')
-    app.register_blueprint(admin_settings_bp, url_prefix='/admin/settings')
-
-    # Start notification scheduler in background thread (conditionally)
-    if not app.config.get('TESTING'):
-        threading.Thread(target=start_scheduler, daemon=True).start()
+    # --- Include Routers ---
+    app.include_router(medication_reminder_router)
+    app.include_router(symptom_checker_router)
+    app.include_router(user_router, prefix="/api/user")
+    app.include_router(medicine_router, prefix="/api/medicine")
+    app.include_router(report_router, prefix="/report")
+    app.include_router(profile_router, prefix="/api/user/profile")
+    app.include_router(medical_history_router, prefix="/api/user/medical_history")
+    app.include_router(privacycontrol_router)
+    app.include_router(dashboard_charts_router, prefix="/report/dashboard")
+    app.include_router(reportanalyzer_router, prefix="/api/reportanalyzer")
+    app.include_router(admin_user_router, prefix="/admin/users")
+    app.include_router(admin_health_reports_router, prefix="/admin/health_reports")
+    app.include_router(admin_analyzer_reports_router, prefix="/admin/analyzer_reports")
+    app.include_router(admin_auth_router, prefix="/admin/auth")
+    app.include_router(admin_dashboard_router, prefix="/admin/dashboard")
+    app.include_router(admin_disease_info_router, prefix="/admin/disease_info")
+    app.include_router(admin_user_controls_router, prefix="/admin/user_controls")
+    app.include_router(admin_system_logs_router, prefix="/admin/system_logs")
+    app.include_router(admin_feedback_router, prefix="/admin/feedback")
+    app.include_router(admin_settings_router, prefix="/admin/settings")
 
     return app
 
@@ -154,5 +146,6 @@ def create_cli_app():
 
 # --- Run ---
 if __name__ == '__main__':
+    import uvicorn
     app = create_app()
-    app.run(debug=True)
+    uvicorn.run(app, host="0.0.0.0", port=5000, reload=True)

@@ -1,30 +1,36 @@
-from flask import Blueprint, request, jsonify
-from sqlalchemy.orm import Session
-from database.db import SessionLocal
-from utils.auth import admin_login_required
 import csv
 import os
+from fastapi import APIRouter, Depends, HTTPException, UploadFile, File
+from utils.auth import get_current_admin
+from pydantic import BaseModel
+from typing import Optional
 
-admin_disease_info_bp = Blueprint('admin_disease_info_bp', __name__, url_prefix='/admin/disease_info')
+router = APIRouter()
 
 # In-memory store for symptoms to disease mapping override
 symptom_disease_map = {}
 
-import traceback
-import logging
+class DiseaseRequest(BaseModel):
+    name: str
+    description: Optional[str] = ""
+    medications: Optional[list] = []
+    diets: Optional[list] = []
+    workouts: Optional[list] = []
+    precautions: Optional[list] = []
 
-@admin_disease_info_bp.route('/', methods=['GET'])
-@admin_login_required
-def list_diseases():
+class SymptomMapRequest(BaseModel):
+    symptom: str
+    disease: str
+
+@router.get('/')
+def list_diseases(admin_id: int = Depends(get_current_admin)):
     try:
         # Use absolute path based on project root for CSV file
         base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
         csv_file_path = os.path.join(base_dir, 'backend', 'Training', 'MasterData', 'disease_medication_details_with_timings.csv')
         if not os.path.exists(csv_file_path):
-            logging.error(f'CSV file not found at {csv_file_path}')
-            return jsonify({'error': f'CSV file not found at {csv_file_path}'}), 500
+            raise HTTPException(status_code=500, detail=f'CSV file not found at {csv_file_path}')
         diseases = {}
-        logging.debug(f'Opening CSV file at {csv_file_path}')
         with open(csv_file_path, mode='r', encoding='utf-8') as csvfile:
             reader = csv.DictReader(csvfile, skipinitialspace=True)
             for row in reader:
@@ -43,68 +49,52 @@ def list_diseases():
                 med = row.get('Medicine Name', '').strip()
                 if med and med not in diseases[disease]['medications']:
                     diseases[disease]['medications'].append(med)
-        logging.debug(f'Successfully read {len(diseases)} diseases from CSV')
-        return jsonify(list(diseases.values())), 200
+        return list(diseases.values())
     except Exception as e:
-        logging.error(f'Exception in list_diseases: {str(e)}')
-        logging.error(traceback.format_exc())
-        return jsonify({'error': str(e)}), 500
+        raise HTTPException(status_code=500, detail=str(e))
 
-@admin_disease_info_bp.route('/', methods=['POST'])
-@admin_login_required
-def add_disease():
+@router.post('/')
+def add_disease(request_data: DiseaseRequest, admin_id: int = Depends(get_current_admin)):
     try:
-        data = request.json
         # Here, implement logic to add disease data to persistent storage or CSV
         # For now, just return success
-        return jsonify({'message': 'Disease added successfully'}), 201
+        return {'message': 'Disease added successfully'}
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        raise HTTPException(status_code=500, detail=str(e))
 
-@admin_disease_info_bp.route('/<disease_name>', methods=['PUT'])
-@admin_login_required
-def update_disease(disease_name):
+@router.put('/{disease_name}')
+def update_disease(disease_name: str, request_data: DiseaseRequest, admin_id: int = Depends(get_current_admin)):
     try:
-        data = request.json
         # Implement update logic here
-        return jsonify({'message': f'Disease {disease_name} updated successfully'}), 200
+        return {'message': f'Disease {disease_name} updated successfully'}
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        raise HTTPException(status_code=500, detail=str(e))
 
-@admin_disease_info_bp.route('/<disease_name>', methods=['DELETE'])
-@admin_login_required
-def delete_disease(disease_name):
+@router.delete('/{disease_name}')
+def delete_disease(disease_name: str, admin_id: int = Depends(get_current_admin)):
     try:
         # Implement delete logic here
-        return jsonify({'message': f'Disease {disease_name} deleted successfully'}), 200
+        return {'message': f'Disease {disease_name} deleted successfully'}
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        raise HTTPException(status_code=500, detail=str(e))
 
-@admin_disease_info_bp.route('/bulk_upload', methods=['POST'])
-@admin_login_required
-def bulk_upload():
+@router.post('/bulk_upload')
+def bulk_upload(file: UploadFile = File(...), admin_id: int = Depends(get_current_admin)):
     try:
-        if 'file' not in request.files:
-            return jsonify({'error': 'No file part'}), 400
-        file = request.files['file']
-        if file.filename == '':
-            return jsonify({'error': 'No selected file'}), 400
+        if not file.filename:
+            raise HTTPException(status_code=400, detail='No selected file')
         # Save and process CSV file for bulk upload
         # For now, just return success
-        return jsonify({'message': 'Bulk upload successful'}), 200
+        return {'message': 'Bulk upload successful'}
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        raise HTTPException(status_code=500, detail=str(e))
 
-@admin_disease_info_bp.route('/map_symptom', methods=['POST'])
-@admin_login_required
-def map_symptom():
+@router.post('/map_symptom')
+def map_symptom(request_data: SymptomMapRequest, admin_id: int = Depends(get_current_admin)):
     try:
-        data = request.json
-        symptom = data.get('symptom')
-        disease = data.get('disease')
-        if not symptom or not disease:
-            return jsonify({'error': 'Symptom and disease required'}), 400
-        symptom_disease_map[symptom.lower()] = disease
-        return jsonify({'message': f'Symptom {symptom} mapped to disease {disease}'}), 200
+        if not request_data.symptom or not request_data.disease:
+            raise HTTPException(status_code=400, detail='Symptom and disease required')
+        symptom_disease_map[request_data.symptom.lower()] = request_data.disease
+        return {'message': f'Symptom {request_data.symptom} mapped to disease {request_data.disease}'}
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        raise HTTPException(status_code=500, detail=str(e))

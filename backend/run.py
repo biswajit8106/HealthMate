@@ -1,9 +1,9 @@
 import os
+import uvicorn
 from app import create_app
 
 app = create_app()
 
 if __name__ == '__main__':
-    with app.app_context():
-        port = int(os.environ.get('PORT', 5000))
-        app.run(host='0.0.0.0', port=port)
+    port = int(os.environ.get('PORT', 5000))
+    uvicorn.run(app, host='0.0.0.0', port=port, reload=True)

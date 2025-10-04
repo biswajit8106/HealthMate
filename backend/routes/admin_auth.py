@@ -1,41 +1,36 @@
-from flask import Blueprint, request, jsonify, session
+from fastapi import APIRouter, Depends, HTTPException, Response
 from werkzeug.security import check_password_hash
 from sqlalchemy.orm import Session
-from database.db import SessionLocal
+from database.db import get_db
 from models.user_model import User
+from pydantic import BaseModel
 
-admin_auth_bp = Blueprint('admin_auth_bp', __name__, url_prefix='/admin/auth')
+router = APIRouter()
 
-import traceback
-from flask import current_app
+class AdminLoginRequest(BaseModel):
+    email: str
+    password: str
 
-@admin_auth_bp.route('/login', methods=['POST'])
-def admin_login():
-    data = request.get_json()
-    email = data.get('email')
-    password = data.get('password')
+class AuthResponse(BaseModel):
+    success: bool
+    message: str
 
-    if not email or not password:
-        return jsonify({'success': False, 'message': 'Email and password are required'}), 400
+@router.post('/login', response_model=AuthResponse)
+def admin_login(request_data: AdminLoginRequest, response: Response, db: Session = Depends(get_db)):
+    if not request_data.email or not request_data.password:
+        raise HTTPException(status_code=400, detail='Email and password are required')
 
-    db: Session = SessionLocal()
     try:
-        user = db.query(User).filter(User.email == email, User.is_admin == True).first()
-        if user and check_password_hash(user.password, password):
-            session['admin_user_id'] = user.user_id
-            session.permanent = True
-            return jsonify({'success': True, 'message': 'Login successful'})
+        user = db.query(User).filter(User.email == request_data.email, User.is_admin == True).first()
+        if user and check_password_hash(user.password, request_data.password):
+            response.set_cookie(key='admin_user_id', value=str(user.user_id), httponly=True)
+            return {'success': True, 'message': 'Login successful'}
         else:
-            return jsonify({'success': False, 'message': 'Invalid email or password'}), 401
+            raise HTTPException(status_code=401, detail='Invalid email or password')
     except Exception as e:
-        current_app.logger.error(f"Exception during admin login: {e}")
-        current_app.logger.error(traceback.format_exc())
-        db.rollback()
-        return jsonify({'success': False, 'message': 'Internal server error'}), 500
-    finally:
-        db.close()
+        raise HTTPException(status_code=500, detail='Internal server error')
 
-@admin_auth_bp.route('/logout', methods=['POST'])
-def admin_logout():
-    session.pop('admin_user_id', None)
-    return jsonify({'success': True, 'message': 'Logout successful'})
+@router.post('/logout', response_model=AuthResponse)
+def admin_logout(response: Response):
+    response.delete_cookie(key='admin_user_id')
+    return {'success': True, 'message': 'Logout successful'}
