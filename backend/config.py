@@ -17,11 +17,11 @@ class Config:
     TRAINING_DATA_PATH = os.path.join('Training', 'Data', 'Training.csv').replace('\\', '/')
     MODEL_SAVE_PATH = os.path.join('models', 'trained_model.pkl').replace('\\', '/')
 
+    # API Keys
+    INFERMEDICA_APP_ID = os.getenv('INFERMEDICA_APP_ID')
+    INFERMEDICA_APP_KEY = os.getenv('INFERMEDICA_APP_KEY')
+    GEMINI_API_KEY = os.getenv('GEMINI_API_KEY')
+
 # Security
 JWT_SECRET_KEY = os.getenv('JWT_SECRET_KEY', 'your-jwt-secret-key-here')
 JWT_ACCESS_TOKEN_EXPIRES = int(os.getenv('JWT_ACCESS_TOKEN_EXPIRES', 3600))  # 1 hour
-
-# API Keys
-INFERMEDICA_APP_ID = os.getenv('INFERMEDICA_APP_ID')
-INFERMEDICA_APP_KEY = os.getenv('INFERMEDICA_APP_KEY')
-GEMINI_API_KEY = os.getenv('GEMINI_API_KEY')

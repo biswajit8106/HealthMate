@@ -1,14 +1,14 @@
-from .symptom_checker import symptom_checker_bp
-from .user_routes import user_bp
-from .medicine_routes import medicine_bp
-from .medical_history_routes import medical_history_bp
-from .dashboard_charts import dashboard_charts_bp
-from .admin_user_management import admin_user_bp
-from .admin_health_reports import admin_health_reports_bp
-from .admin_analyzer_reports import admin_analyzer_reports_bp
-from .admin_auth import admin_auth_bp
-from .admin_disease_info import admin_disease_info_bp
-from .admin_user_controls import admin_user_controls_bp
-from .admin_system_logs import admin_system_logs_bp
-from .admin_feedback import admin_feedback_bp
-from .admin_settings import admin_settings_bp
+from .symptom_checker import router as symptom_checker_router
+from .user_routes import router as user_router
+from .medicine_routes import router as medicine_router
+from .medical_history_routes import router as medical_history_router
+from .dashboard_charts import router as dashboard_charts_router
+from .admin_user_management import router as admin_user_router
+from .admin_health_reports import router as admin_health_reports_router
+from .admin_analyzer_reports import router as admin_analyzer_reports_router
+from .admin_auth import router as admin_auth_router
+from .admin_disease_info import router as admin_disease_info_router
+from .admin_user_controls import router as admin_user_controls_router
+from .admin_system_logs import router as admin_system_logs_router
+from .admin_feedback import router as admin_feedback_router
+from .admin_settings import router as admin_settings_router

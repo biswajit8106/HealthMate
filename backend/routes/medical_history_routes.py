@@ -1,13 +1,43 @@
-from flask import Blueprint, request, jsonify, session
+from fastapi import APIRouter, Depends, HTTPException
+from sqlalchemy.orm import Session
 from database.db import get_db
 from models.health_report_model import HealthReport
-from sqlalchemy.orm import Session
+from pydantic import BaseModel
+from typing import List, Optional
 import json
-from utils.auth import login_required
+from utils.auth import get_current_user
 
-medical_history_bp = Blueprint('medical_history_bp', __name__, url_prefix='/api/user/medical_history')
+router = APIRouter()
 
-import logging
+class MedicalHistoryBase(BaseModel):
+    name: Optional[str] = None
+    gender: Optional[str] = None
+    age: Optional[int] = None
+    symptoms: Optional[List[str]] = []
+    predicted_disease: Optional[str] = None
+    confidence: Optional[float] = None
+    description: Optional[str] = None
+    precautions: Optional[List[str]] = []
+    medications: Optional[List[str]] = []
+    diets: Optional[List[str]] = []
+    workouts: Optional[List[str]] = []
+
+class MedicalHistoryCreate(MedicalHistoryBase):
+    name: str
+    gender: str
+    age: int
+    predicted_disease: str
+    confidence: float
+
+class MedicalHistoryUpdate(MedicalHistoryBase):
+    id: int
+
+class MedicalHistoryResponse(MedicalHistoryBase):
+    id: int
+    created_at: Optional[str] = None
+
+    class Config:
+        orm_mode = True
 
 def serialize_report(report):
     return {
@@ -26,131 +56,95 @@ def serialize_report(report):
         'created_at': report.created_at.isoformat() if report.created_at else None
     }
 
-@medical_history_bp.route('', methods=['GET'], strict_slashes=False)
-@medical_history_bp.route('/', methods=['GET'], strict_slashes=False)
-@login_required
-def get_medical_history():
-    try:
-        user_id = session.get('user_id')
-        if not user_id:
-            return jsonify({'error': 'Authentication required'}), 401
+@router.get('', response_model=List[MedicalHistoryResponse])
+def get_medical_history(user_id: int = Depends(get_current_user), db: Session = Depends(get_db)):
+    reports = db.query(HealthReport).filter_by(user_id=user_id).all()
 
-        db: Session = next(get_db())
-        reports = db.query(HealthReport).filter_by(user_id=user_id).all()
+    if not reports:
+        raise HTTPException(status_code=404, detail='Medical history not found')
 
-        if not reports:
-            return jsonify({'error': 'Medical history not found'}), 404
+    # Deduplicate reports by predicted_disease and created_at
+    unique_reports = {}
+    for r in reports:
+        key = (r.predicted_disease, r.created_at)
+        if key not in unique_reports:
+            unique_reports[key] = r
 
-        # Deduplicate reports by predicted_disease and created_at
-        unique_reports = {}
-        for r in reports:
-            key = (r.predicted_disease, r.created_at)
-            if key not in unique_reports:
-                unique_reports[key] = r
+    return [serialize_report(r) for r in unique_reports.values()]
 
-        return jsonify([serialize_report(r) for r in unique_reports.values()]), 200
-
-    except Exception as e:
-        logging.error(f"Error in get_medical_history: {e}", exc_info=True)
-        return jsonify({'error': 'Internal server error'}), 500
-
-@medical_history_bp.route('/<int:report_id>', methods=['GET'])
-@login_required
-def get_medical_history_by_id(report_id):
-    user_id = session.get('user_id')
-    if not user_id:
-        return jsonify({'error': 'Authentication required'}), 401
-
-    db: Session = next(get_db())
+@router.get('/{report_id}', response_model=MedicalHistoryResponse)
+def get_medical_history_by_id(report_id: int, user_id: int = Depends(get_current_user), db: Session = Depends(get_db)):
     report = db.query(HealthReport).filter_by(id=report_id, user_id=user_id).first()
 
     if not report:
-        return jsonify({'error': 'Medical history not found'}), 404
+        raise HTTPException(status_code=404, detail='Medical history not found')
 
-    return jsonify(serialize_report(report)), 200
+    return serialize_report(report)
 
-@medical_history_bp.route('/list', methods=['GET'])
-@login_required
-def list_medical_history_reports():
-    user_id = session.get('user_id')
-    if not user_id:
-        return jsonify({'error': 'Authentication required'}), 401
-
-    db: Session = next(get_db())
+@router.get('/list')
+def list_medical_history_reports(user_id: int = Depends(get_current_user), db: Session = Depends(get_db)):
     reports = db.query(HealthReport).filter_by(user_id=user_id).all()
     report_list = [{'id': r.id, 'name': r.name} for r in reports]
-    return jsonify(report_list), 200
+    return report_list
 
-@medical_history_bp.route('', methods=['PUT'], strict_slashes=False)
-@medical_history_bp.route('/', methods=['PUT'], strict_slashes=False)
-@login_required
-def update_medical_history():
-    data = request.get_json()
-    user_id = session.get('user_id')
-    if not user_id:
-        return jsonify({'error': 'Authentication required'}), 401
-
-    report_id = data.get('id')
-
-    if not report_id:
-        return jsonify({'error': 'Missing id'}), 400
-
-    db: Session = next(get_db())
-    report = db.query(HealthReport).filter_by(id=report_id, user_id=user_id).first()
+@router.put('', response_model=dict)
+def update_medical_history(request_data: MedicalHistoryUpdate, user_id: int = Depends(get_current_user), db: Session = Depends(get_db)):
+    report = db.query(HealthReport).filter_by(id=request_data.id, user_id=user_id).first()
 
     if not report:
-        return jsonify({'error': 'Medical history not found'}), 404
+        raise HTTPException(status_code=404, detail='Medical history not found')
 
     # Update fields if provided
-    report.name = data.get('name', report.name)
-    report.gender = data.get('gender', report.gender)
-    report.age = data.get('age', report.age)
-    report.symptoms = json.dumps(data.get('symptoms', json.loads(report.symptoms) if report.symptoms else []))
-    report.predicted_disease = data.get('predicted_disease', report.predicted_disease)
-    report.confidence = data.get('confidence', report.confidence)
-    report.description = data.get('description', report.description)
-    report.precautions = json.dumps(data.get('precautions', json.loads(report.precautions) if report.precautions else []))
-    report.medications = json.dumps(data.get('medications', json.loads(report.medications) if report.medications else []))
-    report.diets = json.dumps(data.get('diets', json.loads(report.diets) if report.diets else []))
-    report.workouts = json.dumps(data.get('workouts', json.loads(report.workouts) if report.workouts else []))
+    if request_data.name is not None:
+        report.name = request_data.name
+    if request_data.gender is not None:
+        report.gender = request_data.gender
+    if request_data.age is not None:
+        report.age = request_data.age
+    if request_data.symptoms is not None:
+        report.symptoms = json.dumps(request_data.symptoms)
+    if request_data.predicted_disease is not None:
+        report.predicted_disease = request_data.predicted_disease
+    if request_data.confidence is not None:
+        report.confidence = request_data.confidence
+    if request_data.description is not None:
+        report.description = request_data.description
+    if request_data.precautions is not None:
+        report.precautions = json.dumps(request_data.precautions)
+    if request_data.medications is not None:
+        report.medications = json.dumps(request_data.medications)
+    if request_data.diets is not None:
+        report.diets = json.dumps(request_data.diets)
+    if request_data.workouts is not None:
+        report.workouts = json.dumps(request_data.workouts)
 
     try:
         db.commit()
-        return jsonify({'message': 'Medical history updated successfully'}), 200
+        return {'message': 'Medical history updated successfully'}
     except Exception as e:
         db.rollback()
-        return jsonify({'error': str(e)}), 500
+        raise HTTPException(status_code=500, detail=str(e))
 
-@medical_history_bp.route('', methods=['POST'], strict_slashes=False)
-@medical_history_bp.route('/', methods=['POST'], strict_slashes=False)
-@login_required
-def create_medical_history():
-    data = request.get_json()
-    user_id = session.get('user_id')
-    if not user_id:
-        return jsonify({'error': 'Authentication required'}), 401
-
+@router.post('', response_model=dict)
+def create_medical_history(request_data: MedicalHistoryCreate, user_id: int = Depends(get_current_user), db: Session = Depends(get_db)):
     try:
-        db: Session = next(get_db())
         new_report = HealthReport(
             user_id=user_id,
-            name=data.get('name'),
-            gender=data.get('gender'),
-            age=data.get('age'),
-            symptoms=json.dumps(data.get('symptoms', [])),
-            predicted_disease=data.get('predicted_disease'),
-            confidence=data.get('confidence'),
-            description=data.get('description'),
-            precautions=json.dumps(data.get('precautions', [])),
-            medications=json.dumps(data.get('medications', [])),
-            diets=json.dumps(data.get('diets', [])),
-            workouts=json.dumps(data.get('workouts', []))
+            name=request_data.name,
+            gender=request_data.gender,
+            age=request_data.age,
+            symptoms=json.dumps(request_data.symptoms),
+            predicted_disease=request_data.predicted_disease,
+            confidence=request_data.confidence,
+            description=request_data.description,
+            precautions=json.dumps(request_data.precautions),
+            medications=json.dumps(request_data.medications),
+            diets=json.dumps(request_data.diets),
+            workouts=json.dumps(request_data.workouts)
         )
         db.add(new_report)
         db.commit()
         db.refresh(new_report)
-        return jsonify({'message': 'Medical history created successfully', 'id': new_report.id}), 201
+        return {'message': 'Medical history created successfully', 'id': new_report.id}
     except Exception as e:
         db.rollback()
-        logging.error(f"Error in create_medical_history: {e}", exc_info=True)
-        return jsonify({'error': 'Internal server error'}), 500

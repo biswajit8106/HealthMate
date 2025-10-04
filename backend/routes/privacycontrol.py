@@ -1,42 +1,40 @@
-from flask import Blueprint, jsonify, request, session
-from utils.auth import login_required
-from database.db import get_db
+from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
+from database.db import get_db
 from models.user_model import User
+from utils.auth import get_current_user
+from pydantic import BaseModel
 
-privacycontrol_bp = Blueprint('privacycontrol', __name__)
+router = APIRouter()
 
-@privacycontrol_bp.route('/user/privacy', methods=['GET'])
-@login_required
-def get_privacy_settings():
-    db: Session = next(get_db())
-    user = User.get_user_by_id(db, session['user_id'])
+class PrivacySettingsRequest(BaseModel):
+    dataSharing: bool
+
+class PrivacySettingsResponse(BaseModel):
+    dataSharing: bool
+
+@router.get('/user/privacy', response_model=PrivacySettingsResponse)
+def get_privacy_settings(user_id: int = Depends(get_current_user), db: Session = Depends(get_db)):
+    user = User.get_user_by_id(db, user_id)
     if user:
-        return jsonify({"dataSharing": getattr(user, "dataSharing", False)})
-    return jsonify({"error": "User not found"}), 404
+        return {"dataSharing": getattr(user, "dataSharing", False)}
+    raise HTTPException(status_code=404, detail="User not found")
 
-@privacycontrol_bp.route('/user/privacy', methods=['PUT'])
-@login_required
-def update_privacy_settings():
-    data = request.get_json()
-    if 'dataSharing' not in data:
-        return jsonify({"error": "Missing dataSharing field"}), 400
-    db: Session = next(get_db())
-    user = User.get_user_by_id(db, session['user_id'])
+@router.put('/user/privacy', response_model=dict)
+def update_privacy_settings(request_data: PrivacySettingsRequest, user_id: int = Depends(get_current_user), db: Session = Depends(get_db)):
+    user = User.get_user_by_id(db, user_id)
     if user:
-        setattr(user, "dataSharing", data['dataSharing'])
+        setattr(user, "dataSharing", request_data.dataSharing)
         db.commit()
-        return jsonify({"message": "Privacy settings updated"})
-    return jsonify({"error": "User not found"}), 404
+        return {"message": "Privacy settings updated"}
+    raise HTTPException(status_code=404, detail="User not found")
 
-@privacycontrol_bp.route('/user/history', methods=['DELETE'])
-@login_required
-def delete_history():
+@router.delete('/user/history', response_model=dict)
+def delete_history(user_id: int = Depends(get_current_user), db: Session = Depends(get_db)):
     # Assuming User model has a method to delete history
-    db: Session = next(get_db())
-    user = User.get_user_by_id(db, session['user_id'])
+    user = User.get_user_by_id(db, user_id)
     if user:
         # Implement actual history deletion logic here
         # For now, simulate success
-        return jsonify({"message": "History deleted successfully"})
-    return jsonify({"error": "User not found"}), 404
+        return {"message": "History deleted successfully"}
+    raise HTTPException(status_code=404, detail="User not found")

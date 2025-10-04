@@ -1,20 +1,32 @@
-from flask import Blueprint, request, jsonify, session
+from fastapi import APIRouter, Depends, HTTPException, Response, Cookie
 from models.user_model import User
 from werkzeug.security import generate_password_hash, check_password_hash
-
-user_bp = Blueprint('user_bp', __name__)
-
 from database.db import get_db
 from sqlalchemy.orm import Session
+from utils.auth import get_current_user
+from pydantic import BaseModel
 
-@user_bp.route('/register', methods=['POST'])
-def register():
-    data = request.get_json()
+router = APIRouter()
+
+class RegisterRequest(BaseModel):
+    username: str
+    email: str
+    age: int
+    gender: str
+    password: str
+
+class LoginRequest(BaseModel):
+    email: str
+    password: str
+
+@router.post('/register', status_code=201)
+def register(request_data: RegisterRequest, db: Session = Depends(get_db)):
+    data = request_data.dict()
     
     # Validate required fields
     required_fields = ['username', 'email', 'age', 'gender', 'password']
     if not all(field in data for field in required_fields):
-        return jsonify({"message": "Missing required fields"}), 400
+        raise HTTPException(status_code=400, detail="Missing required fields")
 
     hashed_password = generate_password_hash(data['password'])
 
@@ -26,27 +38,23 @@ def register():
         password=hashed_password
     )
 
-    db: Session = next(get_db())
     result = User.add_user(db, new_user)
     if isinstance(result, dict) and "error" in result:
-        return jsonify({"message": result["error"]}), 400
-    return jsonify({"message": "User registered successfully!"}), 201
+        raise HTTPException(status_code=400, detail=result["error"])
+    return {"message": "User registered successfully!"}
 
-
-@user_bp.route('/login', methods=['POST'])
-def login():
-    data = request.get_json()
+@router.post('/login')
+def login(request_data: LoginRequest, response: Response, db: Session = Depends(get_db)):
+    data = request_data.dict()
     
     if 'email' not in data or 'password' not in data:
-        return jsonify({"message": "Email and password are required"}), 400
+        raise HTTPException(status_code=400, detail="Email and password are required")
 
-    db: Session = next(get_db())
     user = User.get_user_by_email(db, data['email'])
 
     if user and check_password_hash(user.password, data['password']):
-        session['user_id'] = user.user_id
-        session.permanent = True
-        session.modified = True
+        # Set cookie for session-like behavior
+        response.set_cookie(key="user_id", value=str(user.user_id), httponly=True)
         user_data = {
             "user_id": user.user_id,
             "name": user.name,
@@ -54,29 +62,19 @@ def login():
             "age": user.age,
             "gender": user.gender
         }
-        response = jsonify({"message": "Login successful!", "user": user_data})
-        # Log response headers for debugging
-        print("Response headers before return:", response.headers)
-        # Log Set-Cookie header if present
-        if 'Set-Cookie' in response.headers:
-            print("Set-Cookie header:", response.headers['Set-Cookie'])
-        else:
-            print("No Set-Cookie header found in response")
-        return response
+        return {"message": "Login successful!", "user": user_data}
 
-    return jsonify({"message": "Invalid email or password!"}), 401
+    raise HTTPException(status_code=401, detail="Invalid email or password!")
 
+@router.post('/logout')
+def logout(response: Response):
+    response.delete_cookie(key="user_id")
+    return {"message": "Logout successful!"}
 
-@user_bp.route('/logout', methods=['POST'])
-def logout():
-    session.clear()
-    return jsonify({"message": "Logout successful!"}), 200
-
-@user_bp.route('/session', methods=['GET'])
-def session_info():
-    if 'user_id' in session:
-        db: Session = next(get_db())
-        user = User.get_user_by_id(db, session['user_id'])
+@router.get('/session')
+def session_info(user_id: int = Cookie(None), db: Session = Depends(get_db)):
+    if user_id:
+        user = User.get_user_by_id(db, user_id)
         if user:
             user_data = {
                 "user_id": user.user_id,
@@ -85,4 +83,4 @@ def session_info():
                 "age": user.age,
                 "gender": user.gender
             }
-            return jsonify({"logged_in": True, "user": user_data})
+            return {"logged_in": True, "user": user_data}

@@ -1,28 +1,20 @@
-from flask import Blueprint, request, jsonify
-from flask import Blueprint, request, jsonify, session
+from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 import json, traceback
-from database.db import SessionLocal
+from database.db import get_db
 from models.health_report_model import HealthReport
-from utils.auth import login_required
+from utils.auth import get_current_user
 from utils.disease_medication_utils import disease_medication_data
 
-medicine_bp = Blueprint('medicine', __name__)
+router = APIRouter()
 
-@medicine_bp.route('/recent', methods=['GET'])
-@login_required
-def get_recent_medicine():
+@router.get('/recent')
+def get_recent_medicine(user_id: int = Depends(get_current_user), db: Session = Depends(get_db)):
     try:
-        user_id = session.get('user_id')
-        if not user_id:
-            return jsonify({'error': 'User not logged in'}), 401
-
-        db: Session = SessionLocal()
         recent_report = db.query(HealthReport).filter_by(user_id=user_id).order_by(HealthReport.created_at.desc()).first()
-        db.close()
 
         if not recent_report:
-            return jsonify({'message': 'No recent report found', 'predicted_disease': None, 'medications': []}), 200
+            return {'message': 'No recent report found', 'predicted_disease': None, 'medications': []}
 
         medications = []
         try:
@@ -51,11 +43,11 @@ def get_recent_medicine():
                 'timing': timing
             })
 
-        return jsonify({
+        return {
             'predicted_disease': recent_report.predicted_disease,
             'medications': enriched_meds
-        }), 200
+        }
 
     except Exception as e:
         traceback.print_exc()
-        return jsonify({'error': str(e)}), 500
+        raise HTTPException(status_code=500, detail=str(e))

@@ -1,7 +1,9 @@
-from flask import Blueprint, request, jsonify
-from utils.auth import admin_login_required
+from fastapi import APIRouter, Depends, HTTPException
+from utils.auth import get_current_admin
+from pydantic import BaseModel
+from typing import Optional
 
-admin_settings_bp = Blueprint('admin_settings_bp', __name__, url_prefix='/admin/settings')
+router = APIRouter()
 
 # In-memory settings store for demonstration
 settings_store = {
@@ -10,22 +12,24 @@ settings_store = {
     'ml_confidence_threshold': 0.8
 }
 
-@admin_settings_bp.route('/', methods=['GET'])
-@admin_login_required
-def get_settings():
-    try:
-        return jsonify(settings_store), 200
-    except Exception as e:
-        return jsonify({'error': str(e)}), 500
+class UpdateSettingsRequest(BaseModel):
+    max_file_size: Optional[int] = None
+    report_retention_days: Optional[int] = None
+    ml_confidence_threshold: Optional[float] = None
 
-@admin_settings_bp.route('/', methods=['PUT'])
-@admin_login_required
-def update_settings():
+@router.get('/')
+def get_settings(admin_id: int = Depends(get_current_admin)):
     try:
-        data = request.json
-        for key in settings_store.keys():
-            if key in data:
-                settings_store[key] = data[key]
-        return jsonify({'message': 'Settings updated successfully'}), 200
+        return settings_store
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        raise HTTPException(status_code=500, detail=str(e))
+
+@router.put('/')
+def update_settings(request_data: UpdateSettingsRequest, admin_id: int = Depends(get_current_admin)):
+    try:
+        for key, value in request_data.dict(exclude_unset=True).items():
+            if key in settings_store:
+                settings_store[key] = value
+        return {'message': 'Settings updated successfully'}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))

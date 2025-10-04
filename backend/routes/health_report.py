@@ -1,94 +1,83 @@
 import os
-from flask import Blueprint, request, send_file, jsonify, session
+from fastapi import APIRouter, Depends, HTTPException, Response
+from fastapi.responses import StreamingResponse
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import A4
 from reportlab.lib import colors
 from reportlab.lib.units import inch
 from sqlalchemy.orm import Session
 import io, json, datetime, traceback, ast
-from database.db import SessionLocal
+from database.db import get_db
 from models.health_report_model import HealthReport
 from models.user_model import User
+from utils.auth import get_current_user
+from pydantic import BaseModel
 
-import collections
-from flask import Blueprint, request, send_file, jsonify, session
-from reportlab.pdfgen import canvas
-from reportlab.lib.pagesizes import A4
-from reportlab.lib import colors
-from reportlab.lib.units import inch
-from sqlalchemy.orm import Session
-import io, json, datetime, traceback, ast
-from database.db import SessionLocal
-from models.health_report_model import HealthReport
-from models.user_model import User
+router = APIRouter()
 
-report_bp = Blueprint('report_bp', __name__)
+class SaveReportRequest(BaseModel):
+    name: str
+    gender: str
+    age: int
+    symptoms: list[str]
+    predicted_disease: str
+    confidence: float
+    description: str = "No description available."
+    precautions: list[str]
+    medications: list[str]
+    diets: list[str]
+    workouts: list[str]
 
-# ----------------------------------------
-# 1. Save and Generate PDF Report
-# ----------------------------------------
-from utils.auth import login_required
-
-@report_bp.route('/save', methods=['POST'])
-@login_required
-def save_and_generate_report():
+@router.post('/save')
+def save_and_generate_report(request_data: SaveReportRequest, user_id: int = Depends(get_current_user), db: Session = Depends(get_db)):
     try:
-        data = request.get_json()
-        user_id = session.get('user_id')
-        if not user_id:
-            return jsonify({'error': 'User not logged in'}), 401
-
-        db: Session = SessionLocal()
-
         # Clean and process fields
         def clean_list(field):
-            raw = data.get(field, [])
+            raw = getattr(request_data, field, [])
             if raw and isinstance(raw[0], str) and raw[0].startswith("["):
                 return json.dumps(ast.literal_eval(raw[0]))
             return json.dumps(raw)
 
         report = HealthReport(
             user_id=user_id,
-            name=data.get('name'),
-            gender=data.get('gender'),
-            age=data.get('age'),
-            symptoms=json.dumps(data.get('symptoms', [])),
-            predicted_disease=data.get('predicted_disease'),
-            confidence=data.get('confidence'),
-            description=data.get('description') or "No description available.",
-            precautions=json.dumps(data.get('precautions', [])),
+            name=request_data.name,
+            gender=request_data.gender,
+            age=request_data.age,
+            symptoms=json.dumps(request_data.symptoms),
+            predicted_disease=request_data.predicted_disease,
+            confidence=request_data.confidence,
+            description=request_data.description,
+            precautions=json.dumps(request_data.precautions),
             medications=clean_list('medications'),
             diets=clean_list('diets'),
-            workouts=json.dumps(data.get('workouts', [])),
+            workouts=json.dumps(request_data.workouts),
             created_at=datetime.datetime.utcnow()
         )
 
         db.add(report)
         db.commit()
         db.refresh(report)
-        db.close()
 
         # Generate PDF
-        return generate_pdf_response(report)
+        buffer = generate_pdf_buffer(report)
+        return StreamingResponse(
+            buffer,
+            media_type='application/pdf',
+            headers={"Content-Disposition": f"attachment; filename={report.name}_health_report.pdf"}
+        )
 
     except Exception as e:
         traceback.print_exc()
-        return jsonify({'error': str(e)}), 500
+        raise HTTPException(status_code=500, detail=str(e))
 
 
 # ----------------------------------------
 # 2. Get User Report History
 # ----------------------------------------
-@report_bp.route('/health/reports', methods=['GET'])
-def get_user_health_reports():
+@router.get('/health/reports')
+def get_user_health_reports(user_id: int = Depends(get_current_user), db: Session = Depends(get_db)):
     try:
-        user_id = session.get('user_id')
-        if not user_id:
-            return jsonify({'error': 'User not logged in'}), 401
-
-        db: Session = SessionLocal()
         reports = db.query(HealthReport).filter_by(user_id=user_id).order_by(HealthReport.created_at.desc()).all()
-        db.close()
 
         # Deduplicate reports by predicted_disease and created_at
         unique_reports = {}
@@ -97,7 +86,7 @@ def get_user_health_reports():
             if key not in unique_reports:
                 unique_reports[key] = r
 
-        return jsonify([{
+        return [{
             'id': r.id,
             'title': f"{r.predicted_disease} Report",
             'name': r.name,
@@ -107,41 +96,40 @@ def get_user_health_reports():
             'confidence': r.confidence,
             'description': r.description,
             'date': r.created_at.isoformat() if r.created_at else None
-        } for r in unique_reports.values()]), 200
+        } for r in unique_reports.values()]
 
     except Exception as e:
         traceback.print_exc()
-        return jsonify({'error': str(e)}), 500
+        raise HTTPException(status_code=500, detail=str(e))
 
 
 # ----------------------------------------
 # 3. Download Report by ID
 # ----------------------------------------
-@report_bp.route('/download/<int:report_id>', methods=['GET'])
-def download_report(report_id):
+@router.get('/download/{report_id}')
+def download_report(report_id: int, user_id: int = Depends(get_current_user), db: Session = Depends(get_db)):
     try:
-        user_id = session.get('user_id')
-        if not user_id:
-            return jsonify({'error': 'User not logged in'}), 401
-
-        db: Session = SessionLocal()
         report = db.query(HealthReport).filter_by(id=report_id, user_id=user_id).first()
-        db.close()
 
         if not report:
-            return jsonify({'error': 'Report not found'}), 404
+            raise HTTPException(status_code=404, detail='Report not found')
 
-        return generate_pdf_response(report)
+        buffer = generate_pdf_buffer(report)
+        return StreamingResponse(
+            buffer,
+            media_type='application/pdf',
+            headers={"Content-Disposition": f"attachment; filename={report.name}_health_report.pdf"}
+        )
 
     except Exception as e:
         traceback.print_exc()
-        return jsonify({'error': str(e)}), 500
+        raise HTTPException(status_code=500, detail=str(e))
 
 
 # ----------------------------------------
 # 4. PDF Generator Helper
 # ----------------------------------------
-def generate_pdf_response(report):
+def generate_pdf_buffer(report):
     buffer = io.BytesIO()
     c = canvas.Canvas(buffer, pagesize=A4)
     logo_path = os.path.join(os.path.dirname(__file__), '..', 'static', 'logo.png')
@@ -210,9 +198,4 @@ def generate_pdf_response(report):
     c.save()
     buffer.seek(0)
 
-    return send_file(
-        buffer,
-        as_attachment=True,
-        download_name=f"{report.name}_health_report.pdf",
-        mimetype='application/pdf'
-    )
+    return buffer

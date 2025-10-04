@@ -1,0 +1,60 @@
+2025-10-04 14:59:22,613 INFO: BEGIN (implicit) [in H:\Healtmate_new_with_Eda\HealthMate\.venv\lib\site-packages\sqlalchemy\engine\base.py:1094]
+2025-10-04 14:59:22,618 INFO: SELECT users.user_id AS users_user_id, users.name AS users_name, users.email AS users_email, users.age AS users_age, users.gender AS users_gender, users.password AS users_password, users.is_admin AS users_is_admin, users.is_active AS users_is_active, users.is_deleted AS users_is_deleted, users.created_at AS users_created_at 
+FROM users [in H:\Healtmate_new_with_Eda\HealthMate\.venv\lib\site-packages\sqlalchemy\engine\base.py:1899]
+2025-10-04 14:59:22,618 INFO: [cached since 21.75s ago] {} [in H:\Healtmate_new_with_Eda\HealthMate\.venv\lib\site-packages\sqlalchemy\engine\base.py:1904]
+2025-10-04 14:59:22,766 INFO: ROLLBACK [in H:\Healtmate_new_with_Eda\HealthMate\.venv\lib\site-packages\sqlalchemy\engine\base.py:1126]
+2025-10-04 14:59:24,482 INFO: Incoming request: GET /admin/dashboard/stats [in H:\Healtmate_new_with_Eda\HealthMate\backend\app.py:92]
+2025-10-04 14:59:24,484 INFO: Incoming request: GET /admin/dashboard/user_growth [in H:\Healtmate_new_with_Eda\HealthMate\backend\app.py:92]
+2025-10-04 14:59:24,485 INFO: Incoming request: GET /admin/dashboard/symptom_check_usage [in H:\Healtmate_new_with_Eda\HealthMate\backend\app.py:92]
+2025-10-04 14:59:24,491 INFO: BEGIN (implicit) [in H:\Healtmate_new_with_Eda\HealthMate\.venv\lib\site-packages\sqlalchemy\engine\base.py:1094]
+2025-10-04 14:59:24,491 INFO: BEGIN (implicit) [in H:\Healtmate_new_with_Eda\HealthMate\.venv\lib\site-packages\sqlalchemy\engine\base.py:1094]
+2025-10-04 14:59:24,492 INFO: BEGIN (implicit) [in H:\Healtmate_new_with_Eda\HealthMate\.venv\lib\site-packages\sqlalchemy\engine\base.py:1094]
+2025-10-04 14:59:24,493 INFO: SELECT EXTRACT(year FROM users.created_at) AS year, EXTRACT(month FROM users.created_at) AS month, count(users.user_id) AS count_1 
+FROM users GROUP BY year, month ORDER BY year, month [in H:\Healtmate_new_with_Eda\HealthMate\.venv\lib\site-packages\sqlalchemy\engine\base.py:1899]
+2025-10-04 14:59:24,494 INFO: SELECT count(users.user_id) AS count_1 
+FROM users [in H:\Healtmate_new_with_Eda\HealthMate\.venv\lib\site-packages\sqlalchemy\engine\base.py:1899]
+2025-10-04 14:59:24,494 INFO: SELECT date(health_reports.created_at) AS date_1, count(health_reports.id) AS count_1 
+FROM health_reports GROUP BY date(health_reports.created_at) ORDER BY date(health_reports.created_at) [in H:\Healtmate_new_with_Eda\HealthMate\.venv\lib\site-packages\sqlalchemy\engine\base.py:1899]
+2025-10-04 14:59:24,495 INFO: [cached since 27.13s ago] {} [in H:\Healtmate_new_with_Eda\HealthMate\.venv\lib\site-packages\sqlalchemy\engine\base.py:1904]
+2025-10-04 14:59:24,496 INFO: [cached since 27.01s ago] {} [in H:\Healtmate_new_with_Eda\HealthMate\.venv\lib\site-packages\sqlalchemy\engine\base.py:1904]
+2025-10-04 14:59:24,496 INFO: [cached since 27.01s ago] {} [in H:\Healtmate_new_with_Eda\HealthMate\.venv\lib\site-packages\sqlalchemy\engine\base.py:1904]
+2025-10-04 14:59:24,612 INFO: SELECT count(health_reports.id) AS count_1 
+FROM health_reports [in H:\Healtmate_new_with_Eda\HealthMate\.venv\lib\site-packages\sqlalchemy\engine\base.py:1899]
+2025-10-04 14:59:24,613 INFO: [cached since 27s ago] {} [in H:\Healtmate_new_with_Eda\HealthMate\.venv\lib\site-packages\sqlalchemy\engine\base.py:1904]
+2025-10-04 14:59:24,638 INFO: ROLLBACK [in H:\Healtmate_new_with_Eda\HealthMate\.venv\lib\site-packages\sqlalchemy\engine\base.py:1126]
+2025-10-04 14:59:24,639 INFO: Incoming request: GET /admin/dashboard/report_analyzer_trends [in H:\Healtmate_new_with_Eda\HealthMate\backend\app.py:92]
+2025-10-04 14:59:24,639 INFO: ROLLBACK [in H:\Healtmate_new_with_Eda\HealthMate\.venv\lib\site-packages\sqlalchemy\engine\base.py:1126]
+2025-10-04 14:59:24,643 INFO: Incoming request: GET /admin/dashboard/recent_activity [in H:\Healtmate_new_with_Eda\HealthMate\backend\app.py:92]
+2025-10-04 14:59:24,647 INFO: BEGIN (implicit) [in H:\Healtmate_new_with_Eda\HealthMate\.venv\lib\site-packages\sqlalchemy\engine\base.py:1094]
+2025-10-04 14:59:24,650 INFO: SELECT users.user_id AS users_user_id, users.name AS users_name, users.email AS users_email, users.age AS users_age, users.gender AS users_gender, users.password AS users_password, users.is_admin AS users_is_admin, users.is_active AS users_is_active, users.is_deleted AS users_is_deleted, users.created_at AS users_created_at 
+FROM users ORDER BY users.created_at DESC 
+ LIMIT %(param_1)s [in H:\Healtmate_new_with_Eda\HealthMate\.venv\lib\site-packages\sqlalchemy\engine\base.py:1899]
+2025-10-04 14:59:24,651 INFO: [cached since 27.25s ago] {'param_1': 10} [in H:\Healtmate_new_with_Eda\HealthMate\.venv\lib\site-packages\sqlalchemy\engine\base.py:1904]
+2025-10-04 14:59:24,652 INFO: Incoming request: GET /admin/dashboard/user_growth [in H:\Healtmate_new_with_Eda\HealthMate\backend\app.py:92]
+2025-10-04 14:59:24,656 INFO: BEGIN (implicit) [in H:\Healtmate_new_with_Eda\HealthMate\.venv\lib\site-packages\sqlalchemy\engine\base.py:1094]
+2025-10-04 14:59:24,657 INFO: SELECT EXTRACT(year FROM users.created_at) AS year, EXTRACT(month FROM users.created_at) AS month, count(users.user_id) AS count_1 
+FROM users GROUP BY year, month ORDER BY year, month [in H:\Healtmate_new_with_Eda\HealthMate\.venv\lib\site-packages\sqlalchemy\engine\base.py:1899]
+2025-10-04 14:59:24,659 INFO: [cached since 27.29s ago] {} [in H:\Healtmate_new_with_Eda\HealthMate\.venv\lib\site-packages\sqlalchemy\engine\base.py:1904]
+2025-10-04 14:59:24,791 INFO: Incoming request: GET /admin/dashboard/symptom_check_usage [in H:\Healtmate_new_with_Eda\HealthMate\backend\app.py:92]
+2025-10-04 14:59:24,793 INFO: Incoming request: GET /admin/dashboard/report_analyzer_trends [in H:\Healtmate_new_with_Eda\HealthMate\backend\app.py:92]
+2025-10-04 14:59:25,048 INFO: SELECT health_reports.id AS health_reports_id, health_reports.user_id AS health_reports_user_id, health_reports.name AS health_reports_name, health_reports.gender AS health_reports_gender, health_reports.age AS health_reports_age, health_reports.predicted_disease AS health_reports_predicted_disease, health_reports.confidence AS health_reports_confidence, health_reports.description AS health_reports_description, health_reports.symptoms AS health_reports_symptoms, health_reports.precautions AS health_reports_precautions, health_reports.medications AS health_reports_medications, health_reports.diets AS health_reports_diets, health_reports.workouts AS health_reports_workouts, health_reports.created_at AS health_reports_created_at 
+FROM health_reports ORDER BY health_reports.created_at DESC 
+ LIMIT %(param_1)s [in H:\Healtmate_new_with_Eda\HealthMate\.venv\lib\site-packages\sqlalchemy\engine\base.py:1899]
+2025-10-04 14:59:25,049 INFO: [cached since 27.52s ago] {'param_1': 10} [in H:\Healtmate_new_with_Eda\HealthMate\.venv\lib\site-packages\sqlalchemy\engine\base.py:1904]
+2025-10-04 14:59:25,053 INFO: Incoming request: GET /admin/dashboard/stats [in H:\Healtmate_new_with_Eda\HealthMate\backend\app.py:92]
+2025-10-04 14:59:25,054 INFO: ROLLBACK [in H:\Healtmate_new_with_Eda\HealthMate\.venv\lib\site-packages\sqlalchemy\engine\base.py:1126]
+2025-10-04 14:59:25,054 INFO: ROLLBACK [in H:\Healtmate_new_with_Eda\HealthMate\.venv\lib\site-packages\sqlalchemy\engine\base.py:1126]
+2025-10-04 14:59:25,476 INFO: ROLLBACK [in H:\Healtmate_new_with_Eda\HealthMate\.venv\lib\site-packages\sqlalchemy\engine\base.py:1126]
+2025-10-04 14:59:25,477 INFO: Incoming request: GET /admin/dashboard/recent_activity [in H:\Healtmate_new_with_Eda\HealthMate\backend\app.py:92]
+2025-10-04 14:59:25,480 INFO: BEGIN (implicit) [in H:\Healtmate_new_with_Eda\HealthMate\.venv\lib\site-packages\sqlalchemy\engine\base.py:1094]
+2025-10-04 14:59:25,480 INFO: SELECT users.user_id AS users_user_id, users.name AS users_name, users.email AS users_email, users.age AS users_age, users.gender AS users_gender, users.password AS users_password, users.is_admin AS users_is_admin, users.is_active AS users_is_active, users.is_deleted AS users_is_deleted, users.created_at AS users_created_at 
+FROM users ORDER BY users.created_at DESC 
+ LIMIT %(param_1)s [in H:\Healtmate_new_with_Eda\HealthMate\.venv\lib\site-packages\sqlalchemy\engine\base.py:1899]
+2025-10-04 14:59:25,481 INFO: [cached since 28.08s ago] {'param_1': 10} [in H:\Healtmate_new_with_Eda\HealthMate\.venv\lib\site-packages\sqlalchemy\engine\base.py:1904]
+2025-10-04 14:59:25,895 INFO: SELECT health_reports.id AS health_reports_id, health_reports.user_id AS health_reports_user_id, health_reports.name AS health_reports_name, health_reports.gender AS health_reports_gender, health_reports.age AS health_reports_age, health_reports.predicted_disease AS health_reports_predicted_disease, health_reports.confidence AS health_reports_confidence, health_reports.description AS health_reports_description, health_reports.symptoms AS health_reports_symptoms, health_reports.precautions AS health_reports_precautions, health_reports.medications AS health_reports_medications, health_reports.diets AS health_reports_diets, health_reports.workouts AS health_reports_workouts, health_reports.created_at AS health_reports_created_at 
+FROM health_reports ORDER BY health_reports.created_at DESC 
+ LIMIT %(param_1)s [in H:\Healtmate_new_with_Eda\HealthMate\.venv\lib\site-packages\sqlalchemy\engine\base.py:1899]
+2025-10-04 14:59:25,897 INFO: [cached since 28.37s ago] {'param_1': 10} [in H:\Healtmate_new_with_Eda\HealthMate\.venv\lib\site-packages\sqlalchemy\engine\base.py:1904]
+2025-10-04 14:59:26,380 INFO: ROLLBACK [in H:\Healtmate_new_with_Eda\HealthMate\.venv\lib\site-packages\sqlalchemy\engine\base.py:1126]
+2025-10-04 14:59:27,485 INFO: BEGIN (implicit) [in H:\Healtmate_new_with_Eda\HealthMate\.venv\lib\site-packages\sqlalchemy\engine\base.py:1094]
+2025-10-04 14:59:27,485 INFO: BEGIN (implicit) [in H:\Healtmate_new_with_Eda\HealthMate\.venv\lib\site-packages\sqlalchemy\engine\base.py:1094]

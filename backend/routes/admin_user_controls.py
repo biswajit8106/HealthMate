@@ -1,19 +1,30 @@
-from flask import Blueprint, request, jsonify
+from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
-from database.db import SessionLocal
+from database.db import get_db
 from models.user_model import User
-from utils.auth import admin_login_required
+from utils.auth import get_current_admin
 from werkzeug.security import generate_password_hash
+from pydantic import BaseModel
+from typing import Optional
 
-admin_user_controls_bp = Blueprint('admin_user_controls_bp', __name__, url_prefix='/admin/user_controls')
+router = APIRouter()
 
-@admin_user_controls_bp.route('/admins', methods=['GET'])
-@admin_login_required
-def list_admins():
+class AddAdminRequest(BaseModel):
+    name: str
+    email: str
+    password: str
+    role: Optional[str] = 'Moderator'
+
+class ChangeRoleRequest(BaseModel):
+    role: str
+
+class ChangePasswordRequest(BaseModel):
+    password: str
+
+@router.get('/admins')
+def list_admins(admin_id: int = Depends(get_current_admin), db: Session = Depends(get_db)):
     try:
-        db: Session = SessionLocal()
         admins = db.query(User).filter(User.is_admin == True).all()
-        db.close()
         admins_data = []
         for admin in admins:
             admins_data.append({
@@ -22,90 +33,57 @@ def list_admins():
                 'email': admin.email,
                 'role': admin.role if hasattr(admin, 'role') else 'Moderator',
             })
-        return jsonify(admins_data), 200
+        return admins_data
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        raise HTTPException(status_code=500, detail=str(e))
 
-@admin_user_controls_bp.route('/admins', methods=['POST'])
-@admin_login_required
-def add_admin():
+@router.post('/admins')
+def add_admin(request_data: AddAdminRequest, admin_id: int = Depends(get_current_admin), db: Session = Depends(get_db)):
     try:
-        data = request.json
-        name = data.get('name')
-        email = data.get('email')
-        password = data.get('password')
-        role = data.get('role', 'Moderator')
-
-        if not name or not email or not password:
-            return jsonify({'error': 'Name, email and password are required'}), 400
-
-        db: Session = SessionLocal()
-        existing = db.query(User).filter(User.email == email).first()
+        existing = db.query(User).filter(User.email == request_data.email).first()
         if existing:
-            db.close()
-            return jsonify({'error': 'Admin with this email already exists'}), 400
+            raise HTTPException(status_code=400, detail='Admin with this email already exists')
 
-        hashed_password = generate_password_hash(password)
-        new_admin = User(name=name, email=email, password=hashed_password, is_admin=True, role=role)
+        hashed_password = generate_password_hash(request_data.password)
+        new_admin = User(name=request_data.name, email=request_data.email, password=hashed_password, is_admin=True, role=request_data.role)
         db.add(new_admin)
         db.commit()
-        db.close()
-        return jsonify({'message': 'Admin added successfully'}), 201
+        return {'message': 'Admin added successfully'}
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        raise HTTPException(status_code=500, detail=str(e))
 
-@admin_user_controls_bp.route('/admins/<int:user_id>', methods=['DELETE'])
-@admin_login_required
-def remove_admin(user_id):
+@router.delete('/admins/{user_id}')
+def remove_admin(user_id: int, admin_id: int = Depends(get_current_admin), db: Session = Depends(get_db)):
     try:
-        db: Session = SessionLocal()
         admin = db.query(User).filter(User.user_id == user_id, User.is_admin == True).first()
         if not admin:
-            db.close()
-            return jsonify({'error': 'Admin not found'}), 404
+            raise HTTPException(status_code=404, detail='Admin not found')
         db.delete(admin)
         db.commit()
-        db.close()
-        return jsonify({'message': 'Admin removed successfully'}), 200
+        return {'message': 'Admin removed successfully'}
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        raise HTTPException(status_code=500, detail=str(e))
 
-@admin_user_controls_bp.route('/admins/<int:user_id>/role', methods=['PUT'])
-@admin_login_required
-def change_role(user_id):
+@router.put('/admins/{user_id}/role')
+def change_role(user_id: int, request_data: ChangeRoleRequest, admin_id: int = Depends(get_current_admin), db: Session = Depends(get_db)):
     try:
-        data = request.json
-        new_role = data.get('role')
-        if not new_role:
-            return jsonify({'error': 'Role is required'}), 400
-        db: Session = SessionLocal()
         admin = db.query(User).filter(User.user_id == user_id, User.is_admin == True).first()
         if not admin:
-            db.close()
-            return jsonify({'error': 'Admin not found'}), 404
-        admin.role = new_role
+            raise HTTPException(status_code=404, detail='Admin not found')
+        admin.role = request_data.role
         db.commit()
-        db.close()
-        return jsonify({'message': 'Role updated successfully'}), 200
+        return {'message': 'Role updated successfully'}
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        raise HTTPException(status_code=500, detail=str(e))
 
-@admin_user_controls_bp.route('/admins/<int:user_id>/password', methods=['PUT'])
-@admin_login_required
-def change_password(user_id):
+@router.put('/admins/{user_id}/password')
+def change_password(user_id: int, request_data: ChangePasswordRequest, admin_id: int = Depends(get_current_admin), db: Session = Depends(get_db)):
     try:
-        data = request.json
-        new_password = data.get('password')
-        if not new_password:
-            return jsonify({'error': 'Password is required'}), 400
-        db: Session = SessionLocal()
         admin = db.query(User).filter(User.user_id == user_id, User.is_admin == True).first()
         if not admin:
-            db.close()
-            return jsonify({'error': 'Admin not found'}), 404
-        admin.password = generate_password_hash(new_password)
+            raise HTTPException(status_code=404, detail='Admin not found')
+        admin.password = generate_password_hash(request_data.password)
         db.commit()
-        db.close()
-        return jsonify({'message': 'Password updated successfully'}), 200
+        return {'message': 'Password updated successfully'}
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        raise HTTPException(status_code=500, detail=str(e))

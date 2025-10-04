@@ -1,18 +1,16 @@
-from functools import wraps
-from flask import session, jsonify
+from fastapi import HTTPException, Request
 
-def login_required(f):
-    @wraps(f)
-    def decorated_function(*args, **kwargs):
-        if 'user_id' not in session:
-            return jsonify({'error': 'Authentication required'}), 401
-        return f(*args, **kwargs)
-    return decorated_function
+# For simplicity, using cookies for session-like behavior
+# In production, consider JWT tokens
 
-def admin_login_required(f):
-    @wraps(f)
-    def decorated_function(*args, **kwargs):
-        if 'admin_user_id' not in session:
-            return jsonify({'error': 'Admin authentication required'}), 401
-        return f(*args, **kwargs)
-    return decorated_function
+def get_current_user(request: Request):
+    user_id = request.cookies.get('user_id')
+    if not user_id:
+        raise HTTPException(status_code=401, detail="Authentication required")
+    return int(user_id)
+
+def get_current_admin(request: Request):
+    admin_user_id = request.cookies.get('admin_user_id')
+    if not admin_user_id:
+        raise HTTPException(status_code=401, detail="Admin authentication required")
+    return int(admin_user_id)

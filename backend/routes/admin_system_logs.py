@@ -1,57 +1,51 @@
-from flask import Blueprint, jsonify, request
-from sqlalchemy.orm import Session
-from database.db import SessionLocal
-from utils.auth import admin_login_required
+from fastapi import APIRouter, Depends, HTTPException
+from utils.auth import get_current_admin
+from pydantic import BaseModel
 import datetime
 
-admin_system_logs_bp = Blueprint('admin_system_logs_bp', __name__, url_prefix='/admin/system_logs')
+router = APIRouter()
 
 # For demonstration, using in-memory logs. In production, use persistent storage.
 activity_logs = []
 failed_login_attempts = []
 admin_login_ips = {}
 
-@admin_system_logs_bp.route('/activity', methods=['GET'])
-@admin_login_required
-def get_activity_logs():
+class RecordIPRequest(BaseModel):
+    admin_id: int
+    ip: str
+
+@router.get('/activity')
+def get_activity_logs(admin_id: int = Depends(get_current_admin)):
     try:
         # Return last 100 activity logs
-        return jsonify(activity_logs[-100:]), 200
+        return activity_logs[-100:]
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        raise HTTPException(status_code=500, detail=str(e))
 
-@admin_system_logs_bp.route('/failed_logins', methods=['GET'])
-@admin_login_required
-def get_failed_logins():
+@router.get('/failed_logins')
+def get_failed_logins(admin_id: int = Depends(get_current_admin)):
     try:
         # Return last 100 failed login attempts
-        return jsonify(failed_login_attempts[-100:]), 200
+        return failed_login_attempts[-100:]
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        raise HTTPException(status_code=500, detail=str(e))
 
-@admin_system_logs_bp.route('/login_ip', methods=['POST'])
-@admin_login_required
-def record_login_ip():
+@router.post('/login_ip')
+def record_login_ip(request_data: RecordIPRequest, admin_id: int = Depends(get_current_admin)):
     try:
-        data = request.json
-        admin_id = data.get('admin_id')
-        ip = data.get('ip')
-        if not admin_id or not ip:
-            return jsonify({'error': 'admin_id and ip required'}), 400
-        admin_login_ips.setdefault(admin_id, []).append({'ip': ip, 'timestamp': datetime.datetime.utcnow().isoformat()})
-        return jsonify({'message': 'IP recorded'}), 200
+        admin_login_ips.setdefault(request_data.admin_id, []).append({'ip': request_data.ip, 'timestamp': datetime.datetime.utcnow().isoformat()})
+        return {'message': 'IP recorded'}
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        raise HTTPException(status_code=500, detail=str(e))
 
-@admin_system_logs_bp.route('/session_management', methods=['GET'])
-@admin_login_required
-def get_sessions():
+@router.get('/session_management')
+def get_sessions(admin_id: int = Depends(get_current_admin)):
     try:
         # Placeholder for session management data
         sessions = [
             {'session_id': 'abc123', 'admin_id': 1, 'login_time': '2024-01-01T12:00:00Z', 'active': True},
             {'session_id': 'def456', 'admin_id': 2, 'login_time': '2024-01-02T08:30:00Z', 'active': False},
         ]
-        return jsonify(sessions), 200
+        return sessions
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        raise HTTPException(status_code=500, detail=str(e))

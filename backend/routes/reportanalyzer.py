@@ -1,4 +1,4 @@
-from flask import Blueprint, request, jsonify
+from fastapi import APIRouter, UploadFile, File, HTTPException
 from PIL import Image
 import io
 import requests
@@ -9,7 +9,7 @@ import hashlib
 import pdfplumber
 from config import Config
 
-reportanalyzer_bp = Blueprint('reportanalyzer_bp', __name__)
+router = APIRouter()
 
 # Global OCR reader
 reader = easyocr.Reader(['en'], gpu=False)  # Use CPU for stability
@@ -104,24 +104,17 @@ def analyze_report(text):
         logging.error(f"Exception during Gemini API request: {str(e)}")
         return f"Exception during Gemini API request: {str(e)}"
 
-@reportanalyzer_bp.route('/analyze', methods=['POST'])
-def analyze():
-    if 'file' not in request.files:
-        logging.warning("Error: No file part in the request")
-        return jsonify({"error": "No file part in the request"}), 401
-
-    file = request.files['file']
-
-    if file.filename == '':
+@router.post('/analyze')
+def analyze(file: UploadFile = File(...)):
+    if not file.filename:
         logging.warning("Error: No selected file")
-        return jsonify({"error": "No selected file"}), 402
+        raise HTTPException(status_code=400, detail="No selected file")
 
     try:
         # Compute SHA256 hash of file content for caching
-        file.seek(0)
-        file_bytes = file.read()
+        file_bytes = file.file.read()
         file_hash = hashlib.sha256(file_bytes).hexdigest()
-        file.seek(0)
+        file.file.seek(0)
 
         # Check cache with TTL (1 hour)
         current_time = time.time()
@@ -129,25 +122,25 @@ def analyze():
             cached_time, cached_result = analyze.cache[file_hash]
             if current_time - cached_time < 3600:  # 1 hour TTL
                 logging.info(f"Cache hit for file hash {file_hash}")
-                return jsonify(cached_result)
+                return cached_result
             else:
                 del analyze.cache[file_hash]  # Expire old cache
 
         if file.content_type == "application/pdf":
-            text = extract_text_from_pdf(file, reader)
+            text = extract_text_from_pdf(file.file, reader)
         elif file.content_type in ["image/png", "image/jpeg", "image/jpg"]:
-            text = extract_text_from_image(file, reader)
+            text = extract_text_from_image(file.file, reader)
         else:
             logging.warning("Error: Unsupported file type")
-            return jsonify({"error": "Unsupported file type"}), 403
+            raise HTTPException(status_code=400, detail="Unsupported file type")
 
         if not text.strip():
             logging.warning("Error: No text could be extracted from the uploaded file.")
-            return jsonify({"error": "No text could be extracted from the uploaded file."}), 404
+            raise HTTPException(status_code=400, detail="No text could be extracted from the uploaded file.")
 
         if not is_medical_report(text):
             logging.warning("Error: Invalid medical report uploaded")
-            return jsonify({"error": "This doesn't seem to be a valid medical report. Please upload a real medical report."}), 405
+            raise HTTPException(status_code=400, detail="This doesn't seem to be a valid medical report. Please upload a real medical report.")
 
         explanation = analyze_report(text)
 
@@ -159,12 +152,12 @@ def analyze():
         # Cache the result with timestamp
         analyze.cache[file_hash] = (current_time, result)
 
-        return jsonify(result)
+        return result
 
     except Exception as e:
         warning_msg = f"WARNING:root:Error: {str(e)}"
         logging.error(warning_msg)
-        return jsonify({"error": warning_msg}), 500
+        raise HTTPException(status_code=500, detail=warning_msg)
 
 # Initialize cache dictionary as a function attribute
 analyze.cache = {}

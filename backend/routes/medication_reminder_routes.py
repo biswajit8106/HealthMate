@@ -1,16 +1,31 @@
-from flask import Blueprint, request, jsonify
+from fastapi import APIRouter, Depends, HTTPException
 from database.db import get_db
 from sqlalchemy.orm import Session
 from sqlalchemy import text
 import json
 from models.medication_reminder_model import MedicationReminder
 from models.user_model import User
+from pydantic import BaseModel
+from typing import List
 
-medication_reminder_bp = Blueprint('medication_reminder_bp', __name__, url_prefix='/api')
+router = APIRouter()
 
-@medication_reminder_bp.route('/medication-reminder', methods=['POST'])
-def add_medication_reminder():
-    data = request.get_json()
+class AddReminderRequest(BaseModel):
+    user_id: int
+    medicineName: str
+    dosage: str
+    reminderTimes: List[str]
+    frequency: str
+    startDate: str
+    endDate: str
+
+class SaveTokenRequest(BaseModel):
+    user_id: int
+    token: str
+
+@router.post('/medication-reminder', status_code=201)
+def add_medication_reminder(request_data: AddReminderRequest, db: Session = Depends(get_db)):
+    data = request_data.dict()
     user_id = data.get('user_id')
     medicine_name = data.get('medicineName')
     dosage = data.get('dosage')
@@ -20,9 +35,8 @@ def add_medication_reminder():
     end_date = data.get('endDate')
 
     if not all([user_id, medicine_name, dosage, reminder_times, frequency, start_date, end_date]):
-        return jsonify({'error': 'Missing required fields'}), 400
+        raise HTTPException(status_code=400, detail='Missing required fields')
 
-    db = next(get_db())
     try:
         reminder = MedicationReminder(
             user_id=user_id,
@@ -34,19 +48,17 @@ def add_medication_reminder():
             end_date=end_date
         )
         MedicationReminder.add_reminder(db, reminder)
-        return jsonify({'message': 'Medication reminder added successfully'}), 201
+        return {'message': 'Medication reminder added successfully'}
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        raise HTTPException(status_code=500, detail=str(e))
 
-@medication_reminder_bp.route('/medication-reminder', methods=['GET'])
-def get_medication_reminders():
-    user_id = request.args.get('user_id')
+@router.get('/medication-reminder')
+def get_medication_reminders(user_id: int, db: Session = Depends(get_db)):
     if not user_id:
-        return jsonify({'error': 'Missing user_id parameter'}), 400
+        raise HTTPException(status_code=400, detail='Missing user_id parameter')
 
-    db = next(get_db())
     try:
-        reminders = MedicationReminder.get_reminders_by_user(db, int(user_id))
+        reminders = MedicationReminder.get_reminders_by_user(db, user_id)
         result = []
         for reminder in reminders:
             result.append({
@@ -58,21 +70,20 @@ def get_medication_reminders():
                 'startDate': reminder.start_date,
                 'endDate': reminder.end_date,
             })
-        return jsonify({'reminders': result}), 200
+        return {'reminders': result}
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        raise HTTPException(status_code=500, detail=str(e))
 
-@medication_reminder_bp.route('/save-fcm-token', methods=['POST'])
-def save_fcm_token():
+@router.post('/save-fcm-token')
+def save_fcm_token(request_data: SaveTokenRequest, db: Session = Depends(get_db)):
     import logging
-    data = request.get_json()
+    data = request_data.dict()
     user_id = data.get('user_id')
     token = data.get('token')
 
     if not user_id or not token:
-        return jsonify({'error': 'Missing user_id or token'}), 400
+        raise HTTPException(status_code=400, detail='Missing user_id or token')
 
-    db = next(get_db())
     try:
         # Upsert token for user
         existing = db.execute(text("SELECT * FROM fcm_tokens WHERE user_id = :user_id"), {'user_id': user_id}).fetchone()
@@ -81,26 +92,25 @@ def save_fcm_token():
         else:
             db.execute(text("INSERT INTO fcm_tokens (user_id, token) VALUES (:user_id, :token)"), {'user_id': user_id, 'token': token})
         db.commit()
-        return jsonify({'message': 'FCM token saved successfully'}), 200
+        return {'message': 'FCM token saved successfully'}
     except Exception as e:
         logging.error(f"Error saving FCM token: {e}")
-        return jsonify({'error': str(e)}), 500
+        raise HTTPException(status_code=500, detail=str(e))
 
-@medication_reminder_bp.route('/delete-fcm-token', methods=['POST'])
-def delete_fcm_token():
+@router.post('/delete-fcm-token')
+def delete_fcm_token(request_data: SaveTokenRequest, db: Session = Depends(get_db)):
     import logging
-    data = request.get_json()
+    data = request_data.dict()
     user_id = data.get('user_id')
     token = data.get('token')
 
     if not user_id or not token:
-        return jsonify({'error': 'Missing user_id or token'}), 400
+        raise HTTPException(status_code=400, detail='Missing user_id or token')
 
-    db = next(get_db())
     try:
         db.execute(text("DELETE FROM fcm_tokens WHERE user_id = :user_id AND token = :token"), {'user_id': user_id, 'token': token})
         db.commit()
-        return jsonify({'message': 'FCM token deleted successfully'}), 200
+        return {'message': 'FCM token deleted successfully'}
     except Exception as e:
         logging.error(f"Error deleting FCM token: {e}")
-        return jsonify({'error': str(e)}), 500
+        raise HTTPException(status_code=500, detail=str(e))

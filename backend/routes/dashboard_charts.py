@@ -1,23 +1,17 @@
 import json
 import datetime
-from flask import Blueprint, jsonify, session
+from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from sqlalchemy import func
-from database.db import SessionLocal
+from database.db import get_db
 from models.health_report_model import HealthReport
-from utils.auth import login_required
+from utils.auth import get_current_user
 
-dashboard_charts_bp = Blueprint('dashboard_charts_bp', __name__, url_prefix='/report/dashboard')
+router = APIRouter()
 
-@dashboard_charts_bp.route('/disease_categories', methods=['GET'])
-@login_required
-def get_disease_categories():
+@router.get('/disease_categories')
+def get_disease_categories(user_id: int = Depends(get_current_user), db: Session = Depends(get_db)):
     try:
-        user_id = session.get('user_id')
-        if not user_id:
-            return jsonify({'error': 'User not logged in'}), 401
-
-        db: Session = SessionLocal()
         # Aggregate count of predicted_disease for the user
         results = db.query(
             HealthReport.predicted_disease,
@@ -27,23 +21,16 @@ def get_disease_categories():
         ).group_by(
             HealthReport.predicted_disease
         ).all()
-        db.close()
 
         data = [{'disease': r[0], 'count': r[1]} for r in results]
-        return jsonify(data), 200
+        return data
 
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        raise HTTPException(status_code=500, detail=str(e))
 
-@dashboard_charts_bp.route('/health_trends', methods=['GET'])
-@login_required
-def get_health_trends():
+@router.get('/health_trends')
+def get_health_trends(user_id: int = Depends(get_current_user), db: Session = Depends(get_db)):
     try:
-        user_id = session.get('user_id')
-        if not user_id:
-            return jsonify({'error': 'User not logged in'}), 401
-
-        db: Session = SessionLocal()
         # Aggregate count of reports per date (day) for the user
         results = db.query(
             func.date(HealthReport.created_at),
@@ -55,25 +42,17 @@ def get_health_trends():
         ).order_by(
             func.date(HealthReport.created_at)
         ).all()
-        db.close()
 
         data = [{'date': r[0].isoformat(), 'count': r[1]} for r in results]
-        return jsonify(data), 200
+        return data
 
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        raise HTTPException(status_code=500, detail=str(e))
 
-@dashboard_charts_bp.route('/common_symptoms', methods=['GET'])
-@login_required
-def get_common_symptoms():
+@router.get('/common_symptoms')
+def get_common_symptoms(user_id: int = Depends(get_current_user), db: Session = Depends(get_db)):
     try:
-        user_id = session.get('user_id')
-        if not user_id:
-            return jsonify({'error': 'User not logged in'}), 401
-
-        db: Session = SessionLocal()
         reports = db.query(HealthReport.symptoms).filter(HealthReport.user_id == user_id).all()
-        db.close()
 
         symptom_counts = {}
         for (symptoms_json,) in reports:
@@ -87,22 +66,15 @@ def get_common_symptoms():
             key=lambda x: x['count'],
             reverse=True
         )
-        return jsonify(data), 200
+        return data
 
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        raise HTTPException(status_code=500, detail=str(e))
 
-@dashboard_charts_bp.route('/symptom_disease_heatmap', methods=['GET'])
-@login_required
-def get_symptom_disease_heatmap():
+@router.get('/symptom_disease_heatmap')
+def get_symptom_disease_heatmap(user_id: int = Depends(get_current_user), db: Session = Depends(get_db)):
     try:
-        user_id = session.get('user_id')
-        if not user_id:
-            return jsonify({'error': 'User not logged in'}), 401
-
-        db: Session = SessionLocal()
         reports = db.query(HealthReport.symptoms, HealthReport.predicted_disease).filter(HealthReport.user_id == user_id).all()
-        db.close()
 
         heatmap_data = {}
         for symptoms_json, disease in reports:
@@ -118,7 +90,7 @@ def get_symptom_disease_heatmap():
             for disease, count in diseases.items():
                 data.append({'symptom': symptom, 'disease': disease, 'count': count})
 
-        return jsonify(data), 200
+        return data
 
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        raise HTTPException(status_code=500, detail=str(e))

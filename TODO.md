@@ -1,2 +1,0 @@
-- [x] Modify backend/run.py to bind to PORT environment variable for Render deployment
-- [x] Remove infinite loop in backend/services/notification_scheduler.py start_scheduler() to prevent blocking

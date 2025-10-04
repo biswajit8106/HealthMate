@@ -1,14 +1,19 @@
-from flask import Blueprint, request, jsonify, session
+from fastapi import APIRouter, Depends, HTTPException
 import numpy as np
 import pandas as pd
 import joblib
 import os
 from models.user_model import User
 from database.db import get_db
-from utils.auth import login_required
+from utils.auth import get_current_user
 from sqlalchemy.orm import Session
+from pydantic import BaseModel
+from fastapi import Request
 
-symptom_checker_bp = Blueprint('symptom_checker', __name__)
+router = APIRouter()
+
+class PredictRequest(BaseModel):
+    symptoms: list[str]
 
 # Load model data
 model_path = os.path.join(os.path.dirname(__file__), "..", "Ai_model", "model.pkl")
@@ -69,22 +74,19 @@ def helper(dis):
         return "No description available.", ["No precautions available."], ["No medications recommended."], ["No diet recommendations."], ["No workout recommendations."]
 
 # Prediction route
-@login_required
-@symptom_checker_bp.route("/predict", methods=["POST"])
-def predict():
-    data = request.get_json()
-    symptoms = data.get("symptoms", [])
+@router.post("/predict")
+async def predict(
+    request_data: PredictRequest,
+    user_id: int = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    symptoms = request_data.symptoms
 
-    # Retrieve user data from login session
-    db: Session = next(get_db())
-    user = User.get_user_by_id(db, session['user_id'])
+    # Retrieve user data
+    user = User.get_user_by_id(db, user_id)
 
     if len(symptoms) < 2:
-        response = {
-            "success": False,
-            "message": "Please provide at least 2 symptoms."
-        }
-        return jsonify(response)
+        raise HTTPException(status_code=400, detail="Please provide at least 2 symptoms.")
 
     # Create a zero-filled DataFrame with feature columns
     test_df = pd.DataFrame(0, index=[0], columns=feature_columns)
@@ -104,7 +106,7 @@ def predict():
     predicted_disease = label_encoder.inverse_transform([pred_label])[0]
     desc, pre, med, die, wrkout = helper(predicted_disease)
 
-    response = {
+    return {
         "success": True,
         "predicted_disease": predicted_disease,
         "confidence": round(max_prob, 2),
@@ -117,4 +119,3 @@ def predict():
         "user_gender": user.gender,
         "user_age": user.age
     }
-    return jsonify(response)

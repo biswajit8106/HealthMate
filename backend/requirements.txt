@@ -1,6 +1,6 @@
-Flask
-Flask-Cors
-Flask-Migrate
+fastapi
+uvicorn
+python-multipart
 PyMySQL
 SQLAlchemy
 python-dotenv
@@ -14,7 +14,6 @@ pywebpush
 apscheduler
 firebase_admin
 reportlab
-werkzeug
 joblib
 python-dateutil
 Pillow
