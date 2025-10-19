@@ -1,12 +1,13 @@
 from contextlib import asynccontextmanager
-from fastapi import FastAPI, Request, HTTPException
+from fastapi import FastAPI, Request, HTTPException, Cookie, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 import logging
 import os
 from logging.handlers import RotatingFileHandler
 from config import Config
-from database.db import engine
+from database.db import engine, get_db
+from sqlalchemy.orm import Session
 from models.user_model import User
 from models.disease_model import Disease
 from models.diagnosis_model import Diagnosis
@@ -117,14 +118,14 @@ def create_app():
         return {"message": "HealthMate backend is live"}
 
     # --- Include Routers ---
-    app.include_router(medication_reminder_router)
+    app.include_router(medication_reminder_router, prefix="/api")
     app.include_router(symptom_checker_router)
     app.include_router(user_router, prefix="/api/user")
     app.include_router(medicine_router, prefix="/api/medicine")
     app.include_router(report_router, prefix="/report")
     app.include_router(profile_router, prefix="/api/user/profile")
     app.include_router(medical_history_router, prefix="/api/user/medical_history")
-    app.include_router(privacycontrol_router)
+    app.include_router(privacycontrol_router, prefix="/api")
     app.include_router(dashboard_charts_router, prefix="/report/dashboard")
     app.include_router(reportanalyzer_router, prefix="/api/reportanalyzer")
     app.include_router(admin_user_router, prefix="/admin/users")
@@ -137,6 +138,22 @@ def create_app():
     app.include_router(admin_system_logs_router, prefix="/admin/system_logs")
     app.include_router(admin_feedback_router, prefix="/admin/feedback")
     app.include_router(admin_settings_router, prefix="/admin/settings")
+
+    # Add session route without prefix
+    @app.get("/session")
+    def session_info(user_id: int = Cookie(None), db: Session = Depends(get_db)):
+        if user_id:
+            user = User.get_user_by_id(db, user_id)
+            if user:
+                user_data = {
+                    "user_id": user.user_id,
+                    "name": user.name,
+                    "email": user.email,
+                    "age": user.age,
+                    "gender": user.gender
+                }
+                return {"logged_in": True, "user": user_data}
+        return {"logged_in": False}
 
     return app
 

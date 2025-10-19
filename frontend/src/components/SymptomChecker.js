@@ -250,9 +250,6 @@ const SymptomChecker = () => {
         try {
             setLoading(true);
             const response = await axios.post('http://localhost:5000/predict', {
-                name,
-                gender,
-                age,
                 symptoms: symptoms,
             });
             setLoading(false);

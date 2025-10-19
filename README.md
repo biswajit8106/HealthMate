@@ -16,7 +16,7 @@ A comprehensive health management application that leverages machine learning fo
 
 ## Architecture
 
-- **Backend**: Flask-based REST API with SQLAlchemy for database ORM, scikit-learn for machine learning predictions, and APScheduler for background tasks.
+- **Backend**: FastAPI-based REST API with SQLAlchemy for database ORM, scikit-learn for machine learning predictions, and APScheduler for background tasks.
 - **Frontend**: React application built with Create React App, featuring routing with React Router, data visualization with Recharts, and Firebase integration for notifications.
 - **Database**: MySQL database with SQLAlchemy ORM for data persistence.
 - **ML Model**: Pre-trained model for disease prediction from symptoms, stored in pickle format.
@@ -49,8 +49,6 @@ A comprehensive health management application that leverages machine learning fo
 
 4. Set up environment variables by creating a `.env` file in the backend directory:
    ```env
-   FLASK_APP=app.py
-   FLASK_ENV=development
    DATABASE_URL=mysql+pymysql://username:password@localhost/healthmate
    SECRET_KEY=your_secret_key_here
    CORS_ORIGINS=http://localhost:3000
