@@ -2,7 +2,7 @@ from fastapi import APIRouter, UploadFile, File, HTTPException
 from PIL import Image
 import io
 import requests
-import easyocr
+import pytesseract
 import logging
 import time
 import hashlib
@@ -11,10 +11,7 @@ from config import Config
 
 router = APIRouter()
 
-# Global OCR reader
-reader = easyocr.Reader(['en'], gpu=False)  # Use CPU for stability
-
-def extract_text_from_pdf(file_stream, reader):
+def extract_text_from_pdf(file_stream):
     start_time = time.time()
     text = ""
     file_stream.seek(0)
@@ -30,8 +27,7 @@ def extract_text_from_pdf(file_stream, reader):
             for page_num, page in enumerate(pdf.pages):
                 try:
                     pil_image = page.to_image(resolution=300).original
-                    result = reader.readtext(pil_image)
-                    page_text = " ".join([res[1] for res in result])
+                    page_text = pytesseract.image_to_string(pil_image)
                     text += page_text + "\n"
                 except Exception as e:
                     logging.error(f"Error during OCR processing of PDF page {page_num}: {str(e)}")
@@ -40,12 +36,11 @@ def extract_text_from_pdf(file_stream, reader):
     logging.info(f"extract_text_from_pdf took {elapsed:.2f} seconds")
     return text
 
-def extract_text_from_image(file_stream, reader):
+def extract_text_from_image(file_stream):
     start_time = time.time()
     try:
         image = Image.open(file_stream)
-        result = reader.readtext(image)
-        text = " ".join([res[1] for res in result])
+        text = pytesseract.image_to_string(image)
         elapsed = time.time() - start_time
         logging.info(f"extract_text_from_image took {elapsed:.2f} seconds")
         return text
@@ -127,9 +122,9 @@ def analyze(file: UploadFile = File(...)):
                 del analyze.cache[file_hash]  # Expire old cache
 
         if file.content_type == "application/pdf":
-            text = extract_text_from_pdf(file.file, reader)
+            text = extract_text_from_pdf(file.file)
         elif file.content_type in ["image/png", "image/jpeg", "image/jpg"]:
-            text = extract_text_from_image(file.file, reader)
+            text = extract_text_from_image(file.file)
         else:
             logging.warning("Error: Unsupported file type")
             raise HTTPException(status_code=400, detail="Unsupported file type")

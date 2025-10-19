@@ -1,7 +1,7 @@
-2025-10-04 15:01:22,706 INFO: SELECT medication_reminders.id AS medication_reminders_id, medication_reminders.user_id AS medication_reminders_user_id, medication_reminders.medicine_name AS medication_reminders_medicine_name, medication_reminders.dosage AS medication_reminders_dosage, medication_reminders.reminder_times AS medication_reminders_reminder_times, medication_reminders.frequency AS medication_reminders_frequency, medication_reminders.start_date AS medication_reminders_start_date, medication_reminders.end_date AS medication_reminders_end_date, medication_reminders.created_at AS medication_reminders_created_at 
-FROM medication_reminders 
-WHERE medication_reminders.start_date <= %(start_date_1)s AND medication_reminders.end_date >= %(end_date_1)s [in H:\Healtmate_new_with_Eda\HealthMate\.venv\lib\site-packages\sqlalchemy\engine\base.py:1899]
-2025-10-04 15:01:22,711 INFO: [generated in 0.00536s] {'start_date_1': '2025-10-04', 'end_date_1': '2025-10-04'} [in H:\Healtmate_new_with_Eda\HealthMate\.venv\lib\site-packages\sqlalchemy\engine\base.py:1904]
-2025-10-04 15:01:22,888 INFO: Found 0 active reminders [in H:\Healtmate_new_with_Eda\HealthMate\backend\services\notification_scheduler.py:67]
-2025-10-04 15:01:22,889 INFO: ROLLBACK [in H:\Healtmate_new_with_Eda\HealthMate\.venv\lib\site-packages\sqlalchemy\engine\base.py:1126]
-2025-10-04 15:01:23,661 INFO: Job "check_and_send_notifications (trigger: interval[0:01:00], next run at: 2025-10-04 15:02:22 IST)" executed successfully [in H:\Healtmate_new_with_Eda\HealthMate\.venv\lib\site-packages\apscheduler\executors\base.py:156]
+2025-10-19 14:53:57,578 ERROR: SMTP credentials not configured. Cannot send email. [in H:\Healtmate_new_with_Eda\HealthMate\backend\utils\email_utils.py:16]
+2025-10-19 14:53:57,587 INFO: ROLLBACK [in H:\Healtmate_new_with_Eda\HealthMate\.venv\lib\site-packages\sqlalchemy\engine\base.py:1126]
+2025-10-19 14:53:57,587 INFO: ROLLBACK [in H:\Healtmate_new_with_Eda\HealthMate\.venv\lib\site-packages\sqlalchemy\engine\base.py:1126]
+2025-10-19 14:53:58,072 INFO: Incoming request: GET /firebase-logo.png [in H:\Healtmate_new_with_Eda\HealthMate\backend\app.py:102]
+2025-10-19 14:53:58,072 INFO: Incoming request: GET /firebase-logo.png [in H:\Healtmate_new_with_Eda\HealthMate\backend\app.py:102]
+2025-10-19 14:53:58,812 INFO: Job "check_and_send_notifications (trigger: interval[0:01:00], next run at: 2025-10-19 14:54:52 IST)" executed successfully [in H:\Healtmate_new_with_Eda\HealthMate\.venv\lib\site-packages\apscheduler\executors\base.py:156]
+2025-10-19 14:53:58,812 INFO: Job "check_and_send_notifications (trigger: interval[0:01:00], next run at: 2025-10-19 14:54:52 IST)" executed successfully [in H:\Healtmate_new_with_Eda\HealthMate\.venv\lib\site-packages\apscheduler\executors\base.py:156]

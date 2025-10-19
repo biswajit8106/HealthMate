@@ -37,7 +37,7 @@ class MedicalHistoryResponse(MedicalHistoryBase):
     created_at: Optional[str] = None
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 def serialize_report(report):
     return {

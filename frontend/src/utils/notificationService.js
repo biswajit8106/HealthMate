@@ -2,7 +2,7 @@ import { messaging } from '../firebaseConfig';
 import { getToken, onMessage, deleteToken } from 'firebase/messaging';
 import axios from 'axios';
 
-const VAPID_KEY = 'BBfP6keHff_SamEXjlSrrsSAv4IPHtkLJlPWNUZg3_HEPGytSDUhezE2BmmXl4ifbmOK3Rbbi8iu5Sguh79_EDc';
+const VAPID_KEY = 'BOcghdVvM52WbIHQkTEpfVmB8vAgzVnLyJIcVp_tATRf506xMHPC88_arI2OQJxgllUCktOtFh1O7cnSbrYXEs4';
 
 export const requestNotificationPermissionAndSendToken = async (userId) => {
   try {

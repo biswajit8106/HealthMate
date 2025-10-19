@@ -7,7 +7,7 @@ python-dotenv
 requests
 scikit-learn
 pandas
-easyocr
+pytesseract
 numpy
 opencv-python
 pywebpush
