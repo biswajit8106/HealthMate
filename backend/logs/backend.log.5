@@ -1,47 +1,61 @@
-2025-12-01 11:49:23,381 INFO: [cached since 12.01s ago] {'table_name': 'health_reports', 'param_1': 'r', 'param_2': 'p', 'param_3': 'f', 'param_4': 'v', 'param_5': 'm', 'nspname_1': 'pg_catalog'} [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py:1904]
-2025-12-01 11:49:23,786 INFO: COMMIT [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py:1143]
-2025-12-01 11:49:24,257 INFO: Adding job tentatively -- it will be properly scheduled when the scheduler starts [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\apscheduler\schedulers\base.py:507]
-2025-12-01 11:49:24,258 INFO: Adding job tentatively -- it will be properly scheduled when the scheduler starts [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\apscheduler\schedulers\base.py:507]
-2025-12-01 11:49:24,264 INFO: Added job "check_and_send_notifications" to job store "default" [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\apscheduler\schedulers\base.py:1090]
-2025-12-01 11:49:24,264 INFO: Added job "delete_expired_reminders" to job store "default" [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\apscheduler\schedulers\base.py:1090]
-2025-12-01 11:49:24,264 INFO: Scheduler started [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\apscheduler\schedulers\base.py:214]
-2025-12-01 11:50:24,262 INFO: Running job "check_and_send_notifications (trigger: interval[0:01:00], next run at: 2025-12-01 11:51:24 IST)" (scheduled at 2025-12-01 11:50:24.257204+05:30) [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\apscheduler\executors\base.py:129]
-2025-12-01 11:50:24,263 INFO: Checking notifications at 11:50 on 2025-12-01 [in M:\new healthmate\HealthMate\backend\services\notification_scheduler.py:80]
-2025-12-01 11:50:24,270 INFO: BEGIN (implicit) [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py:1094]
-2025-12-01 11:50:24,275 INFO: SELECT medication_reminders.id AS medication_reminders_id, medication_reminders.user_id AS medication_reminders_user_id, medication_reminders.medicine_name AS medication_reminders_medicine_name, medication_reminders.dosage AS medication_reminders_dosage, medication_reminders.reminder_times AS medication_reminders_reminder_times, medication_reminders.frequency AS medication_reminders_frequency, medication_reminders.start_date AS medication_reminders_start_date, medication_reminders.end_date AS medication_reminders_end_date, medication_reminders.created_at AS medication_reminders_created_at 
+2025-12-01 12:30:15,893 ERROR: Job "check_and_send_notifications (trigger: interval[0:01:00], next run at: 2025-12-01 12:30:44 IST)" raised an exception [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\apscheduler\executors\base.py:145]
+Traceback (most recent call last):
+  File "M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+  File "M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\default.py", line 951, in do_execute
+    cursor.execute(statement, parameters)
+psycopg2.OperationalError: server closed the connection unexpectedly
+	This probably means the server terminated abnormally
+	before or while processing the request.
+server closed the connection unexpectedly
+	This probably means the server terminated abnormally
+	before or while processing the request.
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "M:\new healthmate\HealthMate\backend\venv\lib\site-packages\apscheduler\executors\base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+  File "M:\new healthmate\HealthMate\backend\services\notification_scheduler.py", line 86, in check_and_send_notifications
+    ).all()
+  File "M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\orm\query.py", line 2704, in all
+    return self._iter().all()  # type: ignore
+  File "M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\orm\query.py", line 2857, in _iter
+    result: Union[ScalarResult[_T], Result[_T]] = self.session.execute(
+  File "M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\orm\session.py", line 2351, in execute
+    return self._execute_internal(
+  File "M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\orm\session.py", line 2249, in _execute_internal
+    result: Result[Any] = compile_state_cls.orm_execute_statement(
+  File "M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\orm\context.py", line 306, in orm_execute_statement
+    result = conn.execute(
+  File "M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py", line 1419, in execute
+    return meth(
+  File "M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\sql\elements.py", line 526, in _execute_on_connection
+    return connection._execute_clauseelement(
+  File "M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py", line 1641, in _execute_clauseelement
+    ret = self._execute_context(
+  File "M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py", line 1846, in _execute_context
+    return self._exec_single_context(
+  File "M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py", line 1986, in _exec_single_context
+    self._handle_dbapi_exception(
+  File "M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py", line 2355, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+  File "M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\default.py", line 951, in do_execute
+    cursor.execute(statement, parameters)
+sqlalchemy.exc.OperationalError: (psycopg2.OperationalError) server closed the connection unexpectedly
+	This probably means the server terminated abnormally
+	before or while processing the request.
+server closed the connection unexpectedly
+	This probably means the server terminated abnormally
+	before or while processing the request.
+
+[SQL: SELECT medication_reminders.id AS medication_reminders_id, medication_reminders.user_id AS medication_reminders_user_id, medication_reminders.medicine_name AS medication_reminders_medicine_name, medication_reminders.dosage AS medication_reminders_dosage, medication_reminders.reminder_times AS medication_reminders_reminder_times, medication_reminders.frequency AS medication_reminders_frequency, medication_reminders.start_date AS medication_reminders_start_date, medication_reminders.end_date AS medication_reminders_end_date, medication_reminders.created_at AS medication_reminders_created_at 
 FROM medication_reminders 
-WHERE medication_reminders.start_date <= %(start_date_1)s AND medication_reminders.end_date >= %(end_date_1)s [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py:1899]
-2025-12-01 11:50:24,276 INFO: [generated in 0.00158s] {'start_date_1': '2025-12-01', 'end_date_1': '2025-12-01'} [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py:1904]
-2025-12-01 11:50:25,211 INFO: Found 0 active reminders [in M:\new healthmate\HealthMate\backend\services\notification_scheduler.py:88]
-2025-12-01 11:50:25,212 INFO: ROLLBACK [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py:1126]
-2025-12-01 11:50:25,442 INFO: Job "check_and_send_notifications (trigger: interval[0:01:00], next run at: 2025-12-01 11:51:24 IST)" executed successfully [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\apscheduler\executors\base.py:156]
-2025-12-01 11:51:24,266 INFO: Running job "check_and_send_notifications (trigger: interval[0:01:00], next run at: 2025-12-01 11:52:24 IST)" (scheduled at 2025-12-01 11:51:24.257204+05:30) [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\apscheduler\executors\base.py:129]
-2025-12-01 11:51:24,267 INFO: Checking notifications at 11:51 on 2025-12-01 [in M:\new healthmate\HealthMate\backend\services\notification_scheduler.py:80]
-2025-12-01 11:51:24,268 INFO: BEGIN (implicit) [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py:1094]
-2025-12-01 11:51:24,269 INFO: SELECT medication_reminders.id AS medication_reminders_id, medication_reminders.user_id AS medication_reminders_user_id, medication_reminders.medicine_name AS medication_reminders_medicine_name, medication_reminders.dosage AS medication_reminders_dosage, medication_reminders.reminder_times AS medication_reminders_reminder_times, medication_reminders.frequency AS medication_reminders_frequency, medication_reminders.start_date AS medication_reminders_start_date, medication_reminders.end_date AS medication_reminders_end_date, medication_reminders.created_at AS medication_reminders_created_at 
-FROM medication_reminders 
-WHERE medication_reminders.start_date <= %(start_date_1)s AND medication_reminders.end_date >= %(end_date_1)s [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py:1899]
-2025-12-01 11:51:24,270 INFO: [cached since 60s ago] {'start_date_1': '2025-12-01', 'end_date_1': '2025-12-01'} [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py:1904]
-2025-12-01 11:51:25,511 INFO: Found 0 active reminders [in M:\new healthmate\HealthMate\backend\services\notification_scheduler.py:88]
-2025-12-01 11:51:25,512 INFO: ROLLBACK [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py:1126]
-2025-12-01 11:51:25,997 INFO: Job "check_and_send_notifications (trigger: interval[0:01:00], next run at: 2025-12-01 11:52:24 IST)" executed successfully [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\apscheduler\executors\base.py:156]
-2025-12-01 11:52:24,265 INFO: Running job "check_and_send_notifications (trigger: interval[0:01:00], next run at: 2025-12-01 11:53:24 IST)" (scheduled at 2025-12-01 11:52:24.257204+05:30) [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\apscheduler\executors\base.py:129]
-2025-12-01 11:52:24,270 INFO: Checking notifications at 11:52 on 2025-12-01 [in M:\new healthmate\HealthMate\backend\services\notification_scheduler.py:80]
-2025-12-01 11:52:24,273 INFO: BEGIN (implicit) [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py:1094]
-2025-12-01 11:52:24,276 INFO: SELECT medication_reminders.id AS medication_reminders_id, medication_reminders.user_id AS medication_reminders_user_id, medication_reminders.medicine_name AS medication_reminders_medicine_name, medication_reminders.dosage AS medication_reminders_dosage, medication_reminders.reminder_times AS medication_reminders_reminder_times, medication_reminders.frequency AS medication_reminders_frequency, medication_reminders.start_date AS medication_reminders_start_date, medication_reminders.end_date AS medication_reminders_end_date, medication_reminders.created_at AS medication_reminders_created_at 
-FROM medication_reminders 
-WHERE medication_reminders.start_date <= %(start_date_1)s AND medication_reminders.end_date >= %(end_date_1)s [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py:1899]
-2025-12-01 11:52:24,278 INFO: [cached since 120s ago] {'start_date_1': '2025-12-01', 'end_date_1': '2025-12-01'} [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py:1904]
-2025-12-01 11:52:25,185 INFO: Found 0 active reminders [in M:\new healthmate\HealthMate\backend\services\notification_scheduler.py:88]
-2025-12-01 11:52:25,186 INFO: ROLLBACK [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py:1126]
-2025-12-01 11:52:25,679 INFO: Job "check_and_send_notifications (trigger: interval[0:01:00], next run at: 2025-12-01 11:53:24 IST)" executed successfully [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\apscheduler\executors\base.py:156]
-2025-12-01 11:53:24,259 INFO: Running job "check_and_send_notifications (trigger: interval[0:01:00], next run at: 2025-12-01 11:54:24 IST)" (scheduled at 2025-12-01 11:53:24.257204+05:30) [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\apscheduler\executors\base.py:129]
-2025-12-01 11:53:24,260 INFO: Checking notifications at 11:53 on 2025-12-01 [in M:\new healthmate\HealthMate\backend\services\notification_scheduler.py:80]
-2025-12-01 11:53:24,261 INFO: BEGIN (implicit) [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py:1094]
-2025-12-01 11:53:24,262 INFO: SELECT medication_reminders.id AS medication_reminders_id, medication_reminders.user_id AS medication_reminders_user_id, medication_reminders.medicine_name AS medication_reminders_medicine_name, medication_reminders.dosage AS medication_reminders_dosage, medication_reminders.reminder_times AS medication_reminders_reminder_times, medication_reminders.frequency AS medication_reminders_frequency, medication_reminders.start_date AS medication_reminders_start_date, medication_reminders.end_date AS medication_reminders_end_date, medication_reminders.created_at AS medication_reminders_created_at 
-FROM medication_reminders 
-WHERE medication_reminders.start_date <= %(start_date_1)s AND medication_reminders.end_date >= %(end_date_1)s [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py:1899]
-2025-12-01 11:53:24,263 INFO: [cached since 180s ago] {'start_date_1': '2025-12-01', 'end_date_1': '2025-12-01'} [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py:1904]
-2025-12-01 11:53:24,552 INFO: Found 0 active reminders [in M:\new healthmate\HealthMate\backend\services\notification_scheduler.py:88]
-2025-12-01 11:53:24,553 INFO: ROLLBACK [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py:1126]
-2025-12-01 11:53:24,927 INFO: Job "check_and_send_notifications (trigger: interval[0:01:00], next run at: 2025-12-01 11:54:24 IST)" executed successfully [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\apscheduler\executors\base.py:156]
+WHERE medication_reminders.start_date <= %(start_date_1)s AND medication_reminders.end_date >= %(end_date_1)s]
+[parameters: {'start_date_1': '2025-12-01', 'end_date_1': '2025-12-01'}]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+2025-12-01 12:30:44,211 INFO: Running job "check_and_send_notifications (trigger: interval[0:01:00], next run at: 2025-12-01 12:31:44 IST)" (scheduled at 2025-12-01 12:30:44.210179+05:30) [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\apscheduler\executors\base.py:129]
+2025-12-01 12:30:44,225 INFO: Checking notifications at 12:30 on 2025-12-01 [in M:\new healthmate\HealthMate\backend\services\notification_scheduler.py:80]

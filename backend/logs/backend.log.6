@@ -1,69 +1,38 @@
-2025-12-01 11:49:16,075 INFO: CREATE INDEX ix_medication_reminders_id ON medication_reminders (id) [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py:1899]
-2025-12-01 11:49:16,081 INFO: [no key 0.00591s] {} [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py:1904]
-2025-12-01 11:49:16,271 INFO: 
-CREATE TABLE health_reports (
-	id SERIAL NOT NULL, 
-	user_id INTEGER NOT NULL, 
-	name VARCHAR(100), 
-	gender VARCHAR(20), 
-	age INTEGER, 
-	predicted_disease VARCHAR(100), 
-	confidence FLOAT, 
-	description TEXT, 
-	symptoms TEXT, 
-	precautions TEXT, 
-	medications TEXT, 
-	diets TEXT, 
-	workouts TEXT, 
-	created_at TIMESTAMP WITHOUT TIME ZONE, 
-	PRIMARY KEY (id), 
-	FOREIGN KEY(user_id) REFERENCES users (user_id)
-)
-
- [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py:1899]
-2025-12-01 11:49:16,272 INFO: [no key 0.00113s] {} [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py:1904]
-2025-12-01 11:49:16,923 INFO: CREATE INDEX ix_health_reports_id ON health_reports (id) [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py:1899]
-2025-12-01 11:49:16,924 INFO: [no key 0.00092s] {} [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py:1904]
-2025-12-01 11:49:17,576 INFO: COMMIT [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py:1143]
-2025-12-01 11:49:17,816 INFO: BEGIN (implicit) [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py:1094]
-2025-12-01 11:49:17,817 INFO: SELECT pg_catalog.pg_class.relname 
-FROM pg_catalog.pg_class JOIN pg_catalog.pg_namespace ON pg_catalog.pg_namespace.oid = pg_catalog.pg_class.relnamespace 
-WHERE pg_catalog.pg_class.relname = %(table_name)s AND pg_catalog.pg_class.relkind = ANY (ARRAY[%(param_1)s, %(param_2)s, %(param_3)s, %(param_4)s, %(param_5)s]) AND pg_catalog.pg_table_is_visible(pg_catalog.pg_class.oid) AND pg_catalog.pg_namespace.nspname != %(nspname_1)s [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py:1899]
-2025-12-01 11:49:17,818 INFO: [cached since 6.449s ago] {'table_name': 'diseases', 'param_1': 'r', 'param_2': 'p', 'param_3': 'f', 'param_4': 'v', 'param_5': 'm', 'nspname_1': 'pg_catalog'} [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py:1904]
-2025-12-01 11:49:18,532 INFO: SELECT pg_catalog.pg_class.relname 
-FROM pg_catalog.pg_class JOIN pg_catalog.pg_namespace ON pg_catalog.pg_namespace.oid = pg_catalog.pg_class.relnamespace 
-WHERE pg_catalog.pg_class.relname = %(table_name)s AND pg_catalog.pg_class.relkind = ANY (ARRAY[%(param_1)s, %(param_2)s, %(param_3)s, %(param_4)s, %(param_5)s]) AND pg_catalog.pg_table_is_visible(pg_catalog.pg_class.oid) AND pg_catalog.pg_namespace.nspname != %(nspname_1)s [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py:1899]
-2025-12-01 11:49:18,532 INFO: [cached since 7.164s ago] {'table_name': 'users', 'param_1': 'r', 'param_2': 'p', 'param_3': 'f', 'param_4': 'v', 'param_5': 'm', 'nspname_1': 'pg_catalog'} [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py:1904]
-2025-12-01 11:49:19,009 INFO: SELECT pg_catalog.pg_class.relname 
-FROM pg_catalog.pg_class JOIN pg_catalog.pg_namespace ON pg_catalog.pg_namespace.oid = pg_catalog.pg_class.relnamespace 
-WHERE pg_catalog.pg_class.relname = %(table_name)s AND pg_catalog.pg_class.relkind = ANY (ARRAY[%(param_1)s, %(param_2)s, %(param_3)s, %(param_4)s, %(param_5)s]) AND pg_catalog.pg_table_is_visible(pg_catalog.pg_class.oid) AND pg_catalog.pg_namespace.nspname != %(nspname_1)s [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py:1899]
-2025-12-01 11:49:19,010 INFO: [cached since 7.642s ago] {'table_name': 'diagnoses', 'param_1': 'r', 'param_2': 'p', 'param_3': 'f', 'param_4': 'v', 'param_5': 'm', 'nspname_1': 'pg_catalog'} [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py:1904]
-2025-12-01 11:49:19,453 INFO: SELECT pg_catalog.pg_class.relname 
-FROM pg_catalog.pg_class JOIN pg_catalog.pg_namespace ON pg_catalog.pg_namespace.oid = pg_catalog.pg_class.relnamespace 
-WHERE pg_catalog.pg_class.relname = %(table_name)s AND pg_catalog.pg_class.relkind = ANY (ARRAY[%(param_1)s, %(param_2)s, %(param_3)s, %(param_4)s, %(param_5)s]) AND pg_catalog.pg_table_is_visible(pg_catalog.pg_class.oid) AND pg_catalog.pg_namespace.nspname != %(nspname_1)s [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py:1899]
-2025-12-01 11:49:19,455 INFO: [cached since 8.086s ago] {'table_name': 'medication_reminders', 'param_1': 'r', 'param_2': 'p', 'param_3': 'f', 'param_4': 'v', 'param_5': 'm', 'nspname_1': 'pg_catalog'} [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py:1904]
-2025-12-01 11:49:19,710 INFO: SELECT pg_catalog.pg_class.relname 
-FROM pg_catalog.pg_class JOIN pg_catalog.pg_namespace ON pg_catalog.pg_namespace.oid = pg_catalog.pg_class.relnamespace 
-WHERE pg_catalog.pg_class.relname = %(table_name)s AND pg_catalog.pg_class.relkind = ANY (ARRAY[%(param_1)s, %(param_2)s, %(param_3)s, %(param_4)s, %(param_5)s]) AND pg_catalog.pg_table_is_visible(pg_catalog.pg_class.oid) AND pg_catalog.pg_namespace.nspname != %(nspname_1)s [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py:1899]
-2025-12-01 11:49:19,711 INFO: [cached since 8.342s ago] {'table_name': 'health_reports', 'param_1': 'r', 'param_2': 'p', 'param_3': 'f', 'param_4': 'v', 'param_5': 'm', 'nspname_1': 'pg_catalog'} [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py:1904]
-2025-12-01 11:49:20,249 INFO: COMMIT [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py:1143]
-2025-12-01 11:49:20,752 INFO: BEGIN (implicit) [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py:1094]
-2025-12-01 11:49:20,753 INFO: SELECT pg_catalog.pg_class.relname 
-FROM pg_catalog.pg_class JOIN pg_catalog.pg_namespace ON pg_catalog.pg_namespace.oid = pg_catalog.pg_class.relnamespace 
-WHERE pg_catalog.pg_class.relname = %(table_name)s AND pg_catalog.pg_class.relkind = ANY (ARRAY[%(param_1)s, %(param_2)s, %(param_3)s, %(param_4)s, %(param_5)s]) AND pg_catalog.pg_table_is_visible(pg_catalog.pg_class.oid) AND pg_catalog.pg_namespace.nspname != %(nspname_1)s [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py:1899]
-2025-12-01 11:49:20,762 INFO: [cached since 9.394s ago] {'table_name': 'diseases', 'param_1': 'r', 'param_2': 'p', 'param_3': 'f', 'param_4': 'v', 'param_5': 'm', 'nspname_1': 'pg_catalog'} [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py:1904]
-2025-12-01 11:49:22,028 INFO: SELECT pg_catalog.pg_class.relname 
-FROM pg_catalog.pg_class JOIN pg_catalog.pg_namespace ON pg_catalog.pg_namespace.oid = pg_catalog.pg_class.relnamespace 
-WHERE pg_catalog.pg_class.relname = %(table_name)s AND pg_catalog.pg_class.relkind = ANY (ARRAY[%(param_1)s, %(param_2)s, %(param_3)s, %(param_4)s, %(param_5)s]) AND pg_catalog.pg_table_is_visible(pg_catalog.pg_class.oid) AND pg_catalog.pg_namespace.nspname != %(nspname_1)s [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py:1899]
-2025-12-01 11:49:22,029 INFO: [cached since 10.66s ago] {'table_name': 'users', 'param_1': 'r', 'param_2': 'p', 'param_3': 'f', 'param_4': 'v', 'param_5': 'm', 'nspname_1': 'pg_catalog'} [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py:1904]
-2025-12-01 11:49:22,530 INFO: SELECT pg_catalog.pg_class.relname 
-FROM pg_catalog.pg_class JOIN pg_catalog.pg_namespace ON pg_catalog.pg_namespace.oid = pg_catalog.pg_class.relnamespace 
-WHERE pg_catalog.pg_class.relname = %(table_name)s AND pg_catalog.pg_class.relkind = ANY (ARRAY[%(param_1)s, %(param_2)s, %(param_3)s, %(param_4)s, %(param_5)s]) AND pg_catalog.pg_table_is_visible(pg_catalog.pg_class.oid) AND pg_catalog.pg_namespace.nspname != %(nspname_1)s [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py:1899]
-2025-12-01 11:49:22,531 INFO: [cached since 11.16s ago] {'table_name': 'diagnoses', 'param_1': 'r', 'param_2': 'p', 'param_3': 'f', 'param_4': 'v', 'param_5': 'm', 'nspname_1': 'pg_catalog'} [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py:1904]
-2025-12-01 11:49:22,961 INFO: SELECT pg_catalog.pg_class.relname 
-FROM pg_catalog.pg_class JOIN pg_catalog.pg_namespace ON pg_catalog.pg_namespace.oid = pg_catalog.pg_class.relnamespace 
-WHERE pg_catalog.pg_class.relname = %(table_name)s AND pg_catalog.pg_class.relkind = ANY (ARRAY[%(param_1)s, %(param_2)s, %(param_3)s, %(param_4)s, %(param_5)s]) AND pg_catalog.pg_table_is_visible(pg_catalog.pg_class.oid) AND pg_catalog.pg_namespace.nspname != %(nspname_1)s [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py:1899]
-2025-12-01 11:49:22,963 INFO: [cached since 11.59s ago] {'table_name': 'medication_reminders', 'param_1': 'r', 'param_2': 'p', 'param_3': 'f', 'param_4': 'v', 'param_5': 'm', 'nspname_1': 'pg_catalog'} [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py:1904]
-2025-12-01 11:49:23,380 INFO: SELECT pg_catalog.pg_class.relname 
-FROM pg_catalog.pg_class JOIN pg_catalog.pg_namespace ON pg_catalog.pg_namespace.oid = pg_catalog.pg_class.relnamespace 
-WHERE pg_catalog.pg_class.relname = %(table_name)s AND pg_catalog.pg_class.relkind = ANY (ARRAY[%(param_1)s, %(param_2)s, %(param_3)s, %(param_4)s, %(param_5)s]) AND pg_catalog.pg_table_is_visible(pg_catalog.pg_class.oid) AND pg_catalog.pg_namespace.nspname != %(nspname_1)s [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py:1899]
+2025-12-01 12:27:44,227 INFO: SELECT medication_reminders.id AS medication_reminders_id, medication_reminders.user_id AS medication_reminders_user_id, medication_reminders.medicine_name AS medication_reminders_medicine_name, medication_reminders.dosage AS medication_reminders_dosage, medication_reminders.reminder_times AS medication_reminders_reminder_times, medication_reminders.frequency AS medication_reminders_frequency, medication_reminders.start_date AS medication_reminders_start_date, medication_reminders.end_date AS medication_reminders_end_date, medication_reminders.created_at AS medication_reminders_created_at 
+FROM medication_reminders 
+WHERE medication_reminders.start_date <= %(start_date_1)s AND medication_reminders.end_date >= %(end_date_1)s [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py:1899]
+2025-12-01 12:27:44,251 INFO: [cached since 1680s ago] {'start_date_1': '2025-12-01', 'end_date_1': '2025-12-01'} [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py:1904]
+2025-12-01 12:27:44,430 INFO: Found 0 active reminders [in M:\new healthmate\HealthMate\backend\services\notification_scheduler.py:88]
+2025-12-01 12:27:44,431 INFO: ROLLBACK [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py:1126]
+2025-12-01 12:27:44,503 INFO: Job "check_and_send_notifications (trigger: interval[0:01:00], next run at: 2025-12-01 12:28:44 IST)" executed successfully [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\apscheduler\executors\base.py:156]
+2025-12-01 12:28:44,218 INFO: Running job "check_and_send_notifications (trigger: interval[0:01:00], next run at: 2025-12-01 12:29:44 IST)" (scheduled at 2025-12-01 12:28:44.210179+05:30) [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\apscheduler\executors\base.py:129]
+2025-12-01 12:28:44,219 INFO: Checking notifications at 12:28 on 2025-12-01 [in M:\new healthmate\HealthMate\backend\services\notification_scheduler.py:80]
+2025-12-01 12:28:44,220 INFO: BEGIN (implicit) [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py:1094]
+2025-12-01 12:28:44,222 INFO: SELECT medication_reminders.id AS medication_reminders_id, medication_reminders.user_id AS medication_reminders_user_id, medication_reminders.medicine_name AS medication_reminders_medicine_name, medication_reminders.dosage AS medication_reminders_dosage, medication_reminders.reminder_times AS medication_reminders_reminder_times, medication_reminders.frequency AS medication_reminders_frequency, medication_reminders.start_date AS medication_reminders_start_date, medication_reminders.end_date AS medication_reminders_end_date, medication_reminders.created_at AS medication_reminders_created_at 
+FROM medication_reminders 
+WHERE medication_reminders.start_date <= %(start_date_1)s AND medication_reminders.end_date >= %(end_date_1)s [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py:1899]
+2025-12-01 12:28:44,222 INFO: [cached since 1740s ago] {'start_date_1': '2025-12-01', 'end_date_1': '2025-12-01'} [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py:1904]
+2025-12-01 12:28:45,467 INFO: Found 0 active reminders [in M:\new healthmate\HealthMate\backend\services\notification_scheduler.py:88]
+2025-12-01 12:28:45,467 INFO: ROLLBACK [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py:1126]
+2025-12-01 12:28:45,883 INFO: Job "check_and_send_notifications (trigger: interval[0:01:00], next run at: 2025-12-01 12:29:44 IST)" executed successfully [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\apscheduler\executors\base.py:156]
+2025-12-01 12:28:53,475 INFO: Incoming request: OPTIONS /api/delete-fcm-token [in M:\new healthmate\HealthMate\backend\app.py:102]
+2025-12-01 12:28:53,801 INFO: Incoming request: POST /api/delete-fcm-token [in M:\new healthmate\HealthMate\backend\app.py:102]
+2025-12-01 12:28:53,837 INFO: BEGIN (implicit) [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py:1094]
+2025-12-01 12:28:53,841 INFO: DELETE FROM fcm_tokens WHERE user_id = %(user_id)s AND token = %(token)s [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py:1899]
+2025-12-01 12:28:53,842 INFO: [generated in 0.00097s] {'user_id': 2, 'token': 'dPzxBwYcDpuBkJBqbB1eWg:APA91bE2rhsd0ivTZYUK0BBHiPAmMBqri_42G9k8B4SbXYepJ8h6nUN3SBi5Si8jQurKc3HtJRe3yUM9unPigXT-48sq2HJuItqGwNnNkhtufM1yo8P5h_U'} [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py:1904]
+2025-12-01 12:28:54,050 INFO: COMMIT [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py:1143]
+2025-12-01 12:29:01,655 INFO: Incoming request: OPTIONS /api/save-fcm-token [in M:\new healthmate\HealthMate\backend\app.py:102]
+2025-12-01 12:29:01,658 INFO: Incoming request: POST /api/save-fcm-token [in M:\new healthmate\HealthMate\backend\app.py:102]
+2025-12-01 12:29:01,660 INFO: BEGIN (implicit) [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py:1094]
+2025-12-01 12:29:01,661 INFO: SELECT * FROM fcm_tokens WHERE user_id = %(user_id)s [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py:1899]
+2025-12-01 12:29:01,661 INFO: [cached since 648.5s ago] {'user_id': 2} [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py:1904]
+2025-12-01 12:29:01,898 INFO: INSERT INTO fcm_tokens (user_id, token) VALUES (%(user_id)s, %(token)s) [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py:1899]
+2025-12-01 12:29:01,899 INFO: [generated in 0.00059s] {'user_id': 2, 'token': 'dPzxBwYcDpuBkJBqbB1eWg:APA91bHxeyY2EPyqvYwI5wMi1pF6rfixv13EVW7I_Is96GgV0VPfLuVqv749UgrA8Zq8lBzZ1oOA-I5eUxotuYpEDG-jfQOZIrOHABiFzPCMl4GO9RiWZNc'} [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py:1904]
+2025-12-01 12:29:02,179 INFO: COMMIT [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py:1143]
+2025-12-01 12:29:44,226 INFO: Running job "check_and_send_notifications (trigger: interval[0:01:00], next run at: 2025-12-01 12:30:44 IST)" (scheduled at 2025-12-01 12:29:44.210179+05:30) [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\apscheduler\executors\base.py:129]
+2025-12-01 12:29:44,227 INFO: Checking notifications at 12:29 on 2025-12-01 [in M:\new healthmate\HealthMate\backend\services\notification_scheduler.py:80]
+2025-12-01 12:29:44,228 INFO: BEGIN (implicit) [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py:1094]
+2025-12-01 12:29:44,230 INFO: SELECT medication_reminders.id AS medication_reminders_id, medication_reminders.user_id AS medication_reminders_user_id, medication_reminders.medicine_name AS medication_reminders_medicine_name, medication_reminders.dosage AS medication_reminders_dosage, medication_reminders.reminder_times AS medication_reminders_reminder_times, medication_reminders.frequency AS medication_reminders_frequency, medication_reminders.start_date AS medication_reminders_start_date, medication_reminders.end_date AS medication_reminders_end_date, medication_reminders.created_at AS medication_reminders_created_at 
+FROM medication_reminders 
+WHERE medication_reminders.start_date <= %(start_date_1)s AND medication_reminders.end_date >= %(end_date_1)s [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py:1899]
+2025-12-01 12:29:44,231 INFO: [cached since 1800s ago] {'start_date_1': '2025-12-01', 'end_date_1': '2025-12-01'} [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py:1904]

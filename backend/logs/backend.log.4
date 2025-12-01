@@ -1,47 +1,106 @@
-2025-12-01 11:54:24,269 INFO: Running job "check_and_send_notifications (trigger: interval[0:01:00], next run at: 2025-12-01 11:55:24 IST)" (scheduled at 2025-12-01 11:54:24.257204+05:30) [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\apscheduler\executors\base.py:129]
-2025-12-01 11:54:24,283 INFO: Checking notifications at 11:54 on 2025-12-01 [in M:\new healthmate\HealthMate\backend\services\notification_scheduler.py:80]
-2025-12-01 11:54:24,285 INFO: BEGIN (implicit) [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py:1094]
-2025-12-01 11:54:24,287 INFO: SELECT medication_reminders.id AS medication_reminders_id, medication_reminders.user_id AS medication_reminders_user_id, medication_reminders.medicine_name AS medication_reminders_medicine_name, medication_reminders.dosage AS medication_reminders_dosage, medication_reminders.reminder_times AS medication_reminders_reminder_times, medication_reminders.frequency AS medication_reminders_frequency, medication_reminders.start_date AS medication_reminders_start_date, medication_reminders.end_date AS medication_reminders_end_date, medication_reminders.created_at AS medication_reminders_created_at 
-FROM medication_reminders 
-WHERE medication_reminders.start_date <= %(start_date_1)s AND medication_reminders.end_date >= %(end_date_1)s [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py:1899]
-2025-12-01 11:54:24,288 INFO: [cached since 240s ago] {'start_date_1': '2025-12-01', 'end_date_1': '2025-12-01'} [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py:1904]
-2025-12-01 11:54:25,237 INFO: Found 0 active reminders [in M:\new healthmate\HealthMate\backend\services\notification_scheduler.py:88]
-2025-12-01 11:54:25,238 INFO: ROLLBACK [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py:1126]
-2025-12-01 11:54:25,658 INFO: Job "check_and_send_notifications (trigger: interval[0:01:00], next run at: 2025-12-01 11:55:24 IST)" executed successfully [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\apscheduler\executors\base.py:156]
-2025-12-01 11:55:24,264 INFO: Running job "check_and_send_notifications (trigger: interval[0:01:00], next run at: 2025-12-01 11:56:24 IST)" (scheduled at 2025-12-01 11:55:24.257204+05:30) [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\apscheduler\executors\base.py:129]
-2025-12-01 11:55:24,265 INFO: Checking notifications at 11:55 on 2025-12-01 [in M:\new healthmate\HealthMate\backend\services\notification_scheduler.py:80]
-2025-12-01 11:55:24,267 INFO: BEGIN (implicit) [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py:1094]
-2025-12-01 11:55:24,268 INFO: SELECT medication_reminders.id AS medication_reminders_id, medication_reminders.user_id AS medication_reminders_user_id, medication_reminders.medicine_name AS medication_reminders_medicine_name, medication_reminders.dosage AS medication_reminders_dosage, medication_reminders.reminder_times AS medication_reminders_reminder_times, medication_reminders.frequency AS medication_reminders_frequency, medication_reminders.start_date AS medication_reminders_start_date, medication_reminders.end_date AS medication_reminders_end_date, medication_reminders.created_at AS medication_reminders_created_at 
-FROM medication_reminders 
-WHERE medication_reminders.start_date <= %(start_date_1)s AND medication_reminders.end_date >= %(end_date_1)s [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py:1899]
-2025-12-01 11:55:24,270 INFO: [cached since 300s ago] {'start_date_1': '2025-12-01', 'end_date_1': '2025-12-01'} [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py:1904]
-2025-12-01 11:55:25,432 INFO: Found 0 active reminders [in M:\new healthmate\HealthMate\backend\services\notification_scheduler.py:88]
-2025-12-01 11:55:25,432 INFO: ROLLBACK [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py:1126]
-2025-12-01 11:55:25,939 INFO: Job "check_and_send_notifications (trigger: interval[0:01:00], next run at: 2025-12-01 11:56:24 IST)" executed successfully [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\apscheduler\executors\base.py:156]
-2025-12-01 11:56:24,258 INFO: Running job "check_and_send_notifications (trigger: interval[0:01:00], next run at: 2025-12-01 11:57:24 IST)" (scheduled at 2025-12-01 11:56:24.257204+05:30) [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\apscheduler\executors\base.py:129]
-2025-12-01 11:56:24,259 INFO: Checking notifications at 11:56 on 2025-12-01 [in M:\new healthmate\HealthMate\backend\services\notification_scheduler.py:80]
-2025-12-01 11:56:24,260 INFO: BEGIN (implicit) [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py:1094]
-2025-12-01 11:56:24,260 INFO: SELECT medication_reminders.id AS medication_reminders_id, medication_reminders.user_id AS medication_reminders_user_id, medication_reminders.medicine_name AS medication_reminders_medicine_name, medication_reminders.dosage AS medication_reminders_dosage, medication_reminders.reminder_times AS medication_reminders_reminder_times, medication_reminders.frequency AS medication_reminders_frequency, medication_reminders.start_date AS medication_reminders_start_date, medication_reminders.end_date AS medication_reminders_end_date, medication_reminders.created_at AS medication_reminders_created_at 
-FROM medication_reminders 
-WHERE medication_reminders.start_date <= %(start_date_1)s AND medication_reminders.end_date >= %(end_date_1)s [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py:1899]
-2025-12-01 11:56:24,262 INFO: [cached since 360s ago] {'start_date_1': '2025-12-01', 'end_date_1': '2025-12-01'} [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py:1904]
-2025-12-01 11:56:24,468 INFO: Found 0 active reminders [in M:\new healthmate\HealthMate\backend\services\notification_scheduler.py:88]
-2025-12-01 11:56:24,469 INFO: ROLLBACK [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py:1126]
-2025-12-01 11:56:24,570 INFO: Job "check_and_send_notifications (trigger: interval[0:01:00], next run at: 2025-12-01 11:57:24 IST)" executed successfully [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\apscheduler\executors\base.py:156]
-2025-12-01 11:57:24,270 INFO: Running job "check_and_send_notifications (trigger: interval[0:01:00], next run at: 2025-12-01 11:58:24 IST)" (scheduled at 2025-12-01 11:57:24.257204+05:30) [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\apscheduler\executors\base.py:129]
-2025-12-01 11:57:24,270 INFO: Checking notifications at 11:57 on 2025-12-01 [in M:\new healthmate\HealthMate\backend\services\notification_scheduler.py:80]
-2025-12-01 11:57:24,271 INFO: BEGIN (implicit) [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py:1094]
-2025-12-01 11:57:24,282 INFO: SELECT medication_reminders.id AS medication_reminders_id, medication_reminders.user_id AS medication_reminders_user_id, medication_reminders.medicine_name AS medication_reminders_medicine_name, medication_reminders.dosage AS medication_reminders_dosage, medication_reminders.reminder_times AS medication_reminders_reminder_times, medication_reminders.frequency AS medication_reminders_frequency, medication_reminders.start_date AS medication_reminders_start_date, medication_reminders.end_date AS medication_reminders_end_date, medication_reminders.created_at AS medication_reminders_created_at 
-FROM medication_reminders 
-WHERE medication_reminders.start_date <= %(start_date_1)s AND medication_reminders.end_date >= %(end_date_1)s [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py:1899]
-2025-12-01 11:57:24,284 INFO: [cached since 420s ago] {'start_date_1': '2025-12-01', 'end_date_1': '2025-12-01'} [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py:1904]
-2025-12-01 11:57:24,499 INFO: Found 0 active reminders [in M:\new healthmate\HealthMate\backend\services\notification_scheduler.py:88]
-2025-12-01 11:57:24,500 INFO: ROLLBACK [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py:1126]
-2025-12-01 11:57:24,603 INFO: Job "check_and_send_notifications (trigger: interval[0:01:00], next run at: 2025-12-01 11:58:24 IST)" executed successfully [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\apscheduler\executors\base.py:156]
-2025-12-01 11:57:49,704 INFO: select pg_catalog.version() [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py:1899]
-2025-12-01 11:57:49,706 INFO: [raw sql] {} [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py:1904]
-2025-12-01 11:57:49,921 INFO: select current_schema() [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py:1899]
-2025-12-01 11:57:49,922 INFO: [raw sql] {} [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py:1904]
-2025-12-01 11:57:50,094 INFO: show standard_conforming_strings [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py:1899]
-2025-12-01 11:57:50,094 INFO: [raw sql] {} [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py:1904]
-2025-12-01 11:57:50,258 INFO: BEGIN (implicit) [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py:1094]
+2025-12-01 12:30:52,281 ERROR: Job "check_and_send_notifications (trigger: interval[0:01:00], next run at: 2025-12-01 12:31:44 IST)" raised an exception [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\apscheduler\executors\base.py:145]
+Traceback (most recent call last):
+  File "M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py", line 143, in __init__
+    self._dbapi_connection = engine.raw_connection()
+  File "M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py", line 3301, in raw_connection
+    return self.pool.connect()
+  File "M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\pool\base.py", line 447, in connect
+    return _ConnectionFairy._checkout(self)
+  File "M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\pool\base.py", line 1264, in _checkout
+    fairy = _ConnectionRecord.checkout(pool)
+  File "M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\pool\base.py", line 716, in checkout
+    with util.safe_reraise():
+  File "M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\util\langhelpers.py", line 224, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\pool\base.py", line 714, in checkout
+    dbapi_connection = rec.get_connection()
+  File "M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\pool\base.py", line 865, in get_connection
+    self.__connect()
+  File "M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\pool\base.py", line 899, in __connect
+    with util.safe_reraise():
+  File "M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\util\langhelpers.py", line 224, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\pool\base.py", line 895, in __connect
+    self.dbapi_connection = connection = pool._invoke_creator(self)
+  File "M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\create.py", line 661, in connect
+    return dialect.connect(*cargs, **cparams)
+  File "M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\default.py", line 629, in connect
+    return self.loaded_dbapi.connect(*cargs, **cparams)  # type: ignore[no-any-return]  # NOQA: E501
+  File "M:\new healthmate\HealthMate\backend\venv\lib\site-packages\psycopg2\__init__.py", line 135, in connect
+    conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+psycopg2.OperationalError: could not translate host name "db.rmdwlurycizgjakwcbqq.supabase.co" to address: Name or service not known
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "M:\new healthmate\HealthMate\backend\venv\lib\site-packages\apscheduler\executors\base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+  File "M:\new healthmate\HealthMate\backend\services\notification_scheduler.py", line 86, in check_and_send_notifications
+    ).all()
+  File "M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\orm\query.py", line 2704, in all
+    return self._iter().all()  # type: ignore
+  File "M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\orm\query.py", line 2857, in _iter
+    result: Union[ScalarResult[_T], Result[_T]] = self.session.execute(
+  File "M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\orm\session.py", line 2351, in execute
+    return self._execute_internal(
+  File "M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\orm\session.py", line 2239, in _execute_internal
+    conn = self._connection_for_bind(bind)
+  File "M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\orm\session.py", line 2108, in _connection_for_bind
+    return trans._connection_for_bind(engine, execution_options)
+  File "<string>", line 2, in _connection_for_bind
+  File "M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\orm\state_changes.py", line 137, in _go
+    ret_value = fn(self, *arg, **kw)
+  File "M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\orm\session.py", line 1187, in _connection_for_bind
+    conn = bind.connect()
+  File "M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py", line 3277, in connect
+    return self._connection_cls(self)
+  File "M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py", line 145, in __init__
+    Connection._handle_dbapi_exception_noconnection(
+  File "M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py", line 2440, in _handle_dbapi_exception_noconnection
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py", line 143, in __init__
+    self._dbapi_connection = engine.raw_connection()
+  File "M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py", line 3301, in raw_connection
+    return self.pool.connect()
+  File "M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\pool\base.py", line 447, in connect
+    return _ConnectionFairy._checkout(self)
+  File "M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\pool\base.py", line 1264, in _checkout
+    fairy = _ConnectionRecord.checkout(pool)
+  File "M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\pool\base.py", line 716, in checkout
+    with util.safe_reraise():
+  File "M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\util\langhelpers.py", line 224, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\pool\base.py", line 714, in checkout
+    dbapi_connection = rec.get_connection()
+  File "M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\pool\base.py", line 865, in get_connection
+    self.__connect()
+  File "M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\pool\base.py", line 899, in __connect
+    with util.safe_reraise():
+  File "M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\util\langhelpers.py", line 224, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\pool\base.py", line 895, in __connect
+    self.dbapi_connection = connection = pool._invoke_creator(self)
+  File "M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\create.py", line 661, in connect
+    return dialect.connect(*cargs, **cparams)
+  File "M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\default.py", line 629, in connect
+    return self.loaded_dbapi.connect(*cargs, **cparams)  # type: ignore[no-any-return]  # NOQA: E501
+  File "M:\new healthmate\HealthMate\backend\venv\lib\site-packages\psycopg2\__init__.py", line 135, in connect
+    conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+sqlalchemy.exc.OperationalError: (psycopg2.OperationalError) could not translate host name "db.rmdwlurycizgjakwcbqq.supabase.co" to address: Name or service not known
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+2025-12-01 12:39:34,874 INFO: select pg_catalog.version() [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py:1899]
+2025-12-01 12:39:34,876 INFO: [raw sql] {} [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py:1904]
+2025-12-01 12:39:35,139 INFO: select current_schema() [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py:1899]
+2025-12-01 12:39:35,139 INFO: [raw sql] {} [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py:1904]
+2025-12-01 12:39:35,340 INFO: show standard_conforming_strings [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py:1899]
+2025-12-01 12:39:35,341 INFO: [raw sql] {} [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py:1904]
+2025-12-01 12:39:35,539 INFO: BEGIN (implicit) [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py:1094]
+2025-12-01 12:39:35,543 INFO: SELECT pg_catalog.pg_class.relname 
+FROM pg_catalog.pg_class JOIN pg_catalog.pg_namespace ON pg_catalog.pg_namespace.oid = pg_catalog.pg_class.relnamespace 
+WHERE pg_catalog.pg_class.relname = %(table_name)s AND pg_catalog.pg_class.relkind = ANY (ARRAY[%(param_1)s, %(param_2)s, %(param_3)s, %(param_4)s, %(param_5)s]) AND pg_catalog.pg_table_is_visible(pg_catalog.pg_class.oid) AND pg_catalog.pg_namespace.nspname != %(nspname_1)s [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py:1899]
+2025-12-01 12:39:35,543 INFO: [generated in 0.00070s] {'table_name': 'diseases', 'param_1': 'r', 'param_2': 'p', 'param_3': 'f', 'param_4': 'v', 'param_5': 'm', 'nspname_1': 'pg_catalog'} [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py:1904]
+2025-12-01 12:39:35,785 INFO: SELECT pg_catalog.pg_class.relname 
+FROM pg_catalog.pg_class JOIN pg_catalog.pg_namespace ON pg_catalog.pg_namespace.oid = pg_catalog.pg_class.relnamespace 
+WHERE pg_catalog.pg_class.relname = %(table_name)s AND pg_catalog.pg_class.relkind = ANY (ARRAY[%(param_1)s, %(param_2)s, %(param_3)s, %(param_4)s, %(param_5)s]) AND pg_catalog.pg_table_is_visible(pg_catalog.pg_class.oid) AND pg_catalog.pg_namespace.nspname != %(nspname_1)s [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py:1899]
