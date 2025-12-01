@@ -1,7 +1,20 @@
-2025-10-19 14:53:57,578 ERROR: SMTP credentials not configured. Cannot send email. [in H:\Healtmate_new_with_Eda\HealthMate\backend\utils\email_utils.py:16]
-2025-10-19 14:53:57,587 INFO: ROLLBACK [in H:\Healtmate_new_with_Eda\HealthMate\.venv\lib\site-packages\sqlalchemy\engine\base.py:1126]
-2025-10-19 14:53:57,587 INFO: ROLLBACK [in H:\Healtmate_new_with_Eda\HealthMate\.venv\lib\site-packages\sqlalchemy\engine\base.py:1126]
-2025-10-19 14:53:58,072 INFO: Incoming request: GET /firebase-logo.png [in H:\Healtmate_new_with_Eda\HealthMate\backend\app.py:102]
-2025-10-19 14:53:58,072 INFO: Incoming request: GET /firebase-logo.png [in H:\Healtmate_new_with_Eda\HealthMate\backend\app.py:102]
-2025-10-19 14:53:58,812 INFO: Job "check_and_send_notifications (trigger: interval[0:01:00], next run at: 2025-10-19 14:54:52 IST)" executed successfully [in H:\Healtmate_new_with_Eda\HealthMate\.venv\lib\site-packages\apscheduler\executors\base.py:156]
-2025-10-19 14:53:58,812 INFO: Job "check_and_send_notifications (trigger: interval[0:01:00], next run at: 2025-10-19 14:54:52 IST)" executed successfully [in H:\Healtmate_new_with_Eda\HealthMate\.venv\lib\site-packages\apscheduler\executors\base.py:156]
+2025-12-01 11:58:55,148 INFO: BEGIN (implicit) [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py:1094]
+2025-12-01 11:58:55,159 INFO: INSERT INTO users (name, email, age, gender, password, is_admin, is_active, is_deleted, created_at) VALUES (%(name)s, %(email)s, %(age)s, %(gender)s, %(password)s, %(is_admin)s, %(is_active)s, %(is_deleted)s, %(created_at)s) RETURNING users.user_id [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py:1899]
+2025-12-01 11:58:55,160 INFO: [generated in 0.00139s] {'name': 'Biswajit', 'email': 'biswajitsenapati8106@gmail.com', 'age': 21, 'gender': 'Male', 'password': 'scrypt:32768:8:1$0mcV5ygwgStj4k4U$5bc84b8e4aed7bf123d6729790b177a70d4d27b73768bec48459f164e7b759f24b386728d506ec778de4a90f4887170c5943bd9079382f3c6d9c1b3a89144174', 'is_admin': False, 'is_active': True, 'is_deleted': False, 'created_at': datetime.datetime(2025, 12, 1, 6, 28, 55, 159741)} [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py:1904]
+2025-12-01 11:58:55,361 INFO: COMMIT [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py:1143]
+2025-12-01 11:58:55,471 INFO: BEGIN (implicit) [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py:1094]
+2025-12-01 11:58:55,475 INFO: SELECT users.user_id, users.name, users.email, users.age, users.gender, users.password, users.is_admin, users.is_active, users.is_deleted, users.created_at 
+FROM users 
+WHERE users.user_id = %(pk_1)s [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py:1899]
+2025-12-01 11:58:55,477 INFO: [generated in 0.00105s] {'pk_1': 2} [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py:1904]
+2025-12-01 11:58:55,659 INFO: ROLLBACK [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py:1126]
+2025-12-01 11:59:44,223 INFO: Running job "check_and_send_notifications (trigger: interval[0:01:00], next run at: 2025-12-01 12:00:44 IST)" (scheduled at 2025-12-01 11:59:44.210179+05:30) [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\apscheduler\executors\base.py:129]
+2025-12-01 11:59:44,225 INFO: Checking notifications at 11:59 on 2025-12-01 [in M:\new healthmate\HealthMate\backend\services\notification_scheduler.py:80]
+2025-12-01 11:59:44,228 INFO: BEGIN (implicit) [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py:1094]
+2025-12-01 11:59:44,233 INFO: SELECT medication_reminders.id AS medication_reminders_id, medication_reminders.user_id AS medication_reminders_user_id, medication_reminders.medicine_name AS medication_reminders_medicine_name, medication_reminders.dosage AS medication_reminders_dosage, medication_reminders.reminder_times AS medication_reminders_reminder_times, medication_reminders.frequency AS medication_reminders_frequency, medication_reminders.start_date AS medication_reminders_start_date, medication_reminders.end_date AS medication_reminders_end_date, medication_reminders.created_at AS medication_reminders_created_at 
+FROM medication_reminders 
+WHERE medication_reminders.start_date <= %(start_date_1)s AND medication_reminders.end_date >= %(end_date_1)s [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py:1899]
+2025-12-01 11:59:44,237 INFO: [generated in 0.00409s] {'start_date_1': '2025-12-01', 'end_date_1': '2025-12-01'} [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py:1904]
+2025-12-01 11:59:44,441 INFO: Found 0 active reminders [in M:\new healthmate\HealthMate\backend\services\notification_scheduler.py:88]
+2025-12-01 11:59:44,442 INFO: ROLLBACK [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py:1126]
+2025-12-01 11:59:44,526 INFO: Job "check_and_send_notifications (trigger: interval[0:01:00], next run at: 2025-12-01 12:00:44 IST)" executed successfully [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\apscheduler\executors\base.py:156]

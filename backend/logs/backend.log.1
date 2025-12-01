@@ -1,63 +1,50 @@
-2025-10-19 14:53:52,048 INFO: SELECT medication_reminders.id AS medication_reminders_id, medication_reminders.user_id AS medication_reminders_user_id, medication_reminders.medicine_name AS medication_reminders_medicine_name, medication_reminders.dosage AS medication_reminders_dosage, medication_reminders.reminder_times AS medication_reminders_reminder_times, medication_reminders.frequency AS medication_reminders_frequency, medication_reminders.start_date AS medication_reminders_start_date, medication_reminders.end_date AS medication_reminders_end_date, medication_reminders.created_at AS medication_reminders_created_at 
-FROM medication_reminders 
-WHERE medication_reminders.start_date <= %(start_date_1)s AND medication_reminders.end_date >= %(end_date_1)s [in H:\Healtmate_new_with_Eda\HealthMate\.venv\lib\site-packages\sqlalchemy\engine\base.py:1899]
-2025-10-19 14:53:52,061 INFO: [cached since 599.5s ago] {'start_date_1': '2025-10-19', 'end_date_1': '2025-10-19'} [in H:\Healtmate_new_with_Eda\HealthMate\.venv\lib\site-packages\sqlalchemy\engine\base.py:1904]
-2025-10-19 14:53:52,061 INFO: [cached since 599.5s ago] {'start_date_1': '2025-10-19', 'end_date_1': '2025-10-19'} [in H:\Healtmate_new_with_Eda\HealthMate\.venv\lib\site-packages\sqlalchemy\engine\base.py:1904]
-2025-10-19 14:53:53,013 INFO: Found 10 active reminders [in H:\Healtmate_new_with_Eda\HealthMate\backend\services\notification_scheduler.py:88]
-2025-10-19 14:53:53,013 INFO: Found 10 active reminders [in H:\Healtmate_new_with_Eda\HealthMate\backend\services\notification_scheduler.py:88]
-2025-10-19 14:53:53,013 INFO: Reminder 24 times: ['13:07'] [in H:\Healtmate_new_with_Eda\HealthMate\backend\services\notification_scheduler.py:92]
-2025-10-19 14:53:53,013 INFO: Reminder 24 times: ['13:07'] [in H:\Healtmate_new_with_Eda\HealthMate\backend\services\notification_scheduler.py:92]
-2025-10-19 14:53:53,014 INFO: No time match for reminder 24 [in H:\Healtmate_new_with_Eda\HealthMate\backend\services\notification_scheduler.py:119]
-2025-10-19 14:53:53,014 INFO: No time match for reminder 24 [in H:\Healtmate_new_with_Eda\HealthMate\backend\services\notification_scheduler.py:119]
-2025-10-19 14:53:53,014 INFO: Reminder 25 times: ['13:11'] [in H:\Healtmate_new_with_Eda\HealthMate\backend\services\notification_scheduler.py:92]
-2025-10-19 14:53:53,014 INFO: Reminder 25 times: ['13:11'] [in H:\Healtmate_new_with_Eda\HealthMate\backend\services\notification_scheduler.py:92]
-2025-10-19 14:53:53,014 INFO: No time match for reminder 25 [in H:\Healtmate_new_with_Eda\HealthMate\backend\services\notification_scheduler.py:119]
-2025-10-19 14:53:53,014 INFO: No time match for reminder 25 [in H:\Healtmate_new_with_Eda\HealthMate\backend\services\notification_scheduler.py:119]
-2025-10-19 14:53:53,014 INFO: Reminder 26 times: ['13:14'] [in H:\Healtmate_new_with_Eda\HealthMate\backend\services\notification_scheduler.py:92]
-2025-10-19 14:53:53,014 INFO: Reminder 26 times: ['13:14'] [in H:\Healtmate_new_with_Eda\HealthMate\backend\services\notification_scheduler.py:92]
-2025-10-19 14:53:53,015 INFO: No time match for reminder 26 [in H:\Healtmate_new_with_Eda\HealthMate\backend\services\notification_scheduler.py:119]
-2025-10-19 14:53:53,015 INFO: No time match for reminder 26 [in H:\Healtmate_new_with_Eda\HealthMate\backend\services\notification_scheduler.py:119]
-2025-10-19 14:53:53,015 INFO: Reminder 27 times: ['13:22'] [in H:\Healtmate_new_with_Eda\HealthMate\backend\services\notification_scheduler.py:92]
-2025-10-19 14:53:53,015 INFO: Reminder 27 times: ['13:22'] [in H:\Healtmate_new_with_Eda\HealthMate\backend\services\notification_scheduler.py:92]
-2025-10-19 14:53:53,015 INFO: No time match for reminder 27 [in H:\Healtmate_new_with_Eda\HealthMate\backend\services\notification_scheduler.py:119]
-2025-10-19 14:53:53,015 INFO: No time match for reminder 27 [in H:\Healtmate_new_with_Eda\HealthMate\backend\services\notification_scheduler.py:119]
-2025-10-19 14:53:53,015 INFO: Reminder 28 times: ['13:24'] [in H:\Healtmate_new_with_Eda\HealthMate\backend\services\notification_scheduler.py:92]
-2025-10-19 14:53:53,015 INFO: Reminder 28 times: ['13:24'] [in H:\Healtmate_new_with_Eda\HealthMate\backend\services\notification_scheduler.py:92]
-2025-10-19 14:53:53,016 INFO: No time match for reminder 28 [in H:\Healtmate_new_with_Eda\HealthMate\backend\services\notification_scheduler.py:119]
-2025-10-19 14:53:53,016 INFO: No time match for reminder 28 [in H:\Healtmate_new_with_Eda\HealthMate\backend\services\notification_scheduler.py:119]
-2025-10-19 14:53:53,016 INFO: Reminder 29 times: ['14:03'] [in H:\Healtmate_new_with_Eda\HealthMate\backend\services\notification_scheduler.py:92]
-2025-10-19 14:53:53,016 INFO: Reminder 29 times: ['14:03'] [in H:\Healtmate_new_with_Eda\HealthMate\backend\services\notification_scheduler.py:92]
-2025-10-19 14:53:53,016 INFO: No time match for reminder 29 [in H:\Healtmate_new_with_Eda\HealthMate\backend\services\notification_scheduler.py:119]
-2025-10-19 14:53:53,016 INFO: No time match for reminder 29 [in H:\Healtmate_new_with_Eda\HealthMate\backend\services\notification_scheduler.py:119]
-2025-10-19 14:53:53,016 INFO: Reminder 30 times: ['14:18'] [in H:\Healtmate_new_with_Eda\HealthMate\backend\services\notification_scheduler.py:92]
-2025-10-19 14:53:53,016 INFO: Reminder 30 times: ['14:18'] [in H:\Healtmate_new_with_Eda\HealthMate\backend\services\notification_scheduler.py:92]
-2025-10-19 14:53:53,017 INFO: No time match for reminder 30 [in H:\Healtmate_new_with_Eda\HealthMate\backend\services\notification_scheduler.py:119]
-2025-10-19 14:53:53,017 INFO: No time match for reminder 30 [in H:\Healtmate_new_with_Eda\HealthMate\backend\services\notification_scheduler.py:119]
-2025-10-19 14:53:53,017 INFO: Reminder 31 times: ['14:34'] [in H:\Healtmate_new_with_Eda\HealthMate\backend\services\notification_scheduler.py:92]
-2025-10-19 14:53:53,017 INFO: Reminder 31 times: ['14:34'] [in H:\Healtmate_new_with_Eda\HealthMate\backend\services\notification_scheduler.py:92]
-2025-10-19 14:53:53,017 INFO: No time match for reminder 31 [in H:\Healtmate_new_with_Eda\HealthMate\backend\services\notification_scheduler.py:119]
-2025-10-19 14:53:53,017 INFO: No time match for reminder 31 [in H:\Healtmate_new_with_Eda\HealthMate\backend\services\notification_scheduler.py:119]
-2025-10-19 14:53:53,017 INFO: Reminder 32 times: ['14:38'] [in H:\Healtmate_new_with_Eda\HealthMate\backend\services\notification_scheduler.py:92]
-2025-10-19 14:53:53,017 INFO: Reminder 32 times: ['14:38'] [in H:\Healtmate_new_with_Eda\HealthMate\backend\services\notification_scheduler.py:92]
-2025-10-19 14:53:53,018 INFO: No time match for reminder 32 [in H:\Healtmate_new_with_Eda\HealthMate\backend\services\notification_scheduler.py:119]
-2025-10-19 14:53:53,018 INFO: No time match for reminder 32 [in H:\Healtmate_new_with_Eda\HealthMate\backend\services\notification_scheduler.py:119]
-2025-10-19 14:53:53,018 INFO: Reminder 33 times: ['14:53'] [in H:\Healtmate_new_with_Eda\HealthMate\backend\services\notification_scheduler.py:92]
-2025-10-19 14:53:53,018 INFO: Reminder 33 times: ['14:53'] [in H:\Healtmate_new_with_Eda\HealthMate\backend\services\notification_scheduler.py:92]
-2025-10-19 14:53:53,018 INFO: Time match for reminder 33 [in H:\Healtmate_new_with_Eda\HealthMate\backend\services\notification_scheduler.py:94]
-2025-10-19 14:53:53,018 INFO: Time match for reminder 33 [in H:\Healtmate_new_with_Eda\HealthMate\backend\services\notification_scheduler.py:94]
-2025-10-19 14:53:53,021 INFO: SELECT token FROM fcm_tokens WHERE user_id = %(user_id)s [in H:\Healtmate_new_with_Eda\HealthMate\.venv\lib\site-packages\sqlalchemy\engine\base.py:1899]
-2025-10-19 14:53:53,021 INFO: SELECT token FROM fcm_tokens WHERE user_id = %(user_id)s [in H:\Healtmate_new_with_Eda\HealthMate\.venv\lib\site-packages\sqlalchemy\engine\base.py:1899]
-2025-10-19 14:53:53,022 INFO: [generated in 0.00086s] {'user_id': 4} [in H:\Healtmate_new_with_Eda\HealthMate\.venv\lib\site-packages\sqlalchemy\engine\base.py:1904]
-2025-10-19 14:53:53,022 INFO: [generated in 0.00086s] {'user_id': 4} [in H:\Healtmate_new_with_Eda\HealthMate\.venv\lib\site-packages\sqlalchemy\engine\base.py:1904]
-2025-10-19 14:53:53,741 INFO: SELECT users.user_id AS users_user_id, users.name AS users_name, users.email AS users_email, users.age AS users_age, users.gender AS users_gender, users.password AS users_password, users.is_admin AS users_is_admin, users.is_active AS users_is_active, users.is_deleted AS users_is_deleted, users.created_at AS users_created_at 
-FROM users 
-WHERE users.user_id = %(user_id_1)s 
- LIMIT %(param_1)s [in H:\Healtmate_new_with_Eda\HealthMate\.venv\lib\site-packages\sqlalchemy\engine\base.py:1899]
-2025-10-19 14:53:53,741 INFO: SELECT users.user_id AS users_user_id, users.name AS users_name, users.email AS users_email, users.age AS users_age, users.gender AS users_gender, users.password AS users_password, users.is_admin AS users_is_admin, users.is_active AS users_is_active, users.is_deleted AS users_is_deleted, users.created_at AS users_created_at 
-FROM users 
-WHERE users.user_id = %(user_id_1)s 
- LIMIT %(param_1)s [in H:\Healtmate_new_with_Eda\HealthMate\.venv\lib\site-packages\sqlalchemy\engine\base.py:1899]
-2025-10-19 14:53:53,742 INFO: [generated in 0.00095s] {'user_id_1': 4, 'param_1': 1} [in H:\Healtmate_new_with_Eda\HealthMate\.venv\lib\site-packages\sqlalchemy\engine\base.py:1904]
-2025-10-19 14:53:53,742 INFO: [generated in 0.00095s] {'user_id_1': 4, 'param_1': 1} [in H:\Healtmate_new_with_Eda\HealthMate\.venv\lib\site-packages\sqlalchemy\engine\base.py:1904]
-2025-10-19 14:53:57,577 INFO: Successfully sent push notification: projects/healthmate-413a7/messages/1fc66df8-54b8-421f-bdeb-7ea8ecf6d342 [in H:\Healtmate_new_with_Eda\HealthMate\backend\services\notification_scheduler.py:62]
-2025-10-19 14:53:57,577 INFO: Successfully sent push notification: projects/healthmate-413a7/messages/1fc66df8-54b8-421f-bdeb-7ea8ecf6d342 [in H:\Healtmate_new_with_Eda\HealthMate\backend\services\notification_scheduler.py:62]
+2025-12-01 11:58:42,678 INFO: SELECT pg_catalog.pg_class.relname 
+FROM pg_catalog.pg_class JOIN pg_catalog.pg_namespace ON pg_catalog.pg_namespace.oid = pg_catalog.pg_class.relnamespace 
+WHERE pg_catalog.pg_class.relname = %(table_name)s AND pg_catalog.pg_class.relkind = ANY (ARRAY[%(param_1)s, %(param_2)s, %(param_3)s, %(param_4)s, %(param_5)s]) AND pg_catalog.pg_table_is_visible(pg_catalog.pg_class.oid) AND pg_catalog.pg_namespace.nspname != %(nspname_1)s [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py:1899]
+2025-12-01 11:58:42,689 INFO: [cached since 1.834s ago] {'table_name': 'diseases', 'param_1': 'r', 'param_2': 'p', 'param_3': 'f', 'param_4': 'v', 'param_5': 'm', 'nspname_1': 'pg_catalog'} [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py:1904]
+2025-12-01 11:58:42,998 INFO: SELECT pg_catalog.pg_class.relname 
+FROM pg_catalog.pg_class JOIN pg_catalog.pg_namespace ON pg_catalog.pg_namespace.oid = pg_catalog.pg_class.relnamespace 
+WHERE pg_catalog.pg_class.relname = %(table_name)s AND pg_catalog.pg_class.relkind = ANY (ARRAY[%(param_1)s, %(param_2)s, %(param_3)s, %(param_4)s, %(param_5)s]) AND pg_catalog.pg_table_is_visible(pg_catalog.pg_class.oid) AND pg_catalog.pg_namespace.nspname != %(nspname_1)s [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py:1899]
+2025-12-01 11:58:42,999 INFO: [cached since 2.144s ago] {'table_name': 'users', 'param_1': 'r', 'param_2': 'p', 'param_3': 'f', 'param_4': 'v', 'param_5': 'm', 'nspname_1': 'pg_catalog'} [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py:1904]
+2025-12-01 11:58:43,159 INFO: SELECT pg_catalog.pg_class.relname 
+FROM pg_catalog.pg_class JOIN pg_catalog.pg_namespace ON pg_catalog.pg_namespace.oid = pg_catalog.pg_class.relnamespace 
+WHERE pg_catalog.pg_class.relname = %(table_name)s AND pg_catalog.pg_class.relkind = ANY (ARRAY[%(param_1)s, %(param_2)s, %(param_3)s, %(param_4)s, %(param_5)s]) AND pg_catalog.pg_table_is_visible(pg_catalog.pg_class.oid) AND pg_catalog.pg_namespace.nspname != %(nspname_1)s [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py:1899]
+2025-12-01 11:58:43,159 INFO: [cached since 2.304s ago] {'table_name': 'diagnoses', 'param_1': 'r', 'param_2': 'p', 'param_3': 'f', 'param_4': 'v', 'param_5': 'm', 'nspname_1': 'pg_catalog'} [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py:1904]
+2025-12-01 11:58:43,255 INFO: SELECT pg_catalog.pg_class.relname 
+FROM pg_catalog.pg_class JOIN pg_catalog.pg_namespace ON pg_catalog.pg_namespace.oid = pg_catalog.pg_class.relnamespace 
+WHERE pg_catalog.pg_class.relname = %(table_name)s AND pg_catalog.pg_class.relkind = ANY (ARRAY[%(param_1)s, %(param_2)s, %(param_3)s, %(param_4)s, %(param_5)s]) AND pg_catalog.pg_table_is_visible(pg_catalog.pg_class.oid) AND pg_catalog.pg_namespace.nspname != %(nspname_1)s [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py:1899]
+2025-12-01 11:58:43,255 INFO: [cached since 2.401s ago] {'table_name': 'medication_reminders', 'param_1': 'r', 'param_2': 'p', 'param_3': 'f', 'param_4': 'v', 'param_5': 'm', 'nspname_1': 'pg_catalog'} [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py:1904]
+2025-12-01 11:58:43,346 INFO: SELECT pg_catalog.pg_class.relname 
+FROM pg_catalog.pg_class JOIN pg_catalog.pg_namespace ON pg_catalog.pg_namespace.oid = pg_catalog.pg_class.relnamespace 
+WHERE pg_catalog.pg_class.relname = %(table_name)s AND pg_catalog.pg_class.relkind = ANY (ARRAY[%(param_1)s, %(param_2)s, %(param_3)s, %(param_4)s, %(param_5)s]) AND pg_catalog.pg_table_is_visible(pg_catalog.pg_class.oid) AND pg_catalog.pg_namespace.nspname != %(nspname_1)s [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py:1899]
+2025-12-01 11:58:43,347 INFO: [cached since 2.493s ago] {'table_name': 'health_reports', 'param_1': 'r', 'param_2': 'p', 'param_3': 'f', 'param_4': 'v', 'param_5': 'm', 'nspname_1': 'pg_catalog'} [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py:1904]
+2025-12-01 11:58:43,477 INFO: COMMIT [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py:1143]
+2025-12-01 11:58:43,557 INFO: BEGIN (implicit) [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py:1094]
+2025-12-01 11:58:43,557 INFO: SELECT pg_catalog.pg_class.relname 
+FROM pg_catalog.pg_class JOIN pg_catalog.pg_namespace ON pg_catalog.pg_namespace.oid = pg_catalog.pg_class.relnamespace 
+WHERE pg_catalog.pg_class.relname = %(table_name)s AND pg_catalog.pg_class.relkind = ANY (ARRAY[%(param_1)s, %(param_2)s, %(param_3)s, %(param_4)s, %(param_5)s]) AND pg_catalog.pg_table_is_visible(pg_catalog.pg_class.oid) AND pg_catalog.pg_namespace.nspname != %(nspname_1)s [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py:1899]
+2025-12-01 11:58:43,558 INFO: [cached since 2.703s ago] {'table_name': 'diseases', 'param_1': 'r', 'param_2': 'p', 'param_3': 'f', 'param_4': 'v', 'param_5': 'm', 'nspname_1': 'pg_catalog'} [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py:1904]
+2025-12-01 11:58:43,724 INFO: SELECT pg_catalog.pg_class.relname 
+FROM pg_catalog.pg_class JOIN pg_catalog.pg_namespace ON pg_catalog.pg_namespace.oid = pg_catalog.pg_class.relnamespace 
+WHERE pg_catalog.pg_class.relname = %(table_name)s AND pg_catalog.pg_class.relkind = ANY (ARRAY[%(param_1)s, %(param_2)s, %(param_3)s, %(param_4)s, %(param_5)s]) AND pg_catalog.pg_table_is_visible(pg_catalog.pg_class.oid) AND pg_catalog.pg_namespace.nspname != %(nspname_1)s [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py:1899]
+2025-12-01 11:58:43,725 INFO: [cached since 2.87s ago] {'table_name': 'users', 'param_1': 'r', 'param_2': 'p', 'param_3': 'f', 'param_4': 'v', 'param_5': 'm', 'nspname_1': 'pg_catalog'} [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py:1904]
+2025-12-01 11:58:43,814 INFO: SELECT pg_catalog.pg_class.relname 
+FROM pg_catalog.pg_class JOIN pg_catalog.pg_namespace ON pg_catalog.pg_namespace.oid = pg_catalog.pg_class.relnamespace 
+WHERE pg_catalog.pg_class.relname = %(table_name)s AND pg_catalog.pg_class.relkind = ANY (ARRAY[%(param_1)s, %(param_2)s, %(param_3)s, %(param_4)s, %(param_5)s]) AND pg_catalog.pg_table_is_visible(pg_catalog.pg_class.oid) AND pg_catalog.pg_namespace.nspname != %(nspname_1)s [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py:1899]
+2025-12-01 11:58:43,814 INFO: [cached since 2.959s ago] {'table_name': 'diagnoses', 'param_1': 'r', 'param_2': 'p', 'param_3': 'f', 'param_4': 'v', 'param_5': 'm', 'nspname_1': 'pg_catalog'} [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py:1904]
+2025-12-01 11:58:43,906 INFO: SELECT pg_catalog.pg_class.relname 
+FROM pg_catalog.pg_class JOIN pg_catalog.pg_namespace ON pg_catalog.pg_namespace.oid = pg_catalog.pg_class.relnamespace 
+WHERE pg_catalog.pg_class.relname = %(table_name)s AND pg_catalog.pg_class.relkind = ANY (ARRAY[%(param_1)s, %(param_2)s, %(param_3)s, %(param_4)s, %(param_5)s]) AND pg_catalog.pg_table_is_visible(pg_catalog.pg_class.oid) AND pg_catalog.pg_namespace.nspname != %(nspname_1)s [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py:1899]
+2025-12-01 11:58:43,907 INFO: [cached since 3.053s ago] {'table_name': 'medication_reminders', 'param_1': 'r', 'param_2': 'p', 'param_3': 'f', 'param_4': 'v', 'param_5': 'm', 'nspname_1': 'pg_catalog'} [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py:1904]
+2025-12-01 11:58:43,997 INFO: SELECT pg_catalog.pg_class.relname 
+FROM pg_catalog.pg_class JOIN pg_catalog.pg_namespace ON pg_catalog.pg_namespace.oid = pg_catalog.pg_class.relnamespace 
+WHERE pg_catalog.pg_class.relname = %(table_name)s AND pg_catalog.pg_class.relkind = ANY (ARRAY[%(param_1)s, %(param_2)s, %(param_3)s, %(param_4)s, %(param_5)s]) AND pg_catalog.pg_table_is_visible(pg_catalog.pg_class.oid) AND pg_catalog.pg_namespace.nspname != %(nspname_1)s [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py:1899]
+2025-12-01 11:58:44,002 INFO: [cached since 3.147s ago] {'table_name': 'health_reports', 'param_1': 'r', 'param_2': 'p', 'param_3': 'f', 'param_4': 'v', 'param_5': 'm', 'nspname_1': 'pg_catalog'} [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py:1904]
+2025-12-01 11:58:44,097 INFO: COMMIT [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\sqlalchemy\engine\base.py:1143]
+2025-12-01 11:58:44,210 INFO: Adding job tentatively -- it will be properly scheduled when the scheduler starts [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\apscheduler\schedulers\base.py:507]
+2025-12-01 11:58:44,211 INFO: Adding job tentatively -- it will be properly scheduled when the scheduler starts [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\apscheduler\schedulers\base.py:507]
+2025-12-01 11:58:44,213 INFO: Added job "check_and_send_notifications" to job store "default" [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\apscheduler\schedulers\base.py:1090]
+2025-12-01 11:58:44,216 INFO: Added job "delete_expired_reminders" to job store "default" [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\apscheduler\schedulers\base.py:1090]
+2025-12-01 11:58:44,218 INFO: Scheduler started [in M:\new healthmate\HealthMate\backend\venv\lib\site-packages\apscheduler\schedulers\base.py:214]
+2025-12-01 11:58:54,657 INFO: Incoming request: OPTIONS /api/user/register [in M:\new healthmate\HealthMate\backend\app.py:102]
+2025-12-01 11:58:54,979 INFO: Incoming request: POST /api/user/register [in M:\new healthmate\HealthMate\backend\app.py:102]

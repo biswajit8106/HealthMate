@@ -21,3 +21,5 @@ fuzzywuzzy
 python-Levenshtein
 pdfplumber
 gunicorn
+werkzeug
+psycopg2

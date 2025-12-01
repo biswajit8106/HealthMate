@@ -115,7 +115,7 @@ def create_app():
     # --- Root Route ---
     @app.get("/")
     async def index():
-        return {"message": "HealthMate backend is live"}
+        return {"message": "HealthMate backend running"}
 
     # --- Include Routers ---
     app.include_router(medication_reminder_router, prefix="/api")
@@ -165,4 +165,6 @@ def create_cli_app():
 if __name__ == '__main__':
     import uvicorn
     app = create_app()
-    uvicorn.run(app, host="0.0.0.0", port=5000, reload=True)
+    # Disable reload in production
+    reload = not os.getenv('PRODUCTION', False)
+    uvicorn.run(app, host="0.0.0.0", port=int(os.getenv('PORT', 5000)), reload=reload)
