@@ -31,6 +31,22 @@ const Navbar = () => {
     checkSession();
   }, []);
 
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (isMobileMenuOpen && !event.target.closest('.navbar-container')) {
+        setIsMobileMenuOpen(false);
+      }
+    };
+
+    if (isMobileMenuOpen) {
+      document.addEventListener('click', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('click', handleClickOutside);
+    };
+  }, [isMobileMenuOpen]);
+
   const handleLoginSuccess = () => {
     setIsLoggedIn(true);
   };
@@ -109,7 +125,7 @@ const Navbar = () => {
         <div className={`navbar-links ${isMobileMenuOpen ? 'active' : ''}`}>
           {isLoggedIn && (
             <>
-             <button onClick={() => { navigate('/'); setIsMobileMenuOpen(false); }}><Link to="/">Home</Link></button>
+             <button onClick={() => { navigate('/'); setIsMobileMenuOpen(false); }}>Home</button>
               <button className="symptom-button" onClick={handleSymptomCheckerClick}>
                Symptom Diagnosis
                </button>
