@@ -1,232 +1,174 @@
-import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-// import { useTranslation } from 'react-i18next';
-import LoginModal from './LoginModal';
-import SignupModal from './SignupModal';
-import logo from '../assets/logo.png';
-import '../style/components/Navbar.css';
+import React, { useState, useEffect, useRef } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import LoginModal from "./LoginModal";
+import SignupModal from "./SignupModal";
+import logo from "../assets/logo.png";
+import "../style/components/Navbar.css";
 
 const Navbar = () => {
-  // const { t, i18n } = useTranslation();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate();
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [showSignupModal, setShowSignupModal] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
+  const menuRef = useRef(null);
+  const buttonRef = useRef(null);
 
+  // Check Session
   useEffect(() => {
-    // Check session from backend instead of localStorage token
     const checkSession = async () => {
       try {
-        const response = await fetch('https://healthmate-y0dn.onrender.com/api/user/session', {
-          credentials: 'include',
-        });
-        const data = await response.json();
+        const res = await fetch(
+          "https://healthmate-y0dn.onrender.com/api/user/session",
+          { credentials: "include" }
+        );
+        const data = await res.json();
         setIsLoggedIn(data.logged_in === true);
-      } catch (error) {
+      } catch {
         setIsLoggedIn(false);
       }
     };
     checkSession();
   }, []);
 
+  // Close menu on outside click
   useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (isMobileMenuOpen && !event.target.closest('.navbar-container')) {
+    const handleClose = (e) => {
+      if (
+        isMobileMenuOpen &&
+        menuRef.current &&
+        !menuRef.current.contains(e.target) &&
+        !buttonRef.current.contains(e.target)
+      ) {
         setIsMobileMenuOpen(false);
       }
     };
 
-    if (isMobileMenuOpen) {
-      document.addEventListener('click', handleClickOutside);
-    }
-
-    return () => {
-      document.removeEventListener('click', handleClickOutside);
-    };
+    document.addEventListener("mousedown", handleClose);
+    return () => document.removeEventListener("mousedown", handleClose);
   }, [isMobileMenuOpen]);
 
-  const handleLoginSuccess = () => {
-    setIsLoggedIn(true);
-  };
-
-  const handleSwitchToSignup = () => {
-    setShowLoginModal(false);
-    setShowSignupModal(true);
-  };
-
-  const handleSwitchToLogin = () => {
-    setShowSignupModal(false);
-    setShowLoginModal(true);
-  };
-
-  const toggleLoginModal = () => {
-    setShowLoginModal(!showLoginModal);
-    setShowSignupModal(false);
-  };
-
-  const toggleSignupModal = () => {
-    setShowSignupModal(!showSignupModal);
-    setShowLoginModal(false);
-  };
-
-  const handleSymptomCheckerClick = () => {
-    if (!isLoggedIn) {
-      toggleLoginModal();
-    } else {
-      navigate('/symptom-checker');
-    }
+  const closeAndGo = (path) => {
+    navigate(path);
     setIsMobileMenuOpen(false);
   };
-  const handleReportAnalyzerClick = () => {
-    if (!isLoggedIn) {
-      toggleLoginModal();
-    } else {
-      navigate('/reportanalyzer');
-    }
-    setIsMobileMenuOpen(false);
-  };
-
-  const handleMedicationReminderClick = () => {
-    if (!isLoggedIn) {
-      toggleLoginModal();
-    } else {
-      navigate('/medication-reminder');
-    }
-    setIsMobileMenuOpen(false);
-  };
-  const handleDashboardClick = () => {
-    if (!isLoggedIn) {
-      toggleLoginModal();
-    } else {
-      navigate('/dashboard');
-    }
-    setIsMobileMenuOpen(false); // Close menu after navigation
-  };
-
-  const handleLinkClick = () => {
-    setIsMobileMenuOpen(false); // Close menu after navigation
-  };
-
-  // const changeLanguage = (lng) => {
-  //   i18n.changeLanguage(lng);
-  //   setLanguage(lng);
-  // };
 
   return (
-    <nav className="navbar">
-      <div className="navbar-container">
-        <Link to="/" className="navbar-logo">
-          <img src={logo} alt="Health-mate logo" className="navbar-logo-img" />
-          <span className="navbar-logo-text">HealthMate</span>
-        </Link>
+    <>
+      <nav className="navbar">
+        <div className="navbar-container">
+          {/* Logo */}
+          <Link to="/" className="navbar-logo" onClick={() => closeAndGo("/")}>
+            <img src={logo} alt="HealthMate Logo" className="navbar-logo-img" />
+            <span className="navbar-logo-text">HealthMate</span>
+          </Link>
 
-        <div className={`navbar-links ${isMobileMenuOpen ? 'active' : ''}`}>
-          {isLoggedIn && (
-            <>
-             <button onClick={() => { navigate('/'); setIsMobileMenuOpen(false); }}>Home</button>
-              <button className="symptom-button" onClick={handleSymptomCheckerClick}>
-               Symptom Diagnosis
-               </button>
-               <button className="reportanalyzer-button" onClick={handleReportAnalyzerClick}>
-               Report Analyzer</button>
-                <button className="medication-button" onClick={handleMedicationReminderClick}>
-                Medication Reminder</button>
-                <button className="dashboard-button" onClick={handleDashboardClick}>
-                Dashboard</button>
-            </>
-          )}
-          <div className="auth-buttons-mobile">
+          {/* Desktop Links */}
+          <div className="navbar-links-desktop">
+            {isLoggedIn && (
+              <>
+                <button onClick={() => navigate("/")}>Home</button>
+                <button onClick={() => navigate("/symptom-checker")}>
+                  Symptom Diagnosis
+                </button>
+                <button onClick={() => navigate("/reportanalyzer")}>
+                  Report Analyzer
+                </button>
+                <button onClick={() => navigate("/medication-reminder")}>
+                  Medication Reminder
+                </button>
+                <button onClick={() => navigate("/dashboard")}>Dashboard</button>
+              </>
+            )}
+          </div>
+
+          {/* Desktop Auth */}
+          <div className="auth-desktop">
             {isLoggedIn ? (
               <button
                 className="navbar-button"
                 onClick={async () => {
-                  try {
-                    await fetch('https://healthmate-y0dn.onrender.com/api/user/logout', {
-                      method: 'POST',
-                      credentials: 'include',
-                    });
-                  } catch (error) {
-                    console.error('Logout failed', error);
-                  }
+                  await fetch(
+                    "https://healthmate-y0dn.onrender.com/api/user/logout",
+                    { method: "POST", credentials: "include" }
+                  );
                   setIsLoggedIn(false);
-                  navigate('/');
-                  setIsMobileMenuOpen(false);
                 }}
               >
                 Logout
               </button>
             ) : (
               <>
-                <button className="navbar-button" onClick={() => { toggleLoginModal(); setIsMobileMenuOpen(false); }}>
+                <button className="navbar-button" onClick={() => setShowLoginModal(true)}>
                   Login
                 </button>
-                <button className="navbar-button" onClick={() => { toggleSignupModal(); setIsMobileMenuOpen(false); }}>
+                <button className="navbar-button" onClick={() => setShowSignupModal(true)}>
                   Sign Up
                 </button>
               </>
             )}
           </div>
+
+          {/* Hamburger */}
+          <button
+            className={`hamburger ${isMobileMenuOpen ? "active" : ""}`}
+            ref={buttonRef}
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          >
+            <span className="bar"></span>
+            <span className="bar"></span>
+            <span className="bar"></span>
+          </button>
         </div>
+      </nav>
 
-        {/* <div className="language-selector">
-          <select value={language} onChange={(e) => changeLanguage(e.target.value)}>
-            <option value="en">English</option>
-            <option value="hi">हिन्दी</option>
-          </select>
-        </div> */}
+      {/* Overlay */}
+      {isMobileMenuOpen && <div className="menu-overlay"></div>}
 
-        <div className="navbar-buttons">
-          {isLoggedIn ? (
+      {/* Sliding Mobile Menu */}
+      <div
+        ref={menuRef}
+        className={`mobile-menu ${isMobileMenuOpen ? "open" : ""}`}
+      >
+        {isLoggedIn ? (
+          <>
+            <button onClick={() => closeAndGo("/")}>Home</button>
+            <button onClick={() => closeAndGo("/symptom-checker")}>
+              Symptom Diagnosis
+            </button>
+            <button onClick={() => closeAndGo("/reportanalyzer")}>
+              Report Analyzer
+            </button>
+            <button onClick={() => closeAndGo("/medication-reminder")}>
+              Medication Reminder
+            </button>
+            <button onClick={() => closeAndGo("/dashboard")}>Dashboard</button>
             <button
               className="navbar-button"
               onClick={async () => {
-                try {
-                  await fetch('https://healthmate-y0dn.onrender.com/api/user/logout', {
-                    method: 'POST',
-                    credentials: 'include',
-                  });
-                } catch (error) {
-                  console.error('Logout failed', error);
-                }
+                await fetch(
+                  "https://healthmate-y0dn.onrender.com/api/user/logout",
+                  { method: "POST", credentials: "include" }
+                );
                 setIsLoggedIn(false);
-                navigate('/');
+                closeAndGo("/");
               }}
             >
               Logout
             </button>
-          ) : (
-            <>
-              <button className="navbar-button" onClick={toggleLoginModal}>
-                Login
-              </button>
-              <button className="navbar-button" onClick={toggleSignupModal}>
-                Sign Up
-              </button>
-            </>
-          )}
-        </div>
-
-        <button className="hamburger" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
-          <span className="bar"></span>
-          <span className="bar"></span>
-          <span className="bar"></span>
-        </button>
+          </>
+        ) : (
+          <>
+            <button className="navbar-button" onClick={() => { setShowLoginModal(true); setIsMobileMenuOpen(false); }}>Login</button>
+            <button className="navbar-button" onClick={() => { setShowSignupModal(true); setIsMobileMenuOpen(false); }}>Sign Up</button>
+          </>
+        )}
       </div>
 
-      <LoginModal 
-        show={showLoginModal} 
-        onClose={toggleLoginModal}
-        onSwitchToSignup={handleSwitchToSignup}
-        onLoginSuccess={handleLoginSuccess}
-      />
-      <SignupModal 
-        show={showSignupModal} 
-        onClose={toggleSignupModal}
-        onSwitchToLogin={handleSwitchToLogin}
-      />
-    </nav>
+      <LoginModal show={showLoginModal} onClose={() => setShowLoginModal(false)} />
+      <SignupModal show={showSignupModal} onClose={() => setShowSignupModal(false)} />
+    </>
   );
 };
 
