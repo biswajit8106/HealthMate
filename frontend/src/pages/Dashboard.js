@@ -13,6 +13,7 @@ import DashboardCharts from '../components/DashboardCharts';
 
 const Dashboard = () => {
   const [activeTab, setActiveTab] = useState('profile');
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const renderContent = () => {
     switch (activeTab) {
@@ -40,7 +41,10 @@ const Dashboard = () => {
   return (
     <div className="dashboard-container">
       <Navbar />
-      <div className="dashboard-sidebar">
+      <button className="sidebar-toggle" onClick={() => setIsSidebarOpen(!isSidebarOpen)}>
+        ☰
+      </button>
+      <div className={`dashboard-sidebar ${isSidebarOpen ? 'open' : ''}`}>
         <button
           className={activeTab === 'profile' ? 'active' : ''}
           onClick={() => setActiveTab('profile')}

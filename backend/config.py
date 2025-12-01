@@ -11,7 +11,7 @@ class Config:
 
     # Production flags
     LOG_LEVEL = os.getenv('LOG_LEVEL', 'INFO')
-    CORS_ORIGINS = os.getenv('CORS_ORIGINS', 'http://localhost:3000').split(',')
+    CORS_ORIGINS = os.getenv('CORS_ORIGINS', 'http://localhost:3000,https://healthmate-frontend-9r2kele29-biswajit8106s-projects.vercel.app').split(',')
 
     # Paths for ML model training (optional, relative)
     TRAINING_DATA_PATH = os.path.join('Training', 'Data', 'Training.csv').replace('\\', '/')

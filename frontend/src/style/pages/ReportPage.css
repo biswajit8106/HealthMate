@@ -188,3 +188,40 @@ button:disabled {
       transform: translateY(0);
   }
 }
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .report-content {
+    padding: 1rem 1.5rem;
+    margin-top: 4rem;
+  }
+
+  .report-content h2 {
+    font-size: 2rem;
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .report-content p {
+    font-size: 1rem;
+  }
+
+  .report-content button {
+    padding: 0.7rem 1.4rem;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .report-content {
+    padding: 0.8rem 1rem;
+  }
+
+  .report-content h2 {
+    font-size: 1.5rem;
+  }
+
+  .report-content p {
+    font-size: 0.9rem;
+  }
+}

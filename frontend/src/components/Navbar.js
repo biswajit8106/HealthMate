@@ -12,6 +12,7 @@ const Navbar = () => {
   const navigate = useNavigate();
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [showSignupModal, setShowSignupModal] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
 
   useEffect(() => {
@@ -97,7 +98,7 @@ const Navbar = () => {
           <span className="navbar-logo-text">HealthMate</span>
         </Link>
 
-        <div className="navbar-links">
+        <div className={`navbar-links ${isMobileMenuOpen ? 'active' : ''}`}>
           {isLoggedIn && (
             <>
              <button><Link to="/">Home</Link></button>
@@ -109,7 +110,7 @@ const Navbar = () => {
                 <button className="medication-button" onClick={handleMedicationReminderClick}>
                 Medication Reminder</button>
                 <button className="dashboard-button" onClick={handleDashboardClick}>
-                Dashboard</button>  
+                Dashboard</button>
             </>
           )}
         </div>
@@ -123,7 +124,7 @@ const Navbar = () => {
 
         <div className="navbar-buttons">
           {isLoggedIn ? (
-            <button 
+            <button
               className="navbar-button"
               onClick={async () => {
                 try {
@@ -151,6 +152,12 @@ const Navbar = () => {
             </>
           )}
         </div>
+
+        <button className="hamburger" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
+          <span className="bar"></span>
+          <span className="bar"></span>
+          <span className="bar"></span>
+        </button>
       </div>
 
       <LoginModal 
