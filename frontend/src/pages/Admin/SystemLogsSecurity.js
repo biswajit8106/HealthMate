@@ -13,9 +13,9 @@ const SystemLogsSecurity = () => {
   const fetchLogs = async () => {
     try {
       const [activityRes, failedRes, sessionsRes] = await Promise.all([
-        axios.get('http://localhost:5000/admin/system_logs/activity'),
-        axios.get('http://localhost:5000/admin/system_logs/failed_logins'),
-        axios.get('http://localhost:5000/admin/system_logs/session_management'),
+        axios.get('https://healthmate-y0dn.onrender.com/admin/system_logs/activity'),
+        axios.get('https://healthmate-y0dn.onrender.com/admin/system_logs/failed_logins'),
+        axios.get('https://healthmate-y0dn.onrender.com/admin/system_logs/session_management'),
       ]);
       setActivityLogs(activityRes.data);
       setFailedLogins(failedRes.data);

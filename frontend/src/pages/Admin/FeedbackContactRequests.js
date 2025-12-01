@@ -12,7 +12,7 @@ const FeedbackContactRequests = () => {
 
   const fetchFeedbacks = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/admin/feedback/');
+      const res = await axios.get('https://healthmate-y0dn.onrender.com/admin/feedback/');
       setFeedbacks(res.data);
     } catch (err) {
       setError('Failed to fetch feedbacks');
@@ -28,7 +28,7 @@ const FeedbackContactRequests = () => {
 
   const handleReply = async (feedbackId) => {
     try {
-      await axios.post(`http://localhost:5000/admin/feedback/reply/${feedbackId}`, { reply: replyText });
+      await axios.post(`https://healthmate-y0dn.onrender.com/admin/feedback/reply/${feedbackId}`, { reply: replyText });
       setReplyText('');
       setSelectedFeedbackId(null);
       fetchFeedbacks();
@@ -40,7 +40,7 @@ const FeedbackContactRequests = () => {
 
   const markResolved = async (feedbackId) => {
     try {
-      await axios.post(`http://localhost:5000/admin/feedback/mark_resolved/${feedbackId}`);
+      await axios.post(`https://healthmate-y0dn.onrender.com/admin/feedback/mark_resolved/${feedbackId}`);
       fetchFeedbacks();
     } catch (err) {
       setError('Failed to mark resolved');

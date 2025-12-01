@@ -12,7 +12,7 @@ const DiseaseInformationManager = () => {
 
   const fetchDiseases = async () => {
     try {
-      const res = await axios.get('http://localhost:5000//admin/disease_info/');
+      const res = await axios.get('https://healthmate-y0dn.onrender.com//admin/disease_info/');
       setDiseases(res.data);
     } catch (err) {
       setError('Failed to fetch diseases');
@@ -28,7 +28,7 @@ const DiseaseInformationManager = () => {
 
   const addDisease = async () => {
     try {
-      await axios.post('http://localhost:5000//admin/disease_info/', {
+      await axios.post('https://healthmate-y0dn.onrender.com//admin/disease_info/', {
         name: newDiseaseName,
         description: newDiseaseDescription,
       });

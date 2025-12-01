@@ -10,7 +10,7 @@ const HealthReportsManager = () => {
 
   const fetchReports = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/admin/health_reports/');
+      const res = await axios.get('https://healthmate-y0dn.onrender.com/admin/health_reports/');
       setReports(res.data);
     } catch (err) {
       setError('Failed to fetch health reports');
@@ -25,12 +25,12 @@ const HealthReportsManager = () => {
   }, []);
 
   const downloadReport = (id) => {
-    window.open(`http://localhost:5000/admin/health_reports/download/${id}`, '_blank');
+    window.open(`https://healthmate-y0dn.onrender.com/admin/health_reports/download/${id}`, '_blank');
   };
 
   const deleteReport = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/admin/health_reports/delete/${id}`);
+      await axios.delete(`https://healthmate-y0dn.onrender.com/admin/health_reports/delete/${id}`);
       fetchReports();
     } catch (err) {
       setError('Failed to delete report');

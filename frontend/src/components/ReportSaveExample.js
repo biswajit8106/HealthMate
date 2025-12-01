@@ -41,7 +41,7 @@ const ReportSaveExample = () => {
 
   const handleLogin = async () => {
     try {
-      const res = await axios.post('http://localhost:5000/login', { email, password }, { withCredentials: true });
+      const res = await axios.post('https://healthmate-y0dn.onrender.com/login', { email, password }, { withCredentials: true });
       setMessage(res.data.message);
     } catch (err) {
       setMessage('Login failed: ' + (err.response?.data?.message || err.message));
@@ -50,7 +50,7 @@ const ReportSaveExample = () => {
 
   const handleSaveReport = async () => {
     try {
-      const res = await axios.post('http://localhost:5000/report/save', reportData, { withCredentials: true });
+      const res = await axios.post('https://healthmate-y0dn.onrender.com/report/save', reportData, { withCredentials: true });
       setMessage('Report saved and PDF generated successfully.');
       // You can handle the PDF response here if needed
     } catch (err) {

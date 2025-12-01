@@ -17,7 +17,7 @@ const SymptomChecker = () => {
 
     useEffect(() => {
         // Fetch user info from backend session API
-        axios.get('http://localhost:5000/api/user/session', { withCredentials: true })
+        axios.get('https://healthmate-y0dn.onrender.com/api/user/session', { withCredentials: true })
             .then(response => {
                 if (response.data.logged_in) {
                     const user = response.data.user;
@@ -249,7 +249,7 @@ const SymptomChecker = () => {
 
         try {
             setLoading(true);
-            const response = await axios.post('http://localhost:5000/predict', {
+            const response = await axios.post('https://healthmate-y0dn.onrender.com/predict', {
                 symptoms: symptoms,
             });
             setLoading(false);
@@ -283,7 +283,7 @@ const SymptomChecker = () => {
                 setError(null);
 
                 //  Save report to backend
-await axios.post('http://localhost:5000/report/save', fullResult, { withCredentials: true });
+await axios.post('https://healthmate-y0dn.onrender.com/report/save', fullResult, { withCredentials: true });
                 //  Navigate to Report page
                 navigate('/report', { state: fullResult });
             } else {

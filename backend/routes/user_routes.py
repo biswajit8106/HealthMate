@@ -54,7 +54,7 @@ def login(request_data: LoginRequest, response: Response, db: Session = Depends(
 
     if user and check_password_hash(user.password, data['password']):
         # Set cookie for session-like behavior
-        response.set_cookie(key="user_id", value=str(user.user_id), httponly=True)
+        response.set_cookie(key="user_id", value=str(user.user_id), httponly=True, secure=True, samesite="none")
         user_data = {
             "user_id": user.user_id,
             "name": user.name,
@@ -84,3 +84,4 @@ def session_info(user_id: int = Cookie(None), db: Session = Depends(get_db)):
                 "gender": user.gender
             }
             return {"logged_in": True, "user": user_data}
+    return {"logged_in": False}

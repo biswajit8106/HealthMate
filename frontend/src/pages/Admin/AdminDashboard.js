@@ -23,11 +23,11 @@ const AdminDashboard = () => {
     const fetchAllData = async () => {
       try {
         const [statsRes, userGrowthRes, symptomCheckRes, reportAnalyzerRes, recentActivityRes] = await Promise.all([
-          axios.get('http://localhost:5000/admin/dashboard/stats'),
-          axios.get('http://localhost:5000/admin/dashboard/user_growth'),
-          axios.get('http://localhost:5000/admin/dashboard/symptom_check_usage'),
-          axios.get('http://localhost:5000/admin/dashboard/report_analyzer_trends'),
-          axios.get('http://localhost:5000/admin/dashboard/recent_activity'),
+          axios.get('https://healthmate-y0dn.onrender.com/admin/dashboard/stats'),
+          axios.get('https://healthmate-y0dn.onrender.com/admin/dashboard/user_growth'),
+          axios.get('https://healthmate-y0dn.onrender.com/admin/dashboard/symptom_check_usage'),
+          axios.get('https://healthmate-y0dn.onrender.com/admin/dashboard/report_analyzer_trends'),
+          axios.get('https://healthmate-y0dn.onrender.com/admin/dashboard/recent_activity'),
         ]);
         setStats(statsRes.data);
         setUserGrowth(userGrowthRes.data);

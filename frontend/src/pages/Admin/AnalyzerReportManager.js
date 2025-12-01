@@ -10,7 +10,7 @@ const AnalyzerReportManager = () => {
 
   const fetchUploads = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/admin/analyzer_reports/');
+      const res = await axios.get('https://healthmate-y0dn.onrender.com/admin/analyzer_reports/');
       setUploads(res.data);
     } catch (err) {
       setError('Failed to fetch analyzer uploads');
@@ -25,12 +25,12 @@ const AnalyzerReportManager = () => {
   }, []);
 
   const downloadUpload = (filename) => {
-    window.open(`http://localhost:5000/admin/analyzer_reports/download/${filename}`, '_blank');
+    window.open(`https://healthmate-y0dn.onrender.com/admin/analyzer_reports/download/${filename}`, '_blank');
   };
 
   const deleteUpload = async (filename) => {
     try {
-      await axios.delete(`http://localhost:5000/admin/analyzer_reports/delete/${filename}`);
+      await axios.delete(`https://healthmate-y0dn.onrender.com/admin/analyzer_reports/delete/${filename}`);
       fetchUploads();
     } catch (err) {
       setError('Failed to delete upload');

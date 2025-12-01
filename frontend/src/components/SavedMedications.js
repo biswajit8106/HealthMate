@@ -10,7 +10,7 @@ const SavedMedications = () => {
     const fetchMedications = async () => {
       try {
         const token = localStorage.getItem('token');
-        const response = await axios.get('http://localhost:5000/medications/saved', {
+        const response = await axios.get('https://healthmate-y0dn.onrender.com/medications/saved', {
           headers: { Authorization: `Bearer ${token}` },
         });
         setMedications(response.data);

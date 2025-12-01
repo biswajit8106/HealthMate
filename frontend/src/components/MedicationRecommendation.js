@@ -11,7 +11,7 @@ const MedicationRecommendationClean = () => {
   useEffect(() => {
     const fetchRecentMedicine = async () => {
       try {
-        const recentResponse = await axios.get('http://localhost:5000/api/medicine/recent');
+        const recentResponse = await axios.get('https://healthmate-y0dn.onrender.com/api/medicine/recent');
         setRecentDisease(recentResponse.data.predicted_disease);
         setRecentMedications(recentResponse.data.medications);
       } catch (err) {

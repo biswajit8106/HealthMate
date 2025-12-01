@@ -18,7 +18,7 @@ const MedicationReminder = ({ onClose }) => {
 
   const fetchSessionInfo = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/session', { withCredentials: true });
+      const response = await axios.get('https://healthmate-y0dn.onrender.com/session', { withCredentials: true });
       if (response.data && response.data.user && response.data.user.user_id) {
         setUserId(response.data.user.user_id);
       }
@@ -30,7 +30,7 @@ const MedicationReminder = ({ onClose }) => {
   const fetchUpcomingReminders = async () => {
     if (!userId) return;
     try {
-      const response = await axios.get(`http://localhost:5000/api/medication-reminder?user_id=${userId}`);
+      const response = await axios.get(`https://healthmate-y0dn.onrender.com/api/medication-reminder?user_id=${userId}`);
       setUpcomingReminders(response.data.reminders || []);
     } catch (error) {
       console.error('Error fetching upcoming reminders:', error);
@@ -79,7 +79,7 @@ const MedicationReminder = ({ onClose }) => {
       endDate,
     };
     try {
-      await axios.post('http://localhost:5000/api/medication-reminder', reminderData);
+      await axios.post('https://healthmate-y0dn.onrender.com/api/medication-reminder', reminderData);
       alert('Medication reminder saved successfully');
       // Refresh upcoming reminders after save
       fetchUpcomingReminders();

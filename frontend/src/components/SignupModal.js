@@ -48,7 +48,7 @@ const SignupModal = ({ show, onClose, onSwitchToLogin }) => {
     setLoading(true);
 
     try {
-      const response = await axios.post('http://localhost:5000/api/user/register', formData);
+      const response = await axios.post('https://healthmate-y0dn.onrender.com/api/user/register', formData);
       if (response.data.message) {
         setError(response.data.message);
       }

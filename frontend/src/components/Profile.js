@@ -10,7 +10,7 @@ const Profile = () => {
     // Fetch user data from API endpoint
     const fetchUserData = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/user/profile', { withCredentials: true });
+        const response = await axios.get('https://healthmate-y0dn.onrender.com/api/user/profile', { withCredentials: true });
         setUser(response.data);
         setLoading(false);
       } catch (err) {

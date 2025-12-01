@@ -10,7 +10,7 @@ const UserManagement = () => {
 
   const fetchUsers = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/admin/users/');
+      const res = await axios.get('https://healthmate-y0dn.onrender.com/admin/users/');
       setUsers(res.data);
     } catch (err) {
       setError('Failed to fetch users');
@@ -26,7 +26,7 @@ const UserManagement = () => {
 
   const activateUser = async (userId) => {
     try {
-      await axios.post(`http://localhost:5000/admin/users/activate/${userId}`);
+      await axios.post(`https://healthmate-y0dn.onrender.com/admin/users/activate/${userId}`);
       fetchUsers();
     } catch (err) {
       setError('Failed to activate user');
@@ -36,7 +36,7 @@ const UserManagement = () => {
 
   const deactivateUser = async (userId) => {
     try {
-      await axios.post(`http://localhost:5000/admin/users/deactivate/${userId}`);
+      await axios.post(`https://healthmate-y0dn.onrender.com/admin/users/deactivate/${userId}`);
       fetchUsers();
     } catch (err) {
       setError('Failed to deactivate user');
@@ -46,7 +46,7 @@ const UserManagement = () => {
 
   const deleteUser = async (userId) => {
     try {
-      await axios.delete(`http://localhost:5000/admin/users/delete/${userId}`);
+      await axios.delete(`https://healthmate-y0dn.onrender.com/admin/users/delete/${userId}`);
       fetchUsers();
     } catch (err) {
       setError('Failed to delete user');

@@ -18,7 +18,7 @@ const Navbar = () => {
     // Check session from backend instead of localStorage token
     const checkSession = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/user/session', {
+        const response = await fetch('https://healthmate-y0dn.onrender.com/api/user/session', {
           credentials: 'include',
         });
         const data = await response.json();
@@ -127,7 +127,7 @@ const Navbar = () => {
               className="navbar-button"
               onClick={async () => {
                 try {
-                  await fetch('http://localhost:5000/api/user/logout', {
+                  await fetch('https://healthmate-y0dn.onrender.com/api/user/logout', {
                     method: 'POST',
                     credentials: 'include',
                   });

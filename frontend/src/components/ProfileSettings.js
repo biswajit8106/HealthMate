@@ -14,7 +14,7 @@ const ProfileSettings = () => {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/user/profile', {
+        const response = await axios.get('https://healthmate-y0dn.onrender.com/api/user/profile', {
           withCredentials: true,
         });
         setProfile({
@@ -39,7 +39,7 @@ const ProfileSettings = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.put('http://localhost:5000/api/user/profile', profile, {
+      await axios.put('https://healthmate-y0dn.onrender.com/api/user/profile', profile, {
         withCredentials: true,
       });
       setMessage('Profile updated successfully.');

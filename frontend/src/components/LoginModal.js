@@ -12,7 +12,7 @@ const LoginModal = ({ show, onClose, onSwitchToSignup, onLoginSuccess }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:5000/api/user/login', { email, password });
+      const response = await axios.post('https://healthmate-y0dn.onrender.com/api/user/login', { email, password });
       localStorage.setItem('user', JSON.stringify(response.data.user));
       // Redirect to home page after successful login
       // navigate('/dashboard');

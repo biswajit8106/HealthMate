@@ -11,7 +11,7 @@ export const requestNotificationPermissionAndSendToken = async (userId) => {
       const currentToken = await getToken(messaging, { vapidKey: VAPID_KEY });
       if (currentToken) {
         // Send token to backend
-        await axios.post('http://localhost:5000/api/save-fcm-token', {
+        await axios.post('https://healthmate-y0dn.onrender.com/api/save-fcm-token', {
           user_id: userId,
           token: currentToken,
         });
@@ -31,7 +31,7 @@ export const subscribeToPushNotifications = async (userId) => {
     }
     const currentToken = await getToken(messaging, { vapidKey: VAPID_KEY });
     if (currentToken) {
-      await axios.post('http://localhost:5000/api/save-fcm-token', {
+      await axios.post('https://healthmate-y0dn.onrender.com/api/save-fcm-token', {
         user_id: userId,
         token: currentToken,
       });
@@ -49,7 +49,7 @@ export const unsubscribeFromPushNotifications = async (userId) => {
       // Delete token from Firebase Messaging
       await deleteToken(messaging);
       // Inform backend to delete token
-      await axios.post('http://localhost:5000/api/delete-fcm-token', {
+      await axios.post('https://healthmate-y0dn.onrender.com/api/delete-fcm-token', {
         user_id: userId,
         token: currentToken,
       });

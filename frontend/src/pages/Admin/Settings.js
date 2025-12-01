@@ -14,7 +14,7 @@ const Settings = () => {
 
   const fetchSettings = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/admin/settings/');
+      const res = await axios.get('https://healthmate-y0dn.onrender.com/admin/settings/');
       setSettings(res.data);
     } catch (err) {
       setError('Failed to fetch settings');
@@ -30,7 +30,7 @@ const Settings = () => {
 
   const updateSettings = async () => {
     try {
-      await axios.put('http://localhost:5000/admin/settings/', settings);
+      await axios.put('https://healthmate-y0dn.onrender.com/admin/settings/', settings);
       alert('Settings updated successfully');
     } catch (err) {
       setError('Failed to update settings');

@@ -32,7 +32,7 @@ const ReportPage = () => {
     const handleDownloadPDF = async () => {
         setDownloading(true);
         try {
-            const response = await fetch('http://localhost:5000/report/save', {
+            const response = await fetch('https://healthmate-y0dn.onrender.com/report/save', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

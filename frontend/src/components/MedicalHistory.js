@@ -9,7 +9,7 @@ const MedicalHistory = () => {
   useEffect(() => {
     const fetchHistory = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/user/medical_history', {
+        const response = await axios.get('https://healthmate-y0dn.onrender.com/api/user/medical_history', {
           withCredentials: true,
         });
         setReports(response.data);

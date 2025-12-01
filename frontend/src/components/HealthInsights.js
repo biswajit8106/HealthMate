@@ -10,7 +10,7 @@ const HealthInsights = () => {
     const fetchReports = async () => {
       try {
         const token = localStorage.getItem('token');
-        const response = await axios.get('http://localhost:5000/report/health/reports', {
+        const response = await axios.get('https://healthmate-y0dn.onrender.com/report/health/reports', {
           headers: { Authorization: `Bearer ${token}` },
         });
         // Deduplicate reports by predicted_disease and date
@@ -36,7 +36,7 @@ const HealthInsights = () => {
   const downloadReport = async (reportId, reportName) => {
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.get(`http://localhost:5000/report/download/${reportId}`, {
+      const response = await axios.get(`https://healthmate-y0dn.onrender.com/report/download/${reportId}`, {
         headers: { Authorization: `Bearer ${token}` },
         responseType: 'blob',
       });
@@ -57,7 +57,7 @@ const HealthInsights = () => {
   const viewReport = async (reportId) => {
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.get(`http://localhost:5000/report/download/${reportId}`, {
+      const response = await axios.get(`https://healthmate-y0dn.onrender.com/report/download/${reportId}`, {
         headers: { Authorization: `Bearer ${token}` },
         responseType: 'blob',
       });
