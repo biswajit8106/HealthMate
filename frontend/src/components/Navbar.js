@@ -61,21 +61,24 @@ const Navbar = () => {
     } else {
       navigate('/symptom-checker');
     }
+    setIsMobileMenuOpen(false);
   };
   const handleReportAnalyzerClick = () => {
-    if (!isLoggedIn) {  
+    if (!isLoggedIn) {
       toggleLoginModal();
     } else {
       navigate('/reportanalyzer');
-    } 
+    }
+    setIsMobileMenuOpen(false);
   };
-  
+
   const handleMedicationReminderClick = () => {
     if (!isLoggedIn) {
       toggleLoginModal();
     } else {
       navigate('/medication-reminder');
     }
+    setIsMobileMenuOpen(false);
   };
   const handleDashboardClick = () => {
     if (!isLoggedIn) {
@@ -118,6 +121,37 @@ const Navbar = () => {
                 Dashboard</button>
             </>
           )}
+          <div className="auth-buttons-mobile">
+            {isLoggedIn ? (
+              <button
+                className="navbar-button"
+                onClick={async () => {
+                  try {
+                    await fetch('https://healthmate-y0dn.onrender.com/api/user/logout', {
+                      method: 'POST',
+                      credentials: 'include',
+                    });
+                  } catch (error) {
+                    console.error('Logout failed', error);
+                  }
+                  setIsLoggedIn(false);
+                  navigate('/');
+                  setIsMobileMenuOpen(false);
+                }}
+              >
+                Logout
+              </button>
+            ) : (
+              <>
+                <button className="navbar-button" onClick={() => { toggleLoginModal(); setIsMobileMenuOpen(false); }}>
+                  Login
+                </button>
+                <button className="navbar-button" onClick={() => { toggleSignupModal(); setIsMobileMenuOpen(false); }}>
+                  Sign Up
+                </button>
+              </>
+            )}
+          </div>
         </div>
 
         {/* <div className="language-selector">
