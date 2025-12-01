@@ -83,6 +83,11 @@ const Navbar = () => {
     } else {
       navigate('/dashboard');
     }
+    setIsMobileMenuOpen(false); // Close menu after navigation
+  };
+
+  const handleLinkClick = () => {
+    setIsMobileMenuOpen(false); // Close menu after navigation
   };
 
   // const changeLanguage = (lng) => {
