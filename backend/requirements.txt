@@ -12,3 +12,6 @@ numpy
 opencv-python
 pywebpush
 apscheduler
+psycopg2
+firebase-admin
+werkzeug
