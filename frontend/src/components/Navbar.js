@@ -109,7 +109,7 @@ const Navbar = () => {
         <div className={`navbar-links ${isMobileMenuOpen ? 'active' : ''}`}>
           {isLoggedIn && (
             <>
-             <button><Link to="/">Home</Link></button>
+             <button onClick={() => { navigate('/'); setIsMobileMenuOpen(false); }}><Link to="/">Home</Link></button>
               <button className="symptom-button" onClick={handleSymptomCheckerClick}>
                Symptom Diagnosis
                </button>
