@@ -16,3 +16,4 @@ psycopg2
 firebase-admin
 werkzeug
 reportlab
+pdfplumber
