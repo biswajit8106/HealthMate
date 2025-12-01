@@ -12,14 +12,3 @@ numpy
 opencv-python
 pywebpush
 apscheduler
-firebase_admin
-reportlab
-joblib
-python-dateutil
-Pillow
-fuzzywuzzy
-python-Levenshtein
-pdfplumber
-gunicorn
-werkzeug
-psycopg2
