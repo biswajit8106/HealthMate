@@ -41,7 +41,6 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "https://healthmate-y0dn.onrender.com",
   "devDependencies": {
     "ajv": "^8.12.0",
     "cross-env": "^7.0.3"

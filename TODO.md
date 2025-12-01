@@ -1,9 +1,12 @@
-# TODO: Make Backend Production Ready for cPanel Hosting
+# TODO: Deploy Frontend on Vercel
 
-- [x] Add 'a2wsgi' to backend/requirements.txt for ASGI to WSGI conversion
-- [x] Create backend/wsgi.py file to wrap FastAPI app with ASGIMiddleware for WSGI callable
-- [x] Modify backend/app.py to disable reload in production mode (check PRODUCTION env var)
-- [x] Verify config.py is production-ready (uses env vars)
-- [x] Update root route message to "HealthMate backend running"
-- [ ] Test changes locally if possible
-- [ ] Deploy to cPanel and set environment variables (DATABASE_URL, SECRET_KEY, etc.)
+## Steps to Complete
+- [x] Install Vercel CLI globally using npm
+- [x] Update AuthContext.js to proper authentication logic
+- [x] Update LoginModal.js to use environment variable for backend URL
+- [x] Update package.json to remove proxy and use environment variables
+- [ ] Login to Vercel account (run `vercel login` and follow prompts)
+- [ ] Deploy frontend using Vercel CLI (run `cd frontend && vercel --prod`)
+- [ ] Set environment variables in Vercel dashboard (REACT_APP_BACKEND_URL=https://healthmate-y0dn.onrender.com)
+- [ ] Test the deployed app
+- [ ] Update CORS settings on backend if needed
