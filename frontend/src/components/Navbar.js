@@ -58,13 +58,14 @@ const Navbar = () => {
     <>
       <nav className="navbar">
         <div className="navbar-container">
-          {/* Logo */}
+
+          {/* LOGO */}
           <Link to="/" className="navbar-logo" onClick={() => closeAndGo("/")}>
             <img src={logo} alt="HealthMate Logo" className="navbar-logo-img" />
             <span className="navbar-logo-text">HealthMate</span>
           </Link>
 
-          {/* Desktop Links */}
+          {/* DESKTOP NAVIGATION */}
           <div className="navbar-links-desktop">
             {isLoggedIn && (
               <>
@@ -83,7 +84,7 @@ const Navbar = () => {
             )}
           </div>
 
-          {/* Desktop Auth */}
+          {/* DESKTOP AUTH BUTTONS */}
           <div className="auth-desktop">
             {isLoggedIn ? (
               <button
@@ -100,17 +101,23 @@ const Navbar = () => {
               </button>
             ) : (
               <>
-                <button className="navbar-button" onClick={() => setShowLoginModal(true)}>
+                <button
+                  className="navbar-button"
+                  onClick={() => setShowLoginModal(true)}
+                >
                   Login
                 </button>
-                <button className="navbar-button" onClick={() => setShowSignupModal(true)}>
+                <button
+                  className="navbar-button"
+                  onClick={() => setShowSignupModal(true)}
+                >
                   Sign Up
                 </button>
               </>
             )}
           </div>
 
-          {/* Hamburger */}
+          {/* HAMBURGER (MOBILE ONLY) */}
           <button
             className={`hamburger ${isMobileMenuOpen ? "active" : ""}`}
             ref={buttonRef}
@@ -123,14 +130,11 @@ const Navbar = () => {
         </div>
       </nav>
 
-      {/* Overlay */}
+      {/* MOBILE OVERLAY */}
       {isMobileMenuOpen && <div className="menu-overlay"></div>}
 
-      {/* Sliding Mobile Menu */}
-      <div
-        ref={menuRef}
-        className={`mobile-menu ${isMobileMenuOpen ? "open" : ""}`}
-      >
+      {/* SLIDING MOBILE MENU */}
+      <div ref={menuRef} className={`mobile-menu ${isMobileMenuOpen ? "open" : ""}`}>
         {isLoggedIn ? (
           <>
             <button onClick={() => closeAndGo("/")}>Home</button>
@@ -143,7 +147,10 @@ const Navbar = () => {
             <button onClick={() => closeAndGo("/medication-reminder")}>
               Medication Reminder
             </button>
-            <button onClick={() => closeAndGo("/dashboard")}>Dashboard</button>
+            <button onClick={() => closeAndGo("/dashboard")}>
+              Dashboard
+            </button>
+
             <button
               className="navbar-button"
               onClick={async () => {
@@ -160,14 +167,37 @@ const Navbar = () => {
           </>
         ) : (
           <>
-            <button className="navbar-button" onClick={() => { setShowLoginModal(true); setIsMobileMenuOpen(false); }}>Login</button>
-            <button className="navbar-button" onClick={() => { setShowSignupModal(true); setIsMobileMenuOpen(false); }}>Sign Up</button>
+            <button
+              className="navbar-button"
+              onClick={() => {
+                setShowLoginModal(true);
+                setIsMobileMenuOpen(false);
+              }}
+            >
+              Login
+            </button>
+            <button
+              className="navbar-button"
+              onClick={() => {
+                setShowSignupModal(true);
+                setIsMobileMenuOpen(false);
+              }}
+            >
+              Sign Up
+            </button>
           </>
         )}
       </div>
 
-      <LoginModal show={showLoginModal} onClose={() => setShowLoginModal(false)} />
-      <SignupModal show={showSignupModal} onClose={() => setShowSignupModal(false)} />
+      {/* MODALS */}
+      <LoginModal 
+        show={showLoginModal} 
+        onClose={() => setShowLoginModal(false)} 
+      />
+      <SignupModal 
+        show={showSignupModal} 
+        onClose={() => setShowSignupModal(false)} 
+      />
     </>
   );
 };
